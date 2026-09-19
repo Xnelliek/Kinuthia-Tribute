@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>In Loving Memory of Kinuthia Ndekei (KK) (1998 - 2026)</title>
+    <!-- Performance: preconnect to the external hosts this page depends on -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://lh3.googleusercontent.com">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -62,6 +66,14 @@
         ::-webkit-scrollbar-track { background: #1f1035; }
         ::-webkit-scrollbar-thumb { background: #4c1d76; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #d4af37; }
+        @media print {
+            header, footer, #particles-container, .no-print, #toast { display: none !important; }
+            body { background: #fff !important; color: #000 !important; }
+            .print-area, .print-area * { color: #000 !important; background: transparent !important; border-color: #999 !important; box-shadow: none !important; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .floating-particle, .palm-branch { animation: none !important; }
+        }
     </style>
 </head>
 <body class="bg-memorial-darkBg text-gray-100 font-sans antialiased selection:bg-memorial-gold selection:text-black">
@@ -89,7 +101,7 @@
                     <a href="#family" class="px-3 py-2 rounded-lg transition text-gray-300 hover:text-white hover:bg-purple-900/20">Family Tree</a>
                     <a href="#favorites" class="px-3 py-2 rounded-lg transition text-gray-300 hover:text-white hover:bg-purple-900/20">Favorites</a>
                     <a href="#timeline" class="px-3 py-2 rounded-lg transition text-gray-300 hover:text-white hover:bg-purple-900/20">Timeline</a>
-                    <a href="https://photos.app.goo.gl/sBiXzZgQyrRieNjf6" target="_blank" class="px-3 py-2 rounded-lg transition text-gray-300 hover:text-white hover:bg-purple-900/20 flex items-center gap-1">Gallery <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>
+                    <a href="#gallery" class="px-3 py-2 rounded-lg transition text-gray-300 hover:text-white hover:bg-purple-900/20">Gallery</a>
                     <a href="#memory" class="px-3 py-2 rounded-lg transition text-gray-300 hover:text-white hover:bg-purple-900/20">Memory Wall</a>
                     <a href="#candles" class="px-3 py-2 rounded-lg transition text-gray-300 hover:text-white hover:bg-purple-900/20">Virtual Candles</a>
                     <a href="#buses" class="px-3 py-2 rounded-lg transition text-gray-300 hover:text-white hover:bg-purple-900/20">Bus Transport</a>
@@ -113,7 +125,7 @@
             <a href="#family" onclick="toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded text-gray-300 hover:bg-purple-900/20">Family Tree</a>
             <a href="#favorites" onclick="toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded text-gray-300 hover:bg-purple-900/20">Favorites</a>
             <a href="#timeline" onclick="toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded text-gray-300 hover:bg-purple-900/20">Timeline</a>
-            <a href="https://photos.app.goo.gl/sBiXzZgQyrRieNjf6" target="_blank" class="block w-full text-left px-3 py-2 rounded text-gray-300 hover:bg-purple-900/20">Gallery (External)</a>
+            <a href="#gallery" onclick="toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded text-gray-300 hover:bg-purple-900/20">Gallery</a>
             <a href="#memory" onclick="toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded text-gray-300 hover:bg-purple-900/20">Memory Wall</a>
             <a href="#candles" onclick="toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded text-gray-300 hover:bg-purple-900/20">Virtual Candles</a>
             <a href="#buses" onclick="toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded text-gray-300 hover:bg-purple-900/20">Bus Transport</a>
@@ -121,6 +133,7 @@
         </div>
     </header>
 
+    <div id="site-content">
     <!-- HERO QUOTE BANNER -->
     <div class="bg-gradient-to-r from-purple-950 via-indigo-950 to-purple-950 py-6 border-b border-purple-900/50 text-center px-4">
         <p class="font-serif italic text-memorial-gold text-lg sm:text-xl max-w-3xl mx-auto">
@@ -136,14 +149,25 @@
             </div>
             <h1 class="font-serif text-4xl sm:text-6xl font-bold tracking-tight text-white mb-3">Kinuthia Ndekei</h1>
             <p class="text-lg sm:text-xl text-memorial-gold font-medium mb-4"><i class="fa-solid fa-calendar-days mr-2"></i> January 29, 1998 – September 5, 2026</p>
-            <p class="text-gray-300 text-sm sm:text-base max-w-xl mx-auto mb-8"><i class="fa-solid fa-location-dot mr-2 text-memorial-gold"></i> Ndekei's Residence, Nairobi, Kenya</p>
+
+            <!-- Two Services At-a-Glance -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-2xl mx-auto mb-8">
+                <a href="#program-us" class="w-full sm:w-auto flex items-center gap-2 bg-purple-900/40 border border-purple-800/60 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-gray-200 hover:border-memorial-gold/60 transition">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 flex-shrink-0"></span>
+                    <span><span class="font-semibold text-white">United States Service</span> — Sept 23, 2026 <span class="text-emerald-400 font-semibold">(Upcoming)</span></span>
+                </a>
+                <a href="#program-kenya" class="w-full sm:w-auto flex items-center gap-2 bg-purple-900/40 border border-memorial-gold/40 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-gray-200 hover:border-memorial-gold/60 transition">
+                    <span class="w-2 h-2 rounded-full bg-memorial-gold flex-shrink-0 animate-pulse"></span>
+                    <span><span class="font-semibold text-white">Kenya Funeral Service</span> — Sept 30, 2026 <span class="text-memorial-gold font-semibold">(Upcoming)</span></span>
+                </a>
+            </div>
             
             <!-- Quick Share Bar -->
             <div class="flex flex-wrap items-center justify-center gap-2 text-xs font-semibold">
                 <span class="text-gray-400 mr-2"><i class="fa-solid fa-share-nodes"></i> Share:</span>
-                <a href="https://www.facebook.com/sharer/sharer.php?u=" target="_blank" class="px-3 py-1.5 rounded bg-blue-600 text-white hover:bg-blue-700 transition flex items-center gap-1.5"><i class="fa-brands fa-facebook-f"></i> Facebook</a>
-                <a href="https://twitter.com/intent/tweet?text=Remembering%20Kinuthia%20Ndekei" target="_blank" class="px-3 py-1.5 rounded bg-sky-500 text-white hover:bg-sky-600 transition flex items-center gap-1.5"><i class="fa-brands fa-x-twitter"></i> X/Twitter</a>
-                <a href="https://api.whatsapp.com/send?text=In%20Loving%20Memory%20of%20Kinuthia%20Ndekei" target="_blank" class="px-3 py-1.5 rounded bg-emerald-600 text-white hover:bg-emerald-700 transition flex items-center gap-1.5"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded bg-blue-600 text-white hover:bg-blue-700 transition flex items-center gap-1.5"><i class="fa-brands fa-facebook-f"></i> Facebook</a>
+                <a href="https://twitter.com/intent/tweet?text=Remembering%20Kinuthia%20Ndekei" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded bg-sky-500 text-white hover:bg-sky-600 transition flex items-center gap-1.5"><i class="fa-brands fa-x-twitter"></i> X/Twitter</a>
+                <a href="https://api.whatsapp.com/send?text=In%20Loving%20Memory%20of%20Kinuthia%20Ndekei" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded bg-emerald-600 text-white hover:bg-emerald-700 transition flex items-center gap-1.5"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
                 <a href="mailto:?subject=Memorial%20for%20Kinuthia%20Ndekei&body=Please%20visit%20this%20tribute%20page." class="px-3 py-1.5 rounded bg-purple-700 text-white hover:bg-purple-800 transition flex items-center gap-1.5"><i class="fa-solid fa-envelope"></i> E-mail</a>
             </div>
         </div>
@@ -201,14 +225,11 @@
                 <div class="max-w-3xl mx-auto flex flex-col items-center">
                     
                     <!-- Parents Level -->
-                    <div class="w-full flex justify-around items-center relative mb-6">
-                        <!-- Horizontal connecting line between parents -->
-                        <div class="absolute top-1/2 left-1/4 right-1/4 h-0.5 bg-purple-700/60 -z-0"></div>
-
+                    <div class="w-full flex justify-around items-start relative">
                         <!-- Father Card -->
                         <div class="bg-memorial-darkBg border border-purple-800/60 rounded-xl p-5 text-center w-44 sm:w-52 relative z-10 shadow-lg">
                             <div class="w-20 h-20 rounded-full mx-auto mb-3 overflow-hidden border-2 border-memorial-gold shadow-md bg-purple-900">
-                                <img src="Pictures/father.jpg" alt="Peter Ndekei Kinuthia" class="w-full h-full object-cover">
+                                <img src="https://lh3.googleusercontent.com/pw/AP1GczMcE9bci_RCoS4sxps3gWwL3dIoVv_RNDxwvt0uijBEKp_2r0OvJIkc-u5PIB7ekF0_bQLBC1Astt_L8UsgEw7SbPOtD2L2jGEMX8wHiZfIFv-BD0pk=w400-h400-c" alt="Peter Ndekei Kinuthia" loading="lazy" decoding="async" class="w-full h-full object-cover">
                             </div>
                             <h4 class="text-memorial-gold font-semibold text-sm sm:text-base">Peter Ndekei Kinuthia</h4>
                             <p class="text-gray-400 text-xs mt-0.5">Father</p>
@@ -217,95 +238,55 @@
                         <!-- Mother Card -->
                         <div class="bg-memorial-darkBg border border-purple-800/60 rounded-xl p-5 text-center w-44 sm:w-52 relative z-10 shadow-lg">
                             <div class="w-20 h-20 rounded-full mx-auto mb-3 overflow-hidden border-2 border-memorial-gold shadow-md bg-purple-900">
-                                <img src="Pictures/mother.jpg" alt="Njeri Ndiho Ndekei" class="w-full h-full object-cover">
+                                <img src="Pictures/mother.jpg" alt="Njeri Ndiho Ndekei" loading="lazy" decoding="async" class="w-full h-full object-cover">
                             </div>
                             <h4 class="text-memorial-gold font-semibold text-sm sm:text-base">Njeri Ndiho Ndekei</h4>
                             <p class="text-gray-400 text-xs mt-0.5">Mother</p>
                         </div>
                     </div>
 
-                    <!-- Vertical Stem Line down to child row -->
-                    <div class="w-0.5 h-10 bg-purple-700/60 mb-6"></div>
+                    <!-- Bracket Connector: stems from each parent join into a single line down to the son -->
+                    <div class="relative w-full h-16">
+                        <!-- stem down from father -->
+                        <div class="absolute left-1/4 top-0 h-1/2 w-0.5 bg-purple-700/60 -translate-x-1/2"></div>
+                        <!-- stem down from mother -->
+                        <div class="absolute left-3/4 top-0 h-1/2 w-0.5 bg-purple-700/60 -translate-x-1/2"></div>
+                        <!-- horizontal bar joining both stems -->
+                        <div class="absolute left-1/4 right-1/4 top-1/2 h-0.5 bg-purple-700/60"></div>
+                        <!-- single stem continuing down to son -->
+                        <div class="absolute left-1/2 top-1/2 h-1/2 w-0.5 bg-purple-700/60 -translate-x-1/2"></div>
+                    </div>
 
-                    <!-- Son & Girlfriend Level (Side by Side with Dotted Line) -->
-                    <div class="w-full flex justify-center items-center relative gap-12 sm:gap-20">
-                        <!-- Horizontal dotted connecting line between son and girlfriend -->
-                        <div class="absolute top-1/2 left-1/3 right-1/3 border-t-2 border-dotted border-purple-400/70 -z-0"></div>
-
-                        <!-- Son Card -->
-                        <div class="bg-memorial-darkBg border border-memorial-gold/50 rounded-xl p-5 text-center w-44 sm:w-52 relative z-10 shadow-xl ring-2 ring-memorial-gold/20">
-                            <div class="w-20 h-20 rounded-full mx-auto mb-3 overflow-hidden border-2 border-memorial-gold shadow-md bg-purple-900">
-                                <img src="Pictures/image_328d6d.png" alt="Kinuthia Ndekei" class="w-full h-full object-cover">
+                    <!-- Son Level (centered under parents), with Girlfriend branching off via dotted line -->
+                    <div class="w-full flex justify-center">
+                        <div class="relative flex flex-col items-center">
+                            <!-- Son Card -->
+                            <div class="bg-memorial-darkBg border border-memorial-gold/50 rounded-xl p-5 text-center w-44 sm:w-52 relative z-10 shadow-xl ring-2 ring-memorial-gold/20">
+                                <div class="w-20 h-20 rounded-full mx-auto mb-3 overflow-hidden border-2 border-memorial-gold shadow-md bg-purple-900">
+                                    <img src="Pictures/image_328d6d.png" alt="Kinuthia Ndekei" loading="lazy" decoding="async" class="w-full h-full object-cover">
+                                </div>
+                                <h4 class="text-memorial-gold font-semibold text-sm sm:text-base">Kinuthia Ndekei</h4>
+                                <p class="text-gray-300 text-xs mt-0.5 font-medium">Beloved Son</p>
                             </div>
-                            <h4 class="text-memorial-gold font-semibold text-sm sm:text-base">Kinuthia Ndekei</h4>
-                            <p class="text-gray-300 text-xs mt-0.5 font-medium">Beloved Son</p>
-                        </div>
 
-                        <!-- Partner / girlfriend Card -->
-                        <div class="bg-memorial-darkBg border border-purple-800/60 rounded-xl p-5 text-center w-44 sm:w-52 relative z-10 shadow-lg">
-                            <div class="w-20 h-20 rounded-full mx-auto mb-3 overflow-hidden border-2 border-memorial-gold shadow-md bg-purple-900">
-                                <img src="Pictures/partner.jpg" alt="Mumbi Hinga" class="w-full h-full object-cover">
+                            <!-- Dotted connector + Girlfriend, branching off to the right of the son -->
+                            <div class="absolute top-1/2 left-full -translate-y-1/2 flex items-center">
+                                <div class="w-8 sm:w-14 border-t-2 border-dotted border-purple-400/70"></div>
+                                <!-- Partner / girlfriend Card -->
+                                <div class="bg-memorial-darkBg border border-purple-800/60 rounded-xl p-5 text-center w-44 sm:w-52 relative z-10 shadow-lg">
+                                    <div class="w-20 h-20 rounded-full mx-auto mb-3 overflow-hidden border-2 border-memorial-gold shadow-md bg-purple-900">
+                                        <img src="https://lh3.googleusercontent.com/pw/AP1GczPgK2x2l-tN6e3ynThnzXX9-01EniNewzGv_YF0cNQXFUueHDSpie2_0ew7MEzmoHtt3_LmRw5wUZqU4lIz9TQ_bll9dscm4IkQwefBPr11ZfVRF3k=w400-h400-c" alt="Mumbi Hinga" loading="lazy" decoding="async" class="w-full h-full object-cover">
+                                    </div>
+                                    <h4 class="text-memorial-gold font-semibold text-sm sm:text-base">Mumbi Hinga</h4>
+                                    <p class="text-gray-400 text-xs mt-0.5">girlfriend</p>
+                                </div>
                             </div>
-                            <h4 class="text-memorial-gold font-semibold text-sm sm:text-base">Mumbi Hinga</h4>
-                            <p class="text-gray-400 text-xs mt-0.5">girlfriend</p>
                         </div>
                     </div>
 
                 </div>
             </div>
         </section>
-       <!-- <section id="family" class="scroll-mt-28">
-            <div class="bg-purple-950/40 border border-purple-900/50 rounded-2xl p-6 sm:p-10 shadow-xl backdrop-blur-sm">
-                <h2 class="font-serif text-3xl font-bold text-memorial-gold mb-8 text-center border-b border-purple-900 pb-3">Family Tree</h2>
-                
-                <div class="max-w-2xl mx-auto flex flex-col items-center">
-                    
-                    <div class="w-full flex justify-around items-center relative mb-12">
-                        <div class="absolute top-1/2 left-1/4 right-1/4 h-0.5 bg-purple-700/60 -z-0"></div>
-
-                        <div class="bg-memorial-darkBg border border-purple-800/60 rounded-xl p-5 text-center w-44 sm:w-52 relative z-10 shadow-lg">
-                            <div class="w-20 h-20 rounded-full mx-auto mb-3 overflow-hidden border-2 border-memorial-gold shadow-md bg-purple-900">
-                                <img src="Pictures/father.jpg" alt="Peter Ndekei Kinuthia" class="w-full h-full object-cover">
-                            </div>
-                            <h4 class="text-memorial-gold font-semibold text-sm sm:text-base">Peter Ndekei Kinuthia</h4>
-                            <p class="text-gray-400 text-xs mt-0.5">Father</p>
-                        </div>
-
-                        <div class="bg-memorial-darkBg border border-purple-800/60 rounded-xl p-5 text-center w-44 sm:w-52 relative z-10 shadow-lg">
-                            <div class="w-20 h-20 rounded-full mx-auto mb-3 overflow-hidden border-2 border-memorial-gold shadow-md bg-purple-900">
-                                <img src="Pictures/mother.jpg" alt="Njeri Ndiho Ndekei" class="w-full h-full object-cover">
-                            </div>
-                            <h4 class="text-memorial-gold font-semibold text-sm sm:text-base">Njeri Ndiho Ndekei</h4>
-                            <p class="text-gray-400 text-xs mt-0.5">Mother</p>
-                        </div>
-                    </div>
-
-                    <div class="w-0.5 h-10 bg-purple-700/60 -mt-6 mb-2"></div>
-
-                    <div class="w-full flex justify-center mb-10">
-                        <div class="bg-memorial-darkBg border border-memorial-gold/50 rounded-xl p-5 text-center w-44 sm:w-52 relative z-10 shadow-xl ring-2 ring-memorial-gold/20">
-                            <div class="w-20 h-20 rounded-full mx-auto mb-3 overflow-hidden border-2 border-memorial-gold shadow-md bg-purple-900">
-                                <img src="Pictures/image_328d6d.png" alt="Kinuthia Ndekei" class="w-full h-full object-cover">
-                            </div>
-                            <h4 class="text-memorial-gold font-semibold text-sm sm:text-base">Kinuthia Ndekei</h4>
-                            <p class="text-gray-300 text-xs mt-0.5 font-medium">Beloved Son</p>
-                        </div>
-                    </div>
-
-                    <div class="w-full flex justify-center">
-                        <div class="bg-memorial-darkBg border border-purple-800/60 rounded-xl p-5 text-center w-44 sm:w-52 relative z-10 shadow-lg">
-                            <div class="w-20 h-20 rounded-full mx-auto mb-3 overflow-hidden border-2 border-memorial-gold shadow-md bg-purple-900">
-                                <img src="Pictures/partner.jpg" alt="Mumbi Hinga" class="w-full h-full object-cover">
-                            </div>
-                            <h4 class="text-memorial-gold font-semibold text-sm sm:text-base">Mumbi Hinga</h4>
-                            <p class="text-gray-400 text-xs mt-0.5">girlfriend</p>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section> -->
-
         <!-- FAVORITES SECTION -->
         <section id="favorites" class="scroll-mt-28">
             <div class="bg-purple-950/40 border border-purple-900/50 rounded-2xl p-6 sm:p-10 shadow-xl backdrop-blur-sm">
@@ -321,11 +302,11 @@
                         <p class="text-gray-300 text-sm">Loved inspiring gospel hymns, classical instrumentals, and soul music that brought family together.</p>
                     </div>
                     <div class="bg-purple-900/20 border border-purple-800/40 p-5 rounded-xl">
-                        <h4 class="text-memorial-gold font-semibold text-lg mb-2"><i class="fa-solid fa-person-swimming mr-2"></i> Favorite Food</h4>
-                        <p class="text-gray-300 text-sm">french fries with humburgers.</p>
+                        <h4 class="text-memorial-gold font-semibold text-lg mb-2"><i class="fa-solid fa-burger mr-2"></i> Favorite Food</h4>
+                        <p class="text-gray-300 text-sm">French fries with hamburgers.</p>
                     </div>
                     <div class="bg-purple-900/20 border border-purple-800/40 p-5 rounded-xl">
-                        <h4 class="text-memorial-gold font-semibold text-lg mb-2"><i class="fa-solid fa-person-swimming mr-2"></i>Favorite Dessert </h4>
+                        <h4 class="text-memorial-gold font-semibold text-lg mb-2"><i class="fa-solid fa-ice-cream mr-2"></i>Favorite Dessert </h4>
                         <p class="text-gray-300 text-sm">to be confirmed ..................</p>
                     </div>
                     <div class="bg-purple-900/20 border border-purple-800/40 p-5 rounded-xl">
@@ -333,7 +314,7 @@
                         <p class="text-gray-300 text-sm">Swimming, hiking, football, and running. Certified lifeguard and professional swimming instructor.</p>
                     </div>
                     <div class="bg-purple-900/20 border border-purple-800/40 p-5 rounded-xl">
-                        <h4 class="text-memorial-gold font-semibold text-lg mb-2"><i class="fa-solid fa-person-swimming mr-2"></i></h4>
+                        <h4 class="text-memorial-gold font-semibold text-lg mb-2"><i class="fa-solid fa-quote-left mr-2"></i> Favorite Quote</h4>
                         <p class="text-gray-300 text-sm">Don't say what I wouldn't say.</p>
                     </div>                                                            
                     <div class="bg-purple-900/20 border border-purple-800/40 p-5 rounded-xl">
@@ -391,6 +372,57 @@
                         <h3 class="text-xl font-bold text-white font-serif mt-1">Resting in Peace</h3>
                         <p class="text-gray-300 text-sm mt-1">Peacefully rested in his sleep after a vibrant life well-lived.</p>
                     </div>
+
+                    <div class="relative pl-6 sm:pl-8">
+                        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-emerald-400 border-4 border-memorial-darkBg"></div>
+                        <span class="text-xs font-semibold text-emerald-400 uppercase tracking-wider">September 23, 2026 · Upcoming</span>
+                        <h3 class="text-xl font-bold text-white font-serif mt-1"><a href="#program-us" class="hover:text-memorial-gold underline decoration-dotted underline-offset-4">United States Memorial Service</a></h3>
+                        <p class="text-gray-300 text-sm mt-1">Family and friends in the United States gathered to celebrate Kinuthia's life.</p>
+                    </div>
+
+                    <div class="relative pl-6 sm:pl-8">
+                        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-memorial-gold border-4 border-memorial-darkBg animate-pulse"></div>
+                        <span class="text-xs font-semibold text-memorial-gold uppercase tracking-wider">September 30, 2026 · Upcoming</span>
+                        <h3 class="text-xl font-bold text-white font-serif mt-1"><a href="#program-kenya" class="hover:text-memorial-gold underline decoration-dotted underline-offset-4">Kenya Homegoing Funeral Service</a></h3>
+                        <p class="text-gray-300 text-sm mt-1">Final funeral service and committal at Ndekei's Residence, Nairobi.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PHOTO GALLERY SECTION -->
+        <section id="gallery" class="scroll-mt-28">
+            <div class="bg-purple-950/40 border border-purple-900/50 rounded-2xl p-6 sm:p-10 shadow-xl backdrop-blur-sm">
+
+                <!-- SHARE A MEMORY (upload) -->
+                <div class="mb-8 rounded-xl border border-memorial-gold/40 bg-gradient-to-r from-purple-900/40 to-indigo-900/30 p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    <div>
+                        <h3 class="font-serif text-lg font-bold text-memorial-gold"><i class="fa-solid fa-camera-retro mr-2"></i>Share a memory with Kinuthia</h3>
+                        <p class="text-sm text-gray-300 mt-1">Have a photo of you and Kinuthia? Upload it and it will be added to the gallery below for everyone to see.</p>
+                    </div>
+                    <button onclick="openUploadPhotoModal()" class="flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 bg-memorial-gold text-black rounded-xl text-sm font-bold hover:bg-yellow-500 transition shadow-md">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Upload a Photo
+                    </button>
+                </div>
+
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b border-purple-900 pb-4 gap-4">
+                    <div>
+                        <h2 class="font-serif text-3xl font-bold text-memorial-gold">Photo Gallery</h2>
+                        <p class="text-gray-300 text-sm mt-1">A few cherished memories of Kinuthia. Tap any photo to view it larger.</p>
+                        <p id="shared-count" class="text-xs text-memorial-gold mt-1"></p>
+                    </div>
+                </div>
+
+                <div id="gallery-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4"></div>
+
+                <div id="gallery-more" class="text-center mt-6 hidden">
+                    <button onclick="showMorePhotos()" class="px-5 py-2 rounded-xl border border-purple-700 text-gray-200 text-sm hover:border-memorial-gold hover:text-memorial-gold transition">Show more shared photos</button>
+                </div>
+
+                <div class="text-center mt-8">
+                    <a href="https://photos.google.com/share/AF1QipM9u5r7AU6I4PVdb9n7lEQB_LdbRpzepLw-4Ws2Amv-F_hIpIHmYqGWo0LASr_xaQ?key=cUxQNmNsV1FUMDd5QV9rQTF5VThKT0lKWmJzUVJR" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-2.5 bg-memorial-royal border border-memorial-gold/40 text-memorial-gold rounded-xl text-sm font-semibold hover:bg-purple-800 transition">
+                        <i class="fa-solid fa-images"></i> View Full Photo Album (More Pictures) <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                    </a>
                 </div>
             </div>
         </section>
@@ -436,12 +468,12 @@
             <div class="bg-purple-950/40 border border-purple-900/50 rounded-2xl p-6 sm:p-10 shadow-xl backdrop-blur-sm">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b border-purple-900 pb-4 gap-4">
                     <div>
-                        <h2 class="font-serif text-3xl font-bold text-memorial-gold">Funeral home Transport Bus Slots</h2>
-                        <p class="text-gray-300 text-sm mt-1">Register for a seat on the transport buses picking up family and guests from the Funeral home.</p>
+                        <h2 class="font-serif text-3xl font-bold text-memorial-gold">Funeral Home Transport Bus Slots</h2>
+                        <p class="text-gray-300 text-sm mt-1">For the Kenya Funeral Service on September 30, 2026. Register for a seat on the transport buses picking up family and guests from the Funeral home.</p>
                     </div>
                     <div class="bg-purple-900/60 border border-memorial-gold/40 px-4 py-2 rounded-xl text-center">
                         <span class="text-xs text-gray-300 block">Available Slots</span>
-                        <span id="bus-slots-count" class="text-2xl font-bold text-memorial-gold">45</span> <span class="text-xs text-gray-300">/ 50</span>
+                        <span id="bus-slots-count" class="text-2xl font-bold text-memorial-gold">44</span> <span class="text-xs text-gray-300">/ 50</span>
                     </div>
                 </div>
 
@@ -458,8 +490,7 @@
                         <label class="block text-xs font-semibold text-memorial-gold mb-1">Pickup Location Preference</label>
                         <select id="bus-location" class="w-full bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-memorial-gold">
                             <option>Lower Kabete La Paz Pickup</option>
-                            <option>City Funeral home / Funeral Home</option>
-                            <option>CITAM Parklands</option>
+                            <option>Montezuma funeral home</option>
                         </select>
                     </div>
                     <button type="submit" class="w-full py-2.5 bg-memorial-gold text-black font-bold rounded-lg hover:bg-yellow-500 transition text-sm shadow-md">Register Bus Slot</button>
@@ -472,38 +503,51 @@
         <section id="service" class="scroll-mt-28">
             <div class="bg-purple-950/40 border border-purple-900/50 rounded-2xl p-6 sm:p-10 shadow-xl backdrop-blur-sm">
                 <h2 class="font-serif text-3xl font-bold text-memorial-gold mb-6 border-b border-purple-900 pb-3">Funeral Service Details & Venue</h2>
-                
+
+                <!-- Two Services Overview -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
+                    <!-- US Service (Upcoming) -->
+                    <div class="bg-purple-900/20 border border-purple-800/40 rounded-xl p-5 relative">
+                        <span class="absolute top-4 right-4 text-[10px] font-bold uppercase tracking-wider bg-emerald-900/60 text-emerald-300 px-2 py-1 rounded-full border border-emerald-700/50">Upcoming</span>
+                        <h3 class="font-serif text-lg font-bold text-white mb-3 flex items-center gap-2"><i class="fa-solid fa-flag-usa text-memorial-gold"></i> United States Memorial Service</h3>
+                        <div class="space-y-2 text-sm text-gray-200">
+                            <p class="flex items-start gap-2"><i class="fa-solid fa-calendar-check text-memorial-gold mt-1"></i> <span>Wednesday, September 23, 2026</span></p>
+                            <p class="flex items-start gap-2"><i class="fa-solid fa-location-dot text-memorial-gold mt-1"></i> <span>A memorial gathering Upcoming in the United States, where Kinuthia lived</span></p>
+                        </div>
+                        <a href="#program-us" class="inline-flex items-center gap-1 text-memorial-gold underline text-xs mt-3 font-semibold"><i class="fa-solid fa-list-ol"></i> View full day program →</a>
+                        <p class="text-xs text-gray-400 italic mt-3">Thank you to everyone who traveled and gathered to honor Kinuthia's memory in the US. Photos from this service are in the Gallery below.</p>
+                    </div>
+
+                    <!-- Kenya Service (Upcoming) -->
+                    <div class="bg-purple-900/20 border-2 border-memorial-gold/50 rounded-xl p-5 relative">
+                        <span class="absolute top-4 right-4 text-[10px] font-bold uppercase tracking-wider bg-memorial-gold/20 text-memorial-gold px-2 py-1 rounded-full border border-memorial-gold/50">Upcoming</span>
+                        <h3 class="font-serif text-lg font-bold text-white mb-3 flex items-center gap-2"><i class="fa-solid fa-cross text-memorial-gold"></i> Kenya Homegoing Funeral Service</h3>
+                        <div class="space-y-2 text-sm text-gray-200">
+                            <p class="flex items-start gap-2"><i class="fa-solid fa-calendar-check text-memorial-gold mt-1"></i> <span>Wednesday, September 30, 2026 at 10:00 AM</span></p>
+                            <p class="flex items-start gap-2"><i class="fa-solid fa-location-dot text-memorial-gold mt-1"></i> <span>Ndekei's Residence, Nairobi, Kenya</span></p>
+                        </div>
+                        <a href="#program-kenya" class="inline-flex items-center gap-1 text-memorial-gold underline text-xs mt-3 mr-4 font-semibold"><i class="fa-solid fa-list-ol"></i> View full day program →</a>
+                        <a href="https://www.google.com/maps/dir//Ndekei's+Residence,+QP5G%2BGPW/@-1.2423454,36.7280684,15z/data=!4m8!4m7!1m0!1m5!1m1!1s0x182f190021a79151:0xb1dc495fc0eaa354!2m2!1d36.7268258!2d-1.2410638?entry=ttu&g_ep=EgoyMDI2MDkxNi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-memorial-gold underline text-xs mt-3 font-semibold hover:text-yellow-400">
+                            <i class="fa-solid fa-map-location-dot"></i> Click here for Google Map Directions →
+                        </a>
+                    </div>
+                </div>
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                     <div class="space-y-4 text-sm text-gray-200">
-                        <div class="flex items-start gap-3">
-                            <i class="fa-solid fa-calendar-check text-memorial-gold mt-1"></i>
-                            <div>
-                                <strong class="block text-white">Date & Time</strong>
-                                <span>Saturday, September 26, 2026 at 10:00 AM</span>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3">
-                            <i class="fa-solid fa-location-dot text-memorial-gold mt-1"></i>
-                            <div>
-                                <strong class="block text-white">Venue (Single Location)</strong>
-                                <span>Ndekei's Residence, Nairobi, Kenya</span>
-                                <a href="https://www.google.com/maps/dir//Ndekei's+Residence,+QP5G%2BGPW/@-1.2423454,36.7280684,15z/data=!4m8!4m7!1m0!1m5!1m1!1s0x182f190021a79151:0xb1dc495fc0eaa354!2m2!1d36.7268258!2d-1.2410638?entry=ttu&g_ep=EgoyMDI2MDkxNi4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="block text-memorial-gold underline text-xs mt-1 font-semibold hover:text-yellow-400">
-                                    <i class="fa-solid fa-map-location-dot mr-1"> Click here for Google Map Directions →</i>
-                                </a>
-                            </div>
-                        </div>
                         <div class="flex items-start gap-3">
                             <i class="fa-solid fa-fire text-memorial-gold mt-1"></i>
                             <div>
                                 <strong class="block text-white">Physical Candle Lighting Moment</strong>
-                                <span>Saturday, September 26, 2026 — 2:00 PM at Ndekei's Residence</span>
+                                <span>Wednesday, September 30, 2026 — 2:00 PM at Ndekei's Residence, Nairobi</span>
                             </div>
                         </div>
                         <div class="flex items-start gap-3">
                             <i class="fa-solid fa-video text-memorial-gold mt-1"></i>
                             <div>
-                                <strong class="block text-white">Virtual Livestream Link</strong>
-                                <a href="https://zoom.us/#" target="_blank" class="text-memorial-gold underline hover:text-yellow-400">Click here to join the live stream event →</a>
+                                <strong class="block text-white">Virtual Livestream Link (Kenya Service)</strong>
+                                <a href="https://zoom.us/#" target="_blank" rel="noopener noreferrer" class="text-memorial-gold underline hover:text-yellow-400">Click here to join the live stream event →</a>
+                                <p class="text-[11px] text-gray-400 mt-1">For those unable to travel, including family and friends joining from the United States.</p>
                             </div>
                         </div>
                     </div>
@@ -511,7 +555,7 @@
                     <!-- RSVP Form -->
                     <form onsubmit="submitRSVP(event)" class="bg-purple-900/20 p-6 rounded-xl border border-purple-800/40 space-y-4">
                         <h3 class="font-serif text-xl font-bold text-memorial-gold mb-2">Event Attendance RSVP</h3>
-                        <p class="text-xs text-gray-300 italic mb-3">Please join us to pay a last tribute at Ndekei's Residence as we celebrate the life of Kinuthia Ndekei.</p>
+                        <p class="text-xs text-gray-300 italic mb-3">This RSVP is for the Kenya Funeral Service on September 30, 2026 at Ndekei's Residence, Nairobi.</p>
                         
                         <div class="grid grid-cols-2 gap-3">
                             <input type="text" id="rsvp-fname" placeholder="First Name" required class="bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-memorial-gold">
@@ -536,26 +580,20 @@
 
                 <!-- Comprehensive Order of Service / Funeral Program -->
                 <div class="border-t border-purple-900 pt-6">
-                    <h3 class="font-serif text-2xl font-bold text-memorial-gold mb-4">Complete Order of Service & Funeral Program</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-gray-300">
-                        <div class="bg-purple-900/10 p-3 rounded-lg border border-purple-900/30"><strong>01. 08:30 AM</strong> - Arrival of family members at City Funeral home / Funeral Home</div>
-                        <div class="bg-purple-900/10 p-3 rounded-lg border border-purple-900/30"><strong>02. 09:00 AM</strong> - Private viewing of the body & short family prayer</div>
-                        <div class="bg-purple-900/10 p-3 rounded-lg border border-purple-900/30"><strong>03. 10:00 AM</strong> - Departure of cortege to Ndekei's Residence</div>
-                        <div class="bg-purple-900/10 p-3 rounded-lg border border-purple-900/30"><strong>04. 10:30 AM</strong> - Arrival & Seating of guests at Ndekei's Residence</div>
-                        <div class="bg-purple-900/10 p-3 rounded-lg border border-purple-900/30"><strong>05. 10:45 AM</strong> - Opening Prayer & Processional Hymn</div>
-                        <div class="bg-purple-900/10 p-3 rounded-lg border border-purple-900/30"><strong>06. 11:15 AM</strong> - Scripture Reading & Worship Songs</div>
-                        <div class="bg-purple-900/10 p-3 rounded-lg border border-purple-900/30"><strong>07. 11:45 AM</strong> - Reading of Biography / Eulogy (by Family Representative)</div>
-                        <div class="bg-purple-900/10 p-3 rounded-lg border border-purple-900/30"><strong>08. 12:15 PM</strong> - Tributes from Parents, Family, and Mumbi Hinga</div>
-                        <div class="bg-purple-900/10 p-3 rounded-lg border border-purple-900/30"><strong>09. 01:00 PM</strong> - Memorial Sermon & Message of Hope (CITAM Clergy)</div>
-                        <div class="bg-purple-900/10 p-3 rounded-lg border border-purple-900/30"><strong>10. 02:00 PM</strong> - Physical Candle Lighting Moment & Final Viewing</div>
-                        <div class="bg-purple-900/10 p-3 rounded-lg border border-purple-900/30"><strong>11. 02:45 PM</strong> - Recessional Hymn & Movement to Graveside</div>
-                        <div class="bg-purple-900/10 p-3 rounded-lg border border-purple-900/30"><strong>12. 03:30 PM</strong> - Graveside Committal Service & Lowering of Casket</div>
-                    </div>
+                    <h3 class="font-serif text-2xl font-bold text-memorial-gold mb-4">Complete Order of Service & Funeral Program <span class="block sm:inline text-sm font-normal text-gray-400">— Kenya Service, September 30, 2026</span></h3>
+                    <div id="order-of-service-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-gray-300"></div>
+                    <a href="#program-kenya" class="inline-flex items-center gap-2 mt-5 px-4 py-2 rounded-xl bg-memorial-royal border border-memorial-gold/40 text-memorial-gold text-sm font-semibold hover:bg-purple-800 transition"><i class="fa-solid fa-up-right-from-square text-xs"></i> Open the full program page →</a>
                 </div>
             </div>
         </section>
 
     </main>
+    </div><!-- /site-content -->
+
+    <!-- FULL-DAY PROGRAM PAGE (shown for #program-us and #program-kenya) -->
+    <div id="program-view" class="hidden">
+        <div id="program-view-body" class="max-w-3xl mx-auto px-4 py-10"></div>
+    </div>
 
     <!-- FOOTER WITH GALLERY RETURN LINK -->
     <footer class="relative footer-bg border-t border-purple-900/50 py-16 overflow-hidden mt-16 text-center shadow-inner">
@@ -593,8 +631,12 @@
             <div id="admin-dashboard-view" class="hidden space-y-6">
                 <div class="flex justify-between items-center border-b border-purple-900 pb-3">
                     <h2 class="font-serif text-2xl font-bold text-memorial-gold">Admin Full Control Panel</h2>
-                    <button onclick="logoutAdmin()" class="px-3 py-1 bg-red-900 text-white rounded text-xs">Logout</button>
+                    <div class="flex gap-2">
+                        <button onclick="loadAdmin()" class="px-3 py-1 bg-purple-800 text-white rounded text-xs"><i class="fa-solid fa-rotate mr-1"></i>Refresh</button>
+                        <button onclick="logoutAdmin()" class="px-3 py-1 bg-red-900 text-white rounded text-xs">Logout</button>
+                    </div>
                 </div>
+                <div id="admin-sync-status"></div>
 
                 <div class="space-y-6">
                     <div>
@@ -605,6 +647,11 @@
                     <div>
                         <h3 class="font-serif text-lg font-bold text-memorial-gold mb-2">Manage Published Tributes (Full Server Rights)</h3>
                         <div id="admin-published-tributes" class="bg-purple-900/20 p-4 rounded-xl border border-purple-800 text-sm text-gray-300 space-y-2"></div>
+                    </div>
+
+                    <div>
+                        <h3 class="font-serif text-lg font-bold text-memorial-gold mb-2">Manage Shared Gallery Photos</h3>
+                        <div id="admin-photos-manager" class="bg-purple-900/20 p-4 rounded-xl border border-purple-800 text-sm text-gray-300 space-y-2"></div>
                     </div>
 
                     <div>
@@ -634,6 +681,16 @@
         </div>
     </div>
 
+    <!-- PHOTO LIGHTBOX MODAL -->
+    <div id="photo-lightbox" class="fixed inset-0 bg-black/90 backdrop-blur-sm z-[60] hidden flex-col items-center justify-center p-4 gap-3" onclick="closePhotoLightbox(event)">
+        <button onclick="closePhotoLightbox(event)" class="absolute top-4 right-4 sm:top-6 sm:right-6 text-white/80 hover:text-white text-2xl z-10"><i class="fa-solid fa-xmark"></i></button>
+        <img id="photo-lightbox-img" src="" alt="Kinuthia Ndekei memory" class="max-w-full max-h-[80vh] rounded-xl shadow-2xl border border-purple-800/50">
+        <p id="photo-lightbox-caption" class="hidden text-sm text-gray-200 text-center max-w-xl"></p>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toast" class="hidden"></div>
+
     <!-- GENERIC MODAL -->
     <div id="generic-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-purple-950 border border-purple-800 rounded-2xl w-full max-w-lg p-6 shadow-2xl relative text-gray-100">
@@ -642,370 +699,742 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT LOGIC WITH LOCALSTORAGE PERSISTENCE -->
+    <!-- JAVASCRIPT LOGIC -->
     <script>
-        if (!localStorage.getItem('tributes')) {
-            localStorage.setItem('tributes', JSON.stringify([
-                { name: 'Valerie Frye', text: 'Kinuthia was a brother and friend whose bright smile and unwavering confidence uplifted everyone around him. His legacy in technology and sports will forever inspire us.', date: 'September 10, 2026' },
-                { name: 'Clayton Steinberg', text: 'A true gentleman of noble character and deep faith. May God comfort the Ndekei family during this difficult time.', date: 'September 8, 2026' }
-            ]));
+/* =====================================================================
+   1. SETTINGS YOU MAY EDIT
+   ===================================================================== */
+
+/* Paste your Firebase details here to make tributes, candles, RSVPs, bus
+   slots and shared photos visible on EVERY device (see FIREBASE-SETUP.md).
+   Leave empty and the site still works, but each visitor's data stays only
+   in their own browser (which is why an admin can't see other people's). */
+const FIREBASE_CONFIG = {
+    apiKey: "",
+    authDomain: "",
+    projectId: "",
+    appId: ""
+};
+const CLOUD = Boolean(FIREBASE_CONFIG.apiKey && FIREBASE_CONFIG.projectId);
+
+const BUS_BASE_AVAILABLE = 44;   // seats still open when the site went live
+const SHARED_PAGE_SIZE   = 12;   // shared photos shown before "Show more"
+const MAX_UPLOAD_FILES   = 5;    // photos per upload
+const FULL_MAX_CHARS     = 850000; // keeps each photo under Firestore's 1 MB limit
+
+/* The hand-picked photos shown first in the gallery. Add, remove or reorder
+   by editing this list (one Google Photos image address per line, without
+   the "=w..." size ending). */
+const FEATURED_PHOTOS = [
+        "https://lh3.googleusercontent.com/pw/AP1GczOwXIBBOxNoacKGLPDFJPEw4iAWk2dKuzQkv_c9HCoz0cCxwSQZH6MfLRDyGTtYpGzZTd8MDAKsAaWe-cqlC4JImtZsyh-2wvfKRpiy6XwW7bLTOmnX",
+        "https://lh3.googleusercontent.com/pw/AP1GczP8yqW9ukBr6SbDHEse1IDGk8oZDCpMJSB__QL0-xrNXo1NiWg6eeLV9Xg_rzhmQgOfTLrhweFyNDsTDeTuAd6hsZP1UUDc3rEajGG8MynO5LSCqiFo",
+        "https://lh3.googleusercontent.com/pw/AP1GczM3pDcuWxGwNX8AYe_YFDFHr8zgFR_jL6NJzfwDESSBREtVx8ZCm2CuzbV2Id0txs-wOgHImutf8AeFlyNFfo--2QzRWCfyNUT_C4L1SiYt5N4_isCj",
+        "https://lh3.googleusercontent.com/pw/AP1GczMMrcWLm9w1e0HNEb4hocbGp9G38odopkViPFscbXiA2hSU7-RtZ9iV_ZDrYqvj9Bdm47_LvBC_Vm7mzfwdyaIOMHbMjHXyIYhRFfjRMgdIhF5731Rp",
+        "https://lh3.googleusercontent.com/pw/AP1GczPMh0y93Q7MddDRXRQxxDtxSFRfIcYlHvsMYRuBbPf3MQ12WGfx56FzsdGibmUlXm6ukPMfVTfZQnGQJrTD1dP-jhuHP22RNoxj2UPBfB9OWeb8wSSJ",
+        "https://lh3.googleusercontent.com/pw/AP1GczOHyhKvvEVZrO48fA_aklrbJyQmbr4UY7xGwp8BNLJtlMxqub7AYGC7LHrqt84Uj7JXp8J0weQJMg4Yhwf10cZl6WbWrOduAm5SXdryt28kFjUVRaNQ",
+        "https://lh3.googleusercontent.com/pw/AP1GczPUy-UrjFWzDlI3B9jBTVq8S3EZ74RuuS9L50_0Pl7MOfhXqCjrTSlpjA9fxvPS7W9mwWzhiMIOuzY1pMsfhZIj6U9r7mYSK8GDL_j1gDdqlB2unKmZ",
+        "https://lh3.googleusercontent.com/pw/AP1GczNlF0KP7PJdVFAcAc8fK8VcRr3G9hs5ppJk5bghbIhjS_8bqoBSYI_c1MER_z1nX2m83wA5gZNwqBdXFbJI2vlBz-rauWwUhr9S3Xtof4sThgMllCaL",
+        "https://lh3.googleusercontent.com/pw/AP1GczOc4DY0nMvrxHD-Q1hn9yCSe-qo_GMy-Jppn_Auce6L78rmRXOHbinOVJ8cUyAU4dicARw2o25vdSK8OAFn3FOPovWgR7tLfI_iWgcwhxVQJQW9mMi-"
+    ];
+
+/* Full-day programs. Each item is [time, description]. */
+const PROGRAMS = {
+    us: {
+        icon: 'fa-flag-usa',
+        title: 'United States Memorial Service',
+        date: 'Wednesday, September 23, 2026',
+        time: '',
+        venue: 'A memorial gathering in the United States, where Kinuthia lived',
+        mapUrl: '',
+        livestream: '',
+        items: [
+            /* Add the US order of service here, for example:
+               ['10:00 AM', 'Welcome & Opening Prayer'], */
+        ],
+        notes: []
+    },
+    kenya: {
+        icon: 'fa-cross',
+        title: 'Kenya Homegoing Funeral Service',
+        date: 'Wednesday, September 30, 2026',
+        time: '10:00 AM',
+        venue: "Ndekei's Residence, Nairobi, Kenya",
+        mapUrl: "https://www.google.com/maps/dir//Ndekei's+Residence,+QP5G%2BGPW/@-1.2423454,36.7280684,15z/data=!4m8!4m7!1m0!1m5!1m1!1s0x182f190021a79151:0xb1dc495fc0eaa354!2m2!1d36.7268258!2d-1.2410638?entry=ttu&g_ep=EgoyMDI2MDkxNi4wIKXMDSoASAFQAw%3D%3D",
+        livestream: 'https://zoom.us/#',
+        items: [
+            ['08:30 AM', 'Arrival of family members at City Funeral home / Funeral Home'],
+            ['09:00 AM', 'Private viewing of the body & short family prayer'],
+            ['10:00 AM', "Departure of cortege to Ndekei's Residence"],
+            ['10:30 AM', "Arrival & Seating of guests at Ndekei's Residence"],
+            ['10:45 AM', 'Opening Prayer & Processional Hymn'],
+            ['11:15 AM', 'Scripture Reading & Worship Songs'],
+            ['11:45 AM', 'Reading of Biography / Eulogy (by Family Representative)'],
+            ['12:15 PM', 'Tributes from Parents, Family, and Mumbi Hinga'],
+            ['01:00 PM', 'Memorial Sermon & Message of Hope (CITAM Clergy)'],
+            ['02:00 PM', 'Physical Candle Lighting Moment & Final Viewing'],
+            ['02:45 PM', 'Recessional Hymn & Movement to Graveside'],
+            ['03:30 PM', 'Graveside Committal Service & Lowering of Casket']
+        ],
+        notes: [],
+        busLink: true
+    }
+};
+
+/* =====================================================================
+   2. SMALL HELPERS
+   ===================================================================== */
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+const fmtDate = it => it.date || (it.createdAt ? new Date(it.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : '');
+const isJpegData = s => typeof s === 'string' && s.startsWith('data:image/jpeg;base64,');
+
+let toastTimer;
+function toast(msg, kind = 'info', ms = 5000) {
+    const el = $('toast');
+    el.textContent = msg;
+    el.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 z-[70] max-w-[90vw] px-4 py-2.5 rounded-xl text-sm font-medium shadow-2xl border ' +
+        (kind === 'error' ? 'bg-red-900 border-red-600 text-white' : kind === 'success' ? 'bg-emerald-900 border-emerald-600 text-white' : 'bg-purple-900 border-memorial-gold/50 text-white');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.add('hidden'), ms);
+}
+
+/* =====================================================================
+   3. DATA LAYER  (shared cloud database, or this-browser-only fallback)
+   ===================================================================== */
+const localStore = {
+    _read(col) { try { return JSON.parse(localStorage.getItem(col)) || []; } catch { return []; } },
+    _write(col, arr) { localStorage.setItem(col, JSON.stringify(arr)); },
+    async list(col) { return this._read(col); },
+    async get(col, id) { return this._read(col).find(x => x.id === id) || null; },
+    async add(col, data, id) { const arr = this._read(col); const item = { ...data, id: id || uid() }; arr.unshift(item); this._write(col, arr); return item.id; },
+    async update(col, id, patch) { const arr = this._read(col); const i = arr.findIndex(x => x.id === id); if (i > -1) { arr[i] = { ...arr[i], ...patch }; this._write(col, arr); } },
+    async remove(col, id) { this._write(col, this._read(col).filter(x => x.id !== id)); }
+};
+
+function seedTributes() {
+    return [
+        { name: 'Valerie Frye', text: 'Kinuthia was a brother and friend whose bright smile and unwavering confidence uplifted everyone around him. His legacy in technology and sports will forever inspire us.', createdAt: new Date(2026, 8, 10).getTime() },
+        { name: 'Clayton Steinberg', text: 'A true gentleman of noble character and deep faith. May God comfort the Ndekei family during this difficult time.', createdAt: new Date(2026, 8, 8).getTime() }
+    ];
+}
+function seedCandles() {
+    return [{ name: 'Mumbi Hinga', text: 'Rest in eternal peace, dear Kinuthia. Your light shines on.', createdAt: new Date(2026, 8, 6).getTime() }];
+}
+
+function prepareLocalStore() {
+    const defaults = {
+        tributes: seedTributes(),
+        pendingTributes: [{ name: 'Sarah Mwangi', text: 'Kinuthia was an inspiration to all youth in our church.', createdAt: Date.now() }],
+        candles: seedCandles(),
+        registrants: [
+            { name: 'Peter Ndekei', phone: '+254 700 000000', type: 'Bus Slot', details: 'Lower Kabete La Paz Pickup', createdAt: Date.now() },
+            { name: 'GLORY HARRY', phone: '9867890', type: 'RSVP', details: 'Attending: 1 Person', createdAt: Date.now() }
+        ]
+    };
+    Object.keys(defaults).forEach(col => {
+        if (localStorage.getItem(col) === null) localStorage.setItem(col, JSON.stringify(defaults[col].map(x => ({ id: uid(), ...x }))));
+    });
+    // give any older records (saved by the previous version) an id
+    ['tributes', 'pendingTributes', 'candles', 'registrants'].forEach(col => {
+        const arr = localStore._read(col);
+        if (arr.some(x => x.id === undefined)) localStore._write(col, arr.map(x => x.id === undefined ? { ...x, id: uid() } : x));
+    });
+}
+
+async function makeCloudStore() {
+    const base = 'https://www.gstatic.com/firebasejs/10.14.1/';
+    const [appMod, fs, au] = await Promise.all([
+        import(base + 'firebase-app.js'),
+        import(base + 'firebase-firestore.js'),
+        import(base + 'firebase-auth.js')
+    ]);
+    const fapp = appMod.initializeApp(FIREBASE_CONFIG);
+    const db = fs.getFirestore(fapp);
+    const auth = au.getAuth(fapp);
+    return {
+        async list(col, { max = 500 } = {}) {
+            const snap = await fs.getDocs(fs.query(fs.collection(db, col), fs.orderBy('createdAt', 'desc'), fs.limit(max)));
+            return snap.docs.map(d => ({ ...d.data(), id: d.id }));
+        },
+        async get(col, id) { const s = await fs.getDoc(fs.doc(db, col, id)); return s.exists() ? { ...s.data(), id: s.id } : null; },
+        async add(col, data, id) {
+            if (id) { await fs.setDoc(fs.doc(db, col, id), data); return id; }
+            return (await fs.addDoc(fs.collection(db, col), data)).id;
+        },
+        async update(col, id, patch) { await fs.updateDoc(fs.doc(db, col, id), patch); },
+        async remove(col, id) { await fs.deleteDoc(fs.doc(db, col, id)); },
+        auth: {
+            signIn: (email, pass) => au.signInWithEmailAndPassword(auth, email, pass),
+            signOut: () => au.signOut(auth),
+            onChange: cb => au.onAuthStateChanged(auth, cb)
         }
+    };
+}
 
-        if (!localStorage.getItem('pendingTributes')) {
-            localStorage.setItem('pendingTributes', JSON.stringify([
-                { id: 1, name: 'Sarah Mwangi', text: 'Kinuthia was an inspiration to all youth in our church.' }
-            ]));
+let Store = localStore;
+
+/* =====================================================================
+   4. STATE + RENDERING
+   ===================================================================== */
+const state = { tributes: [], pending: [], candles: [], photos: [], registrants: [], seats: [] };
+let sharedShown = SHARED_PAGE_SIZE;
+let isAdmin = false;
+
+async function loadTributes() { state.tributes = await Store.list('tributes'); renderTributes(); renderAdminPublishedTributes(); }
+async function loadCandles() { state.candles = await Store.list('candles'); renderCandles(); renderAdminCandlesManager(); }
+async function loadPhotos() { state.photos = await Store.list('photos', { max: 300 }); renderGallery(); renderAdminPhotos(); }
+async function loadSeats() { state.seats = await Store.list('busSeats'); renderSeats(); }
+async function loadPending() { state.pending = await Store.list('pendingTributes'); renderPendingTributes(); }
+async function loadRegistrants() { state.registrants = await Store.list('registrants'); renderRegistrants(); }
+
+async function loadPublic() {
+    const results = await Promise.allSettled([loadTributes(), loadCandles(), loadPhotos(), loadSeats()]);
+    const failed = results.filter(r => r.status === 'rejected');
+    if (failed.length) { console.error(failed.map(f => f.reason)); toast('Some content could not be loaded. Please check your connection and refresh.', 'error', 8000); }
+}
+
+async function loadAdmin() {
+    const results = await Promise.allSettled([loadPending(), loadRegistrants(), loadTributes(), loadCandles(), loadPhotos()]);
+    const denied = results.find(r => r.status === 'rejected');
+    if (denied) {
+        console.error(denied.reason);
+        toast('Could not load some admin data. Make sure you are signed in with an admin account.', 'error', 8000);
+    }
+    updateSyncBanner();
+}
+
+function updateSyncBanner() {
+    const el = $('admin-sync-status');
+    if (!el) return;
+    if (CLOUD) {
+        el.className = 'text-xs rounded-lg px-3 py-2 border bg-emerald-900/30 border-emerald-700/50 text-emerald-200';
+        el.innerHTML = '<i class="fa-solid fa-cloud mr-1"></i> Shared cloud database is ON — you see tributes, candles, RSVPs and photos submitted from every device.';
+    } else {
+        el.className = 'text-xs rounded-lg px-3 py-2 border bg-amber-900/30 border-amber-600/50 text-amber-200';
+        el.innerHTML = '<i class="fa-solid fa-triangle-exclamation mr-1"></i> <strong>Local-only mode.</strong> Submissions are saved only in the browser they were made in, so tributes sent from other people\'s phones or computers will NOT appear here. Connect Firebase (see FIREBASE-SETUP.md) to fix this.';
+    }
+}
+
+/* ---------- Tributes ---------- */
+function renderTributes() {
+    const c = $('tributes-container');
+    if (!state.tributes.length) { c.innerHTML = '<p class="text-sm text-gray-400 italic text-center py-4">Be the first to share a tribute for Kinuthia.</p>'; return; }
+    c.innerHTML = state.tributes.map(t => `
+        <div class="bg-purple-900/20 border border-purple-800/40 p-6 rounded-xl">
+            <p class="font-serif italic text-gray-200 text-base mb-4 whitespace-pre-line">"${esc(t.text)}"</p>
+            <div class="flex justify-between items-center text-xs text-memorial-gold font-semibold">
+                <span>— ${esc(t.name)}</span>
+                <span class="text-gray-400">${esc(fmtDate(t))}</span>
+            </div>
+        </div>`).join('');
+}
+
+function renderPendingTributes() {
+    const c = $('admin-pending-tributes');
+    if (!state.pending.length) { c.innerHTML = '<p class="text-xs text-gray-400 italic">No pending tributes at the moment.</p>'; return; }
+    c.innerHTML = state.pending.map((p, i) => `
+        <div class="flex justify-between items-center gap-3 bg-purple-950 p-3 rounded border border-purple-900">
+            <div class="min-w-0">
+                <p class="text-xs text-memorial-gold font-bold">${esc(p.name)} <span class="text-[10px] text-gray-400 font-normal">(${esc(fmtDate(p))})</span></p>
+                <p class="text-xs text-gray-200 break-words">"${esc(p.text)}"</p>
+            </div>
+            <div class="flex gap-2 flex-shrink-0">
+                <button onclick="approveTribute(${i})" class="px-2.5 py-1 bg-emerald-700 text-white rounded text-xs">Approve</button>
+                <button onclick="rejectTribute(${i})" class="px-2.5 py-1 bg-red-800 text-white rounded text-xs">Reject</button>
+            </div>
+        </div>`).join('');
+}
+
+function renderAdminPublishedTributes() {
+    const c = $('admin-published-tributes');
+    if (!state.tributes.length) { c.innerHTML = '<p class="text-xs text-gray-400 italic">No published tributes.</p>'; return; }
+    c.innerHTML = state.tributes.map((t, i) => `
+        <div class="flex justify-between items-center gap-3 bg-purple-950 p-3 rounded border border-purple-900">
+            <div class="min-w-0">
+                <p class="text-xs text-memorial-gold font-bold">${esc(t.name)} <span class="text-[10px] text-gray-400 font-normal">(${esc(fmtDate(t))})</span></p>
+                <p class="text-xs text-gray-200 break-words">"${esc(t.text)}"</p>
+            </div>
+            <div class="flex gap-2 flex-shrink-0">
+                <button onclick="adminEditTribute(${i})" class="px-2.5 py-1 bg-blue-800 text-white rounded text-xs">Edit</button>
+                <button onclick="adminDeleteTribute(${i})" class="px-2.5 py-1 bg-red-800 text-white rounded text-xs">Delete</button>
+            </div>
+        </div>`).join('');
+}
+
+async function approveTribute(i) {
+    const p = state.pending[i]; if (!p) return;
+    try {
+        await Store.add('tributes', { name: p.name, text: p.text, createdAt: Date.now() });
+        await Store.remove('pendingTributes', p.id);
+        await Promise.all([loadPending(), loadTributes()]);
+        toast('Tribute approved and published to the Memory Wall.', 'success');
+    } catch (e) { console.error(e); toast('Could not approve this tribute. Please try again.', 'error'); }
+}
+async function rejectTribute(i) {
+    const p = state.pending[i]; if (!p) return;
+    try { await Store.remove('pendingTributes', p.id); await loadPending(); toast('Tribute rejected.'); }
+    catch (e) { console.error(e); toast('Could not reject this tribute.', 'error'); }
+}
+async function adminDeleteTribute(i) {
+    const t = state.tributes[i]; if (!t || !confirm('Admin: Delete this published tribute?')) return;
+    try { await Store.remove('tributes', t.id); await loadTributes(); } catch (e) { console.error(e); toast('Delete failed.', 'error'); }
+}
+async function adminEditTribute(i) {
+    const t = state.tributes[i]; if (!t) return;
+    const text = prompt('Admin edit tribute text:', t.text);
+    if (text === null) return;
+    try { await Store.update('tributes', t.id, { text }); await loadTributes(); toast('Tribute updated.', 'success'); } catch (e) { console.error(e); toast('Update failed.', 'error'); }
+}
+
+function openAddTributeModal() {
+    $('generic-modal-body').innerHTML = `
+        <h3 class="font-serif text-xl font-bold text-memorial-gold mb-4">Add Tribute Message</h3>
+        <form onsubmit="submitTributeMsg(event)" class="space-y-4">
+            <input type="text" id="new-tribute-name" placeholder="Your Full Name" required maxlength="100" class="w-full bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white">
+            <textarea id="new-tribute-text" placeholder="Your tribute or memory..." rows="4" required maxlength="2500" class="w-full bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white"></textarea>
+            <p class="text-[11px] text-memorial-gold">Tributes require admin approval before appearing on the public wall.</p>
+            <button type="submit" class="w-full py-2 bg-memorial-gold text-black font-bold rounded-lg text-sm">Submit Tribute</button>
+        </form>`;
+    $('generic-modal').classList.remove('hidden');
+}
+async function submitTributeMsg(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type=submit]'); btn.disabled = true;
+    try {
+        await Store.add('pendingTributes', { name: $('new-tribute-name').value.trim(), text: $('new-tribute-text').value.trim(), createdAt: Date.now() });
+        if (isAdmin) await loadPending();
+        closeGenericModal();
+        toast('Thank you. Your tribute was submitted and is awaiting admin approval.', 'success');
+    } catch (err) { console.error(err); btn.disabled = false; toast('Could not submit your tribute. Please try again.', 'error'); }
+}
+
+/* ---------- Candles ---------- */
+function renderCandles() {
+    const g = $('candles-grid');
+    if (!state.candles.length) { g.innerHTML = '<p class="text-sm text-gray-400 italic sm:col-span-2 md:col-span-3 text-center">No candles lit yet. Be the first.</p>'; return; }
+    g.innerHTML = state.candles.map(c => `
+        <div class="bg-purple-900/30 border border-purple-800/50 p-5 rounded-xl text-center relative">
+            <div class="text-memorial-gold text-3xl mb-3 animate-pulse"><i class="fa-solid fa-candle-holder"></i></div>
+            <p class="text-sm font-serif italic text-gray-200 mb-3 whitespace-pre-line">"${esc(c.text)}"</p>
+            <p class="text-xs font-bold text-memorial-gold">${esc(c.name)}</p>
+            <span class="text-[10px] text-gray-400 block mt-1">${esc(fmtDate(c))}</span>
+        </div>`).join('');
+}
+function renderAdminCandlesManager() {
+    const c = $('admin-candles-manager');
+    if (!state.candles.length) { c.innerHTML = '<p class="text-xs text-gray-400 italic">No virtual candles lit.</p>'; return; }
+    c.innerHTML = state.candles.map((x, i) => `
+        <div class="flex justify-between items-center gap-3 bg-purple-950 p-3 rounded border border-purple-900">
+            <div class="min-w-0">
+                <p class="text-xs text-memorial-gold font-bold">${esc(x.name)} <span class="text-[10px] text-gray-400 font-normal">(${esc(fmtDate(x))})</span></p>
+                <p class="text-xs text-gray-200 break-words">"${esc(x.text)}"</p>
+            </div>
+            <div class="flex gap-2 flex-shrink-0">
+                <button onclick="adminEditCandle(${i})" class="px-2.5 py-1 bg-blue-800 text-white rounded text-xs">Edit</button>
+                <button onclick="adminDeleteCandle(${i})" class="px-2.5 py-1 bg-red-800 text-white rounded text-xs">Delete</button>
+            </div>
+        </div>`).join('');
+}
+async function adminDeleteCandle(i) {
+    const c = state.candles[i]; if (!c || !confirm('Admin: Delete this virtual candle?')) return;
+    try { await Store.remove('candles', c.id); await loadCandles(); } catch (e) { console.error(e); toast('Delete failed.', 'error'); }
+}
+async function adminEditCandle(i) {
+    const c = state.candles[i]; if (!c) return;
+    const text = prompt('Admin edit candle message:', c.text);
+    if (text === null) return;
+    try { await Store.update('candles', c.id, { text }); await loadCandles(); toast('Virtual candle updated.', 'success'); } catch (e) { console.error(e); toast('Update failed.', 'error'); }
+}
+function openLightCandleModal() {
+    $('generic-modal-body').innerHTML = `
+        <h3 class="font-serif text-xl font-bold text-memorial-gold mb-4">Light a Virtual Candle</h3>
+        <form onsubmit="submitCandle(event)" class="space-y-4">
+            <input type="text" id="candle-name" placeholder="Your Full Name" required maxlength="100" class="w-full bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white">
+            <textarea id="candle-msg" placeholder="Your Tribute / Condolence Message" rows="3" required maxlength="1000" class="w-full bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white"></textarea>
+            <button type="submit" class="w-full py-2 bg-memorial-gold text-black font-bold rounded-lg text-sm">Light Candle</button>
+        </form>`;
+    $('generic-modal').classList.remove('hidden');
+}
+async function submitCandle(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type=submit]'); btn.disabled = true;
+    try {
+        await Store.add('candles', { name: $('candle-name').value.trim(), text: $('candle-msg').value.trim(), createdAt: Date.now() });
+        await loadCandles();
+        closeGenericModal();
+        toast('Your virtual candle has been lit.', 'success');
+    } catch (err) { console.error(err); btn.disabled = false; toast('Could not light your candle. Please try again.', 'error'); }
+}
+
+/* ---------- Bus slots, RSVPs ---------- */
+function renderSeats() { $('bus-slots-count').textContent = Math.max(0, BUS_BASE_AVAILABLE - state.seats.length); }
+
+function renderRegistrants() {
+    const t = $('admin-registrants-table');
+    if (!state.registrants.length) { t.innerHTML = '<tr><td colspan="5" class="p-3 text-gray-400 italic">No registrations yet.</td></tr>'; return; }
+    t.innerHTML = state.registrants.map((r, i) => `
+        <tr class="border-t border-purple-900/40">
+            <td class="p-3">${esc(r.name)}</td>
+            <td class="p-3">${esc(r.phone)}</td>
+            <td class="p-3 text-memorial-gold font-bold">${esc(r.type)}</td>
+            <td class="p-3">${esc(r.details)}</td>
+            <td class="p-3 text-center"><button onclick="removeRegistrant(${i})" class="px-2 py-0.5 bg-red-800 text-white rounded text-[10px]">Delete</button></td>
+        </tr>`).join('');
+}
+
+async function registerBus(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type=submit]'); btn.disabled = true;
+    try {
+        await loadSeats();
+        if (BUS_BASE_AVAILABLE - state.seats.length <= 0) { alert('All bus slots are currently fully booked.'); return; }
+        const seatId = await Store.add('busSeats', { createdAt: Date.now() });
+        await Store.add('registrants', {
+            name: $('bus-name').value.trim(), phone: $('bus-phone').value.trim(),
+            type: 'Bus Slot', details: $('bus-location').value, seatId, createdAt: Date.now()
+        });
+        await loadSeats();
+        if (isAdmin) await loadRegistrants();
+        alert(`Successfully registered for bus transport! Slots remaining: ${Math.max(0, BUS_BASE_AVAILABLE - state.seats.length)}`);
+        e.target.reset();
+    } catch (err) { console.error(err); toast('Could not complete your registration. Please try again.', 'error'); }
+    finally { btn.disabled = false; }
+}
+
+async function submitRSVP(e) {
+    e.preventDefault();
+    const form = e.target;
+    const btn = form.querySelector('button[type=submit]'); btn.disabled = true;
+    try {
+        const name = `${$('rsvp-fname').value.trim()} ${$('rsvp-lname').value.trim()}`;
+        const email = $('rsvp-email').value.trim();
+        await Store.add('registrants', {
+            name, phone: $('rsvp-phone').value.trim(), type: 'RSVP',
+            details: `Attending: ${$('rsvp-count').value} Person(s) · ${email}`, createdAt: Date.now()
+        });
+        if (isAdmin) await loadRegistrants();
+        alert('Thank you for confirming your attendance. Your RSVP has been recorded.');
+        form.reset();
+    } catch (err) { console.error(err); toast('Could not record your RSVP. Please try again.', 'error'); }
+    finally { btn.disabled = false; }
+}
+
+async function removeRegistrant(i) {
+    const r = state.registrants[i]; if (!r || !confirm('Are you sure you want to delete this entry?')) return;
+    try {
+        await Store.remove('registrants', r.id);
+        if (r.seatId) await Store.remove('busSeats', r.seatId);
+        await Promise.all([loadRegistrants(), loadSeats()]);
+    } catch (e) { console.error(e); toast('Delete failed.', 'error'); }
+}
+
+/* ---------- Photo gallery ---------- */
+function renderGallery() {
+    const featured = FEATURED_PHOTOS.map((u, i) => `
+        <button type="button" onclick="openFeaturedPhoto(${i})" class="group relative aspect-square overflow-hidden rounded-xl border border-purple-800/50 bg-purple-900/30">
+            <img src="${esc(u)}=w400-h400-c" alt="Kinuthia Ndekei memory" loading="lazy" decoding="async" onerror="this.closest('button').style.display='none'" class="w-full h-full object-cover group-hover:scale-110 transition duration-300">
+        </button>`);
+    const shared = state.photos.slice(0, sharedShown).map((p, i) => isJpegData(p.thumb) ? `
+        <button type="button" onclick="openSharedPhoto(${i})" class="group relative aspect-square overflow-hidden rounded-xl border border-purple-800/50 bg-purple-900/30">
+            <img src="${esc(p.thumb)}" alt="Memory shared by ${esc(p.name)}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-110 transition duration-300">
+            <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-2 pt-6 pb-1.5 text-[11px] text-white text-left truncate"><i class="fa-solid fa-heart text-memorial-gold mr-1"></i>${esc(p.name)}</span>
+        </button>` : '');
+    $('gallery-grid').innerHTML = featured.concat(shared).join('');
+    $('gallery-more').classList.toggle('hidden', state.photos.length <= sharedShown);
+    const n = state.photos.length;
+    $('shared-count').textContent = n ? `${n} shared photo${n === 1 ? '' : 's'} from family & friends` : '';
+}
+function showMorePhotos() { sharedShown += SHARED_PAGE_SIZE; renderGallery(); }
+
+let lbToken = 0;
+function showLightbox(src, caption) {
+    $('photo-lightbox-img').src = src;
+    const cap = $('photo-lightbox-caption');
+    cap.textContent = caption || '';
+    cap.classList.toggle('hidden', !caption);
+    const m = $('photo-lightbox'); m.classList.remove('hidden'); m.classList.add('flex');
+}
+function openFeaturedPhoto(i) { lbToken++; showLightbox(`${FEATURED_PHOTOS[i]}=w1200`, ''); }
+async function openSharedPhoto(i) {
+    const p = state.photos[i]; if (!p) return;
+    const token = ++lbToken;
+    showLightbox(p.thumb, `Shared by ${p.name}${p.caption ? ' — ' + p.caption : ''}`);
+    try {
+        const full = await Store.get('photoFull', p.id);
+        if (full && isJpegData(full.data) && token === lbToken) $('photo-lightbox-img').src = full.data;
+    } catch (e) { console.error(e); }
+}
+function closePhotoLightbox(e) {
+    if (e) e.stopPropagation();
+    lbToken++;
+    const m = $('photo-lightbox'); m.classList.add('hidden'); m.classList.remove('flex');
+    $('photo-lightbox-img').src = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closePhotoLightbox(); closeGenericModal(); } });
+
+/* Photo upload */
+function openUploadPhotoModal() {
+    $('generic-modal-body').innerHTML = `
+        <h3 class="font-serif text-xl font-bold text-memorial-gold mb-1">Share a Memory with Kinuthia</h3>
+        <p class="text-xs text-gray-300 mb-4">Upload a photo of you and Kinuthia. It will appear in the gallery for everyone to see.</p>
+        <form onsubmit="submitPhotos(event)" class="space-y-4">
+            <input type="text" id="photo-name" placeholder="Your Full Name" required maxlength="100" class="w-full bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white">
+            <textarea id="photo-caption" placeholder="A short note about this memory (optional)" rows="2" maxlength="300" class="w-full bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white"></textarea>
+            <label for="photo-files" class="flex flex-col items-center justify-center gap-1 cursor-pointer border-2 border-dashed border-purple-700 hover:border-memorial-gold rounded-xl py-5 text-center transition">
+                <i class="fa-solid fa-cloud-arrow-up text-2xl text-memorial-gold"></i>
+                <span class="text-sm text-gray-200">Tap to choose photo(s)</span>
+                <span class="text-[11px] text-gray-400">Up to ${MAX_UPLOAD_FILES} photos at a time · JPG or PNG</span>
+            </label>
+            <input type="file" id="photo-files" accept="image/*" multiple class="hidden" onchange="previewPhotos()">
+            <div id="photo-previews" class="grid grid-cols-5 gap-2"></div>
+            <p id="photo-status" class="text-xs text-memorial-gold min-h-[1rem]"></p>
+            <button id="photo-submit" type="submit" class="w-full py-2 bg-memorial-gold text-black font-bold rounded-lg text-sm disabled:opacity-60">Upload to Gallery</button>
+        </form>`;
+    $('generic-modal').classList.remove('hidden');
+}
+function previewPhotos() {
+    const files = [...$('photo-files').files];
+    const box = $('photo-previews'); box.innerHTML = '';
+    files.slice(0, MAX_UPLOAD_FILES).forEach(f => {
+        const url = URL.createObjectURL(f);
+        const im = document.createElement('img');
+        im.src = url; im.onload = () => URL.revokeObjectURL(url);
+        im.className = 'aspect-square object-cover rounded-lg border border-purple-800';
+        box.appendChild(im);
+    });
+    $('photo-status').textContent = files.length > MAX_UPLOAD_FILES ? `Please choose up to ${MAX_UPLOAD_FILES} photos at a time.` : `${files.length} photo${files.length === 1 ? '' : 's'} selected.`;
+}
+function loadImage(file) {
+    return new Promise((resolve, reject) => {
+        const url = URL.createObjectURL(file);
+        const img = new Image();
+        img.onload = () => { URL.revokeObjectURL(url); resolve(img); };
+        img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Could not read image')); };
+        img.src = url;
+    });
+}
+function makeThumb(img) {
+    const s = Math.min(img.naturalWidth, img.naturalHeight);
+    const size = Math.min(360, s);
+    const c = document.createElement('canvas'); c.width = c.height = size;
+    c.getContext('2d').drawImage(img, (img.naturalWidth - s) / 2, (img.naturalHeight - s) / 2, s, s, 0, 0, size, size);
+    return c.toDataURL('image/jpeg', 0.72);
+}
+function makeFull(img) {
+    let edge = 1400, q = 0.8;
+    for (let n = 0; n < 6; n++) {
+        const scale = Math.min(1, edge / Math.max(img.naturalWidth, img.naturalHeight));
+        const c = document.createElement('canvas');
+        c.width = Math.round(img.naturalWidth * scale); c.height = Math.round(img.naturalHeight * scale);
+        const ctx = c.getContext('2d'); ctx.fillStyle = '#000'; ctx.fillRect(0, 0, c.width, c.height);
+        ctx.drawImage(img, 0, 0, c.width, c.height);
+        const out = c.toDataURL('image/jpeg', q);
+        if (out.length <= FULL_MAX_CHARS) return out;
+        edge = Math.round(edge * 0.8); q = Math.max(0.55, q - 0.06);
+    }
+    throw new Error('Image too large');
+}
+async function submitPhotos(e) {
+    e.preventDefault();
+    const status = $('photo-status'), btn = $('photo-submit');
+    const name = $('photo-name').value.trim(), caption = $('photo-caption').value.trim();
+    const files = [...$('photo-files').files];
+    if (!files.length) { status.textContent = 'Please choose at least one photo.'; return; }
+    if (files.length > MAX_UPLOAD_FILES) { status.textContent = `Please choose up to ${MAX_UPLOAD_FILES} photos at a time.`; return; }
+    btn.disabled = true;
+    let ok = 0; const failed = [];
+    for (let i = 0; i < files.length; i++) {
+        status.textContent = `Uploading photo ${i + 1} of ${files.length}…`;
+        try {
+            if (!files[i].type.startsWith('image/')) throw new Error('Not an image');
+            const img = await loadImage(files[i]);
+            const thumb = makeThumb(img), full = makeFull(img);
+            const id = uid(), createdAt = Date.now();
+            await Store.add('photoFull', { data: full, createdAt }, id);
+            await Store.add('photos', { name, caption, thumb, createdAt }, id);
+            ok++;
+        } catch (err) { console.error(err); failed.push(files[i].name); }
+    }
+    if (ok) { try { await loadPhotos(); } catch (err) { console.error(err); } }
+    if (failed.length === 0) {
+        closeGenericModal();
+        toast(`Thank you! ${ok === 1 ? 'Your photo has' : 'Your photos have'} been added to the gallery.`, 'success');
+        document.getElementById('gallery-grid').lastElementChild?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } else {
+        btn.disabled = false;
+        status.textContent = `${ok ? ok + ' uploaded. ' : ''}Could not upload: ${failed.join(', ')}. Try a JPG or PNG, or check your connection.`;
+    }
+}
+
+function renderAdminPhotos() {
+    const c = $('admin-photos-manager');
+    if (!c) return;
+    if (!state.photos.length) { c.innerHTML = '<p class="text-xs text-gray-400 italic">No photos have been shared yet.</p>'; return; }
+    c.innerHTML = state.photos.map((p, i) => `
+        <div class="flex items-center gap-3 bg-purple-950 p-2 rounded border border-purple-900">
+            ${isJpegData(p.thumb) ? `<img src="${esc(p.thumb)}" alt="" class="w-14 h-14 rounded object-cover flex-shrink-0">` : ''}
+            <div class="min-w-0 flex-1">
+                <p class="text-xs text-memorial-gold font-bold">${esc(p.name)} <span class="text-[10px] text-gray-400 font-normal">(${esc(fmtDate(p))})</span></p>
+                <p class="text-xs text-gray-300 truncate">${esc(p.caption || '')}</p>
+            </div>
+            <button onclick="adminDeletePhoto(${i})" class="px-2.5 py-1 bg-red-800 text-white rounded text-xs flex-shrink-0">Delete</button>
+        </div>`).join('');
+}
+async function adminDeletePhoto(i) {
+    const p = state.photos[i]; if (!p || !confirm('Admin: Remove this photo from the gallery?')) return;
+    try { await Store.remove('photos', p.id); await Store.remove('photoFull', p.id); await loadPhotos(); toast('Photo removed.', 'success'); }
+    catch (e) { console.error(e); toast('Could not remove the photo.', 'error'); }
+}
+
+/* ---------- Program pages ---------- */
+function renderProgramGrid() {
+    $('order-of-service-grid').innerHTML = PROGRAMS.kenya.items.map((it, i) =>
+        `<div class="bg-purple-900/10 p-3 rounded-lg border border-purple-900/30"><strong>${String(i + 1).padStart(2, '0')}. ${esc(it[0])}</strong> - ${esc(it[1])}</div>`).join('');
+}
+
+function renderProgramPage(key) {
+    const p = PROGRAMS[key], otherKey = key === 'kenya' ? 'us' : 'kenya', o = PROGRAMS[otherKey];
+    const row = (icon, html) => `<p class="flex items-start gap-3"><i class="fa-solid ${icon} text-memorial-gold mt-1 w-4 text-center"></i><span>${html}</span></p>`;
+    const details = [
+        row('fa-calendar-check', `${esc(p.date)}${p.time ? ' at ' + esc(p.time) : ''}`),
+        row('fa-location-dot', esc(p.venue)),
+        p.mapUrl ? row('fa-map-location-dot', `<a href="${esc(p.mapUrl)}" target="_blank" rel="noopener noreferrer" class="text-memorial-gold underline hover:text-yellow-400">Google Map directions →</a>`) : '',
+        p.livestream ? row('fa-video', `<a href="${esc(p.livestream)}" target="_blank" rel="noopener noreferrer" class="text-memorial-gold underline hover:text-yellow-400">Join the virtual livestream →</a>`) : '',
+        p.busLink ? row('fa-bus', `<a href="#buses" class="text-memorial-gold underline hover:text-yellow-400">Reserve a seat on the transport bus →</a>`) : ''
+    ].join('');
+    const program = p.items.length ? `
+        <ol class="relative border-l-2 border-memorial-gold/40 ml-2 sm:ml-4 space-y-5">
+            ${p.items.map(it => `
+            <li class="relative pl-6">
+                <span class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-memorial-gold border-4 border-memorial-darkBg"></span>
+                <span class="block text-xs font-semibold text-memorial-gold uppercase tracking-wider">${esc(it[0])}</span>
+                <span class="block text-gray-100 text-base">${esc(it[1])}</span>
+            </li>`).join('')}
+        </ol>` : `
+        <div class="bg-purple-900/20 border border-purple-800/40 rounded-xl p-6 text-center text-gray-300 text-sm">
+            <i class="fa-solid fa-hourglass-half text-memorial-gold text-2xl mb-2"></i>
+            <p>The full order of service for this day will be published here soon. Please check back closer to the date.</p>
+        </div>`;
+    $('program-view-body').innerHTML = `
+        <div class="no-print flex flex-wrap items-center justify-between gap-3 mb-6">
+            <a href="#service" class="inline-flex items-center gap-2 text-sm text-memorial-gold hover:text-yellow-400"><i class="fa-solid fa-arrow-left"></i> Back to Service & RSVP</a>
+            <button onclick="window.print()" class="px-3 py-1.5 rounded-lg bg-memorial-royal border border-memorial-gold/40 text-memorial-gold text-xs font-semibold hover:bg-purple-800 transition"><i class="fa-solid fa-print mr-1"></i> Print program</button>
+        </div>
+        <div class="print-area bg-purple-950/40 border border-purple-900/50 rounded-2xl p-6 sm:p-10 shadow-xl">
+            <div class="text-center mb-8 border-b border-purple-900 pb-6">
+                <div class="w-14 h-14 mx-auto rounded-full bg-purple-900/60 border border-memorial-gold/50 flex items-center justify-center text-memorial-gold text-2xl mb-3"><i class="fa-solid ${p.icon}"></i></div>
+                <p class="text-xs uppercase tracking-widest text-gray-400 mb-1">In Loving Memory of Kinuthia Ndekei · 1998 – 2026</p>
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-memorial-gold">${esc(p.title)}</h2>
+                <p class="text-gray-200 mt-2">${esc(p.date)}</p>
+            </div>
+            <div class="space-y-3 text-sm text-gray-200 mb-8 max-w-xl mx-auto">${details}</div>
+            <h3 class="font-serif text-2xl font-bold text-memorial-gold mb-5">Order of Service — Full Day Program</h3>
+            ${program}
+        </div>
+        <div class="no-print text-center mt-8">
+            <a href="#program-${otherKey}" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-memorial-royal border border-memorial-gold/40 text-memorial-gold text-sm font-semibold hover:bg-purple-800 transition">
+                <i class="fa-solid ${o.icon}"></i> View the ${esc(o.title)} program →
+            </a>
+        </div>`;
+}
+
+function route() {
+    const h = decodeURIComponent(location.hash.replace('#', ''));
+    const site = $('site-content'), prog = $('program-view');
+    if (h.startsWith('program-') && PROGRAMS[h.slice(8)]) {
+        renderProgramPage(h.slice(8));
+        site.classList.add('hidden'); prog.classList.remove('hidden');
+        window.scrollTo(0, 0);
+        return;
+    }
+    const wasHidden = site.classList.contains('hidden');
+    prog.classList.add('hidden'); site.classList.remove('hidden');
+    if (wasHidden) { const t = h && document.getElementById(h); if (t) t.scrollIntoView(); else window.scrollTo(0, 0); }
+}
+window.addEventListener('hashchange', route);
+
+/* ---------- Admin ---------- */
+function setAdminView(on) {
+    isAdmin = on;
+    $('admin-login-view').classList.toggle('hidden', on);
+    $('admin-dashboard-view').classList.toggle('hidden', !on);
+}
+function openAdminModal() {
+    $('admin-modal').classList.remove('hidden');
+    if (isAdmin) loadAdmin();
+}
+function closeAdminModal() { $('admin-modal').classList.add('hidden'); }
+
+async function loginAdmin() {
+    const user = $('admin-user').value.trim(), pass = $('admin-pass').value;
+    if (CLOUD) {
+        try { await Store.auth.signIn(user, pass); $('admin-pass').value = ''; }
+        catch (e) { console.error(e); alert('Invalid admin credentials.'); }
+        return;
+    }
+    if ((user === 'admin' && pass === 'kinuthia2026') || (user === 'manager' && pass === 'tribute2026')) {
+        setAdminView(true); loadAdmin();
+    } else { alert('Invalid admin credentials.'); }
+}
+async function logoutAdmin() {
+    if (CLOUD) { try { await Store.auth.signOut(); } catch (e) { console.error(e); } }
+    setAdminView(false);
+}
+
+async function seedCloudIfNeeded() {
+    try {
+        if (await Store.get('meta', 'seed')) return;
+        for (const t of seedTributes()) await Store.add('tributes', t);
+        for (const c of seedCandles()) await Store.add('candles', c);
+        await Store.add('meta', { createdAt: Date.now() }, 'seed');
+    } catch (e) { console.error('Seeding skipped:', e); }
+}
+
+function toggleMobileMenu() { $('mobile-menu').classList.toggle('hidden'); }
+function closeGenericModal() { $('generic-modal').classList.add('hidden'); }
+
+/* =====================================================================
+   5. START-UP
+   ===================================================================== */
+document.addEventListener('DOMContentLoaded', async () => {
+    // floating particles
+    const pc = $('particles-container');
+    const icons = ['fa-dove', 'fa-snowflake', 'fa-feather'];
+    for (let i = 0; i < 22; i++) {
+        const p = document.createElement('div');
+        p.className = 'floating-particle text-memorial-gold/40';
+        p.innerHTML = `<i class="fa-solid ${icons[Math.floor(Math.random() * icons.length)]}"></i>`;
+        p.style.left = `${Math.random() * 100}vw`;
+        p.style.fontSize = `${Math.random() * 12 + 22}px`;
+        p.style.animationDuration = `${Math.random() * 10 + 8}s`;
+        p.style.animationDelay = `${Math.random() * 10}s`;
+        pc.appendChild(p);
+    }
+
+    renderProgramGrid();
+    renderGallery();
+    updateSyncBanner();
+    route();
+
+    if (CLOUD) {
+        $('admin-user').type = 'email'; $('admin-user').placeholder = 'Admin email';
+        try {
+            Store = await makeCloudStore();
+            Store.auth.onChange(async user => {
+                setAdminView(!!user);
+                if (user) { await seedCloudIfNeeded(); await loadAdmin(); }
+            });
+        } catch (e) {
+            console.error(e);
+            toast('Could not connect to the shared database. Please refresh the page.', 'error', 10000);
+            return;
         }
-
-        if (!localStorage.getItem('candles')) {
-            localStorage.setItem('candles', JSON.stringify([
-                { name: 'Mumbi Hinga', text: 'Rest in eternal peace, dear Kinuthia. Your light shines on.', date: 'September 6, 2026' }
-            ]));
-        }
-
-        if (!localStorage.getItem('registrants')) {
-            localStorage.setItem('registrants', JSON.stringify([
-                { name: 'Peter Ndekei', phone: '+254 700 000000', type: 'Bus Slot', details: 'Lower Kabete La Paz Pickup' },
-                { name: 'GLORY HARRY', phone: '9867890', type: 'RSVP', details: 'Attending: 1 Person' }
-            ]));
-        }
-
-        if (!localStorage.getItem('busSlotsCount')) {
-            localStorage.setItem('busSlotsCount', '44');
-        }
-
-        // Floating Particles
-        const particlesContainer = document.getElementById('particles-container');
-        const particleIcons = ['fa-dove', 'fa-snowflake', 'fa-feather'];
-        for (let i = 0; i < 22; i++) {
-            const p = document.createElement('div');
-            p.className = 'floating-particle text-memorial-gold/40';
-            p.innerHTML = `<i class="fa-solid ${particleIcons[Math.floor(Math.random() * particleIcons.length)]}"></i>`;
-            p.style.left = `${Math.random() * 100}vw`;
-            p.style.fontSize = `${Math.random() * 12 + 22}px`;
-            p.style.animationDuration = `${Math.random() * 10 + 8}s`;
-            p.style.animationDelay = `${Math.random() * 10}s`;
-            particlesContainer.appendChild(p);
-        }
-
-        window.onload = function() {
-            renderTributes();
-            renderPendingTributes();
-            renderAdminPublishedTributes();
-            renderCandles();
-            renderAdminCandlesManager();
-            renderRegistrants();
-            document.getElementById('bus-slots-count').innerText = localStorage.getItem('busSlotsCount');
-        }
-
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-        }
-
-        function renderTributes() {
-            const container = document.getElementById('tributes-container');
-            const tributes = JSON.parse(localStorage.getItem('tributes')) || [];
-            container.innerHTML = tributes.map(t => `
-                <div class="bg-purple-900/20 border border-purple-800/40 p-6 rounded-xl">
-                    <p class="font-serif italic text-gray-200 text-base mb-4">"${t.text}"</p>
-                    <div class="flex justify-between items-center text-xs text-memorial-gold font-semibold">
-                        <span>— ${t.name}</span>
-                        <span class="text-gray-400">${t.date}</span>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function renderPendingTributes() {
-            const container = document.getElementById('admin-pending-tributes');
-            const pending = JSON.parse(localStorage.getItem('pendingTributes')) || [];
-            if (pending.length === 0) {
-                container.innerHTML = `<p class="text-xs text-gray-400 italic">No pending tributes at the moment.</p>`;
-                return;
-            }
-            container.innerHTML = pending.map((p, index) => `
-                <div class="flex justify-between items-center bg-purple-950 p-3 rounded border border-purple-900">
-                    <div>
-                        <p class="text-xs text-memorial-gold font-bold">${p.name}</p>
-                        <p class="text-xs text-gray-200">"${p.text}"</p>
-                    </div>
-                    <div class="flex gap-2">
-                        <button onclick="approveTribute(${index})" class="px-2.5 py-1 bg-emerald-700 text-white rounded text-xs">Approve</button>
-                        <button onclick="rejectTribute(${index})" class="px-2.5 py-1 bg-red-800 text-white rounded text-xs">Reject</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function renderAdminPublishedTributes() {
-            const container = document.getElementById('admin-published-tributes');
-            const tributes = JSON.parse(localStorage.getItem('tributes')) || [];
-            if (tributes.length === 0) {
-                container.innerHTML = `<p class="text-xs text-gray-400 italic">No published tributes.</p>`;
-                return;
-            }
-            container.innerHTML = tributes.map((t, index) => `
-                <div class="flex justify-between items-center bg-purple-950 p-3 rounded border border-purple-900">
-                    <div>
-                        <p class="text-xs text-memorial-gold font-bold">${t.name} <span class="text-[10px] text-gray-400 font-normal">(${t.date})</span></p>
-                        <p class="text-xs text-gray-200">"${t.text}"</p>
-                    </div>
-                    <div class="flex gap-2">
-                        <button onclick="adminEditTribute(${index})" class="px-2.5 py-1 bg-blue-800 text-white rounded text-xs">Edit</button>
-                        <button onclick="adminDeleteTribute(${index})" class="px-2.5 py-1 bg-red-800 text-white rounded text-xs">Delete</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function renderCandles() {
-            const grid = document.getElementById('candles-grid');
-            const candles = JSON.parse(localStorage.getItem('candles')) || [];
-            grid.innerHTML = candles.map((c) => `
-                <div class="bg-purple-900/30 border border-purple-800/50 p-5 rounded-xl text-center relative">
-                    <div class="text-memorial-gold text-3xl mb-3 animate-pulse"><i class="fa-solid fa-candle-holder"></i></div>
-                    <p class="text-sm font-serif italic text-gray-200 mb-3">"${c.text}"</p>
-                    <p class="text-xs font-bold text-memorial-gold">${c.name}</p>
-                    <span class="text-[10px] text-gray-400 block mt-1">${c.date}</span>
-                </div>
-            `).join('');
-        }
-
-        function renderAdminCandlesManager() {
-            const container = document.getElementById('admin-candles-manager');
-            const candles = JSON.parse(localStorage.getItem('candles')) || [];
-            if (candles.length === 0) {
-                container.innerHTML = `<p class="text-xs text-gray-400 italic">No virtual candles lit.</p>`;
-                return;
-            }
-            container.innerHTML = candles.map((c, index) => `
-                <div class="flex justify-between items-center bg-purple-950 p-3 rounded border border-purple-900">
-                    <div>
-                        <p class="text-xs text-memorial-gold font-bold">${c.name} <span class="text-[10px] text-gray-400 font-normal">(${c.date})</span></p>
-                        <p class="text-xs text-gray-200">"${c.text}"</p>
-                    </div>
-                    <div class="flex gap-2">
-                        <button onclick="adminEditCandle(${index})" class="px-2.5 py-1 bg-blue-800 text-white rounded text-xs">Edit</button>
-                        <button onclick="adminDeleteCandle(${index})" class="px-2.5 py-1 bg-red-800 text-white rounded text-xs">Delete</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function renderRegistrants() {
-            const table = document.getElementById('admin-registrants-table');
-            const registrants = JSON.parse(localStorage.getItem('registrants')) || [];
-            table.innerHTML = registrants.map((r, index) => `
-                <tr class="border-t border-purple-900/40">
-                    <td class="p-3">${r.name}</td>
-                    <td class="p-3">${r.phone}</td>
-                    <td class="p-3 text-memorial-gold font-bold">${r.type}</td>
-                    <td class="p-3">${r.details}</td>
-                    <td class="p-3 text-center"><button onclick="removeRegistrant(${index})" class="px-2 py-0.5 bg-red-800 text-white rounded text-[10px]">Delete</button></td>
-                </tr>
-            `).join('');
-        }
-
-        function registerBus(e) {
-            e.preventDefault();
-            const name = document.getElementById('bus-name').value;
-            const phone = document.getElementById('bus-phone').value;
-            const location = document.getElementById('bus-location').value;
-
-            let slots = parseInt(localStorage.getItem('busSlotsCount'));
-            if (slots > 0) {
-                slots--;
-                localStorage.setItem('busSlotsCount', slots);
-                document.getElementById('bus-slots-count').innerText = slots;
-
-                let registrants = JSON.parse(localStorage.getItem('registrants')) || [];
-                registrants.push({ name, phone, type: 'Bus Slot', details: location });
-                localStorage.setItem('registrants', JSON.stringify(registrants));
-
-                renderRegistrants();
-                alert(`Successfully registered for bus transport! Slots remaining: ${slots}`);
-                document.getElementById('bus-form').reset();
-            } else {
-                alert('All bus slots are currently fully booked.');
-            }
-        }
-
-        function submitRSVP(e) {
-            e.preventDefault();
-            const firstName = document.getElementById('rsvp-fname').value;
-            const lastName = document.getElementById('rsvp-lname').value;
-            const phone = document.getElementById('rsvp-phone').value;
-            const count = document.getElementById('rsvp-count').value;
-            
-            const fullName = `${firstName} ${lastName}`;
-            const detailsText = `Attending: ${count} Person(s)`;
-
-            let registrants = JSON.parse(localStorage.getItem('registrants')) || [];
-            registrants.push({ name: fullName, phone, type: 'RSVP', details: detailsText });
-            localStorage.setItem('registrants', JSON.stringify(registrants));
-
-            renderRegistrants();
-            alert('Thank you for confirming your attendance. Your RSVP has been recorded.');
-            e.target.reset();
-        }
-
-        function removeRegistrant(index) {
-            if (confirm('Are you sure you want to delete this entry?')) {
-                let registrants = JSON.parse(localStorage.getItem('registrants')) || [];
-                registrants.splice(index, 1);
-                localStorage.setItem('registrants', JSON.stringify(registrants));
-                renderRegistrants();
-            }
-        }
-
-        function approveTribute(index) {
-            let pending = JSON.parse(localStorage.getItem('pendingTributes')) || [];
-            let tributes = JSON.parse(localStorage.getItem('tributes')) || [];
-
-            const approved = pending.splice(index, 1)[0];
-            tributes.unshift({ name: approved.name, text: approved.text, date: 'Just now' });
-
-            localStorage.setItem('pendingTributes', JSON.stringify(pending));
-            localStorage.setItem('tributes', JSON.stringify(tributes));
-
-            renderPendingTributes();
-            renderAdminPublishedTributes();
-            renderTributes();
-            alert('Tribute approved and published successfully to the Memory Wall!');
-        }
-
-        function rejectTribute(index) {
-            let pending = JSON.parse(localStorage.getItem('pendingTributes')) || [];
-            pending.splice(index, 1);
-            localStorage.setItem('pendingTributes', JSON.stringify(pending));
-            renderPendingTributes();
-            alert('Tribute rejected.');
-        }
-
-        function adminDeleteTribute(index) {
-            if (confirm('Admin: Delete this published tribute?')) {
-                let tributes = JSON.parse(localStorage.getItem('tributes')) || [];
-                tributes.splice(index, 1);
-                localStorage.setItem('tributes', JSON.stringify(tributes));
-                renderTributes();
-                renderAdminPublishedTributes();
-            }
-        }
-
-        function adminEditTribute(index) {
-            let tributes = JSON.parse(localStorage.getItem('tributes')) || [];
-            const newText = prompt('Admin edit tribute text:', tributes[index].text);
-            if (newText !== null) {
-                tributes[index].text = newText;
-                localStorage.setItem('tributes', JSON.stringify(tributes));
-                renderTributes();
-                renderAdminPublishedTributes();
-                alert('Tribute updated successfully.');
-            }
-        }
-
-        function adminDeleteCandle(index) {
-            if (confirm('Admin: Delete this virtual candle?')) {
-                let candles = JSON.parse(localStorage.getItem('candles')) || [];
-                candles.splice(index, 1);
-                localStorage.setItem('candles', JSON.stringify(candles));
-                renderCandles();
-                renderAdminCandlesManager();
-            }
-        }
-
-        function adminEditCandle(index) {
-            let candles = JSON.parse(localStorage.getItem('candles')) || [];
-            const newText = prompt('Admin edit candle message:', candles[index].text);
-            if (newText !== null) {
-                candles[index].text = newText;
-                localStorage.setItem('candles', JSON.stringify(candles));
-                renderCandles();
-                renderAdminCandlesManager();
-                alert('Virtual candle updated successfully.');
-            }
-        }
-
-        function openAdminModal() { document.getElementById('admin-modal').classList.remove('hidden'); }
-        function closeAdminModal() { document.getElementById('admin-modal').classList.add('hidden'); }
-        
-        function loginAdmin() {
-            const user = document.getElementById('admin-user').value;
-            const pass = document.getElementById('admin-pass').value;
-            if ((user === 'admin' && pass === 'kinuthia2026') || (user === 'manager' && pass === 'tribute2026')) {
-                document.getElementById('admin-login-view').classList.add('hidden');
-                document.getElementById('admin-dashboard-view').classList.remove('hidden');
-            } else {
-                alert('Invalid admin credentials.');
-            }
-        }
-        function logoutAdmin() {
-            document.getElementById('admin-login-view').classList.remove('hidden');
-            document.getElementById('admin-dashboard-view').classList.add('hidden');
-        }
-
-        function openLightCandleModal() {
-            const modal = document.getElementById('generic-modal');
-            const body = document.getElementById('generic-modal-body');
-            body.innerHTML = `
-                <h3 class="font-serif text-xl font-bold text-memorial-gold mb-4">Light a Virtual Candle</h3>
-                <form onsubmit="submitCandle(event)" class="space-y-4">
-                    <input type="text" id="candle-name" placeholder="Your Full Name" required class="w-full bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white">
-                    <textarea id="candle-msg" placeholder="Your Tribute / Condolence Message" rows="3" required class="w-full bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white"></textarea>
-                    <button type="submit" class="w-full py-2 bg-memorial-gold text-black font-bold rounded-lg text-sm">Light Candle</button>
-                </form>
-            `;
-            modal.classList.remove('hidden');
-        }
-
-        function submitCandle(e) {
-            e.preventDefault();
-            const name = document.getElementById('candle-name').value;
-            const text = document.getElementById('candle-msg').value;
-            
-            let candles = JSON.parse(localStorage.getItem('candles')) || [];
-            candles.unshift({ name, text, date: 'Just now' });
-            localStorage.setItem('candles', JSON.stringify(candles));
-
-            renderCandles();
-            renderAdminCandlesManager();
-            closeGenericModal();
-            alert('Your virtual candle has been lit.');
-        }
-
-        function openAddTributeModal() {
-            const modal = document.getElementById('generic-modal');
-            const body = document.getElementById('generic-modal-body');
-            body.innerHTML = `
-                <h3 class="font-serif text-xl font-bold text-memorial-gold mb-4">Add Tribute Message</h3>
-                <form onsubmit="submitTributeMsg(event)" class="space-y-4">
-                    <input type="text" id="new-tribute-name" placeholder="Your Full Name" required class="w-full bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white">
-                    <textarea id="new-tribute-text" placeholder="Your tribute or memory..." rows="4" required class="w-full bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white"></textarea>
-                    <p class="text-[11px] text-memorial-gold">Tributes require admin approval before appearing on the public wall.</p>
-                    <button type="submit" class="w-full py-2 bg-memorial-gold text-black font-bold rounded-lg text-sm">Submit Tribute</button>
-                </form>
-            `;
-            modal.classList.remove('hidden');
-        }
-
-        function submitTributeMsg(e) {
-            e.preventDefault();
-            const name = document.getElementById('new-tribute-name').value;
-            const text = document.getElementById('new-tribute-text').value;
-
-            let pending = JSON.parse(localStorage.getItem('pendingTributes')) || [];
-            pending.push({ name, text });
-            localStorage.setItem('pendingTributes', JSON.stringify(pending));
-
-            renderPendingTributes();
-            closeGenericModal();
-            alert('Tribute submitted successfully! It is now pending admin approval in the dashboard.');
-        }
-
-        function closeGenericModal() {
-            document.getElementById('generic-modal').classList.add('hidden');
-        }
+    } else {
+        prepareLocalStore();
+    }
+    await loadPublic();
+});
     </script>
 </body>
 </html>
