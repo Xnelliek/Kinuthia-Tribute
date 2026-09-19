@@ -192,14 +192,16 @@
         </section>
 
         <!-- FAMILY TREE SECTION -->
+
+<!-- FAMILY TREE SECTION -->
         <section id="family" class="scroll-mt-28">
             <div class="bg-purple-950/40 border border-purple-900/50 rounded-2xl p-6 sm:p-10 shadow-xl backdrop-blur-sm">
                 <h2 class="font-serif text-3xl font-bold text-memorial-gold mb-8 text-center border-b border-purple-900 pb-3">Family Tree</h2>
                 
-                <div class="max-w-2xl mx-auto flex flex-col items-center">
+                <div class="max-w-3xl mx-auto flex flex-col items-center">
                     
                     <!-- Parents Level -->
-                    <div class="w-full flex justify-around items-center relative mb-12">
+                    <div class="w-full flex justify-around items-center relative mb-6">
                         <!-- Horizontal connecting line between parents -->
                         <div class="absolute top-1/2 left-1/4 right-1/4 h-0.5 bg-purple-700/60 -z-0"></div>
 
@@ -222,10 +224,64 @@
                         </div>
                     </div>
 
-                    <!-- Vertical Stem Line down to child -->
+                    <!-- Vertical Stem Line down to child row -->
+                    <div class="w-0.5 h-10 bg-purple-700/60 mb-6"></div>
+
+                    <!-- Son & Girlfriend Level (Side by Side with Dotted Line) -->
+                    <div class="w-full flex justify-center items-center relative gap-12 sm:gap-20">
+                        <!-- Horizontal dotted connecting line between son and girlfriend -->
+                        <div class="absolute top-1/2 left-1/3 right-1/3 border-t-2 border-dotted border-purple-400/70 -z-0"></div>
+
+                        <!-- Son Card -->
+                        <div class="bg-memorial-darkBg border border-memorial-gold/50 rounded-xl p-5 text-center w-44 sm:w-52 relative z-10 shadow-xl ring-2 ring-memorial-gold/20">
+                            <div class="w-20 h-20 rounded-full mx-auto mb-3 overflow-hidden border-2 border-memorial-gold shadow-md bg-purple-900">
+                                <img src="Pictures/image_328d6d.png" alt="Kinuthia Ndekei" class="w-full h-full object-cover">
+                            </div>
+                            <h4 class="text-memorial-gold font-semibold text-sm sm:text-base">Kinuthia Ndekei</h4>
+                            <p class="text-gray-300 text-xs mt-0.5 font-medium">Beloved Son</p>
+                        </div>
+
+                        <!-- Partner / girlfriend Card -->
+                        <div class="bg-memorial-darkBg border border-purple-800/60 rounded-xl p-5 text-center w-44 sm:w-52 relative z-10 shadow-lg">
+                            <div class="w-20 h-20 rounded-full mx-auto mb-3 overflow-hidden border-2 border-memorial-gold shadow-md bg-purple-900">
+                                <img src="Pictures/partner.jpg" alt="Mumbi Hinga" class="w-full h-full object-cover">
+                            </div>
+                            <h4 class="text-memorial-gold font-semibold text-sm sm:text-base">Mumbi Hinga</h4>
+                            <p class="text-gray-400 text-xs mt-0.5">girlfriend</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+       <!-- <section id="family" class="scroll-mt-28">
+            <div class="bg-purple-950/40 border border-purple-900/50 rounded-2xl p-6 sm:p-10 shadow-xl backdrop-blur-sm">
+                <h2 class="font-serif text-3xl font-bold text-memorial-gold mb-8 text-center border-b border-purple-900 pb-3">Family Tree</h2>
+                
+                <div class="max-w-2xl mx-auto flex flex-col items-center">
+                    
+                    <div class="w-full flex justify-around items-center relative mb-12">
+                        <div class="absolute top-1/2 left-1/4 right-1/4 h-0.5 bg-purple-700/60 -z-0"></div>
+
+                        <div class="bg-memorial-darkBg border border-purple-800/60 rounded-xl p-5 text-center w-44 sm:w-52 relative z-10 shadow-lg">
+                            <div class="w-20 h-20 rounded-full mx-auto mb-3 overflow-hidden border-2 border-memorial-gold shadow-md bg-purple-900">
+                                <img src="Pictures/father.jpg" alt="Peter Ndekei Kinuthia" class="w-full h-full object-cover">
+                            </div>
+                            <h4 class="text-memorial-gold font-semibold text-sm sm:text-base">Peter Ndekei Kinuthia</h4>
+                            <p class="text-gray-400 text-xs mt-0.5">Father</p>
+                        </div>
+
+                        <div class="bg-memorial-darkBg border border-purple-800/60 rounded-xl p-5 text-center w-44 sm:w-52 relative z-10 shadow-lg">
+                            <div class="w-20 h-20 rounded-full mx-auto mb-3 overflow-hidden border-2 border-memorial-gold shadow-md bg-purple-900">
+                                <img src="Pictures/mother.jpg" alt="Njeri Ndiho Ndekei" class="w-full h-full object-cover">
+                            </div>
+                            <h4 class="text-memorial-gold font-semibold text-sm sm:text-base">Njeri Ndiho Ndekei</h4>
+                            <p class="text-gray-400 text-xs mt-0.5">Mother</p>
+                        </div>
+                    </div>
+
                     <div class="w-0.5 h-10 bg-purple-700/60 -mt-6 mb-2"></div>
 
-                    <!-- Child Level -->
                     <div class="w-full flex justify-center mb-10">
                         <div class="bg-memorial-darkBg border border-memorial-gold/50 rounded-xl p-5 text-center w-44 sm:w-52 relative z-10 shadow-xl ring-2 ring-memorial-gold/20">
                             <div class="w-20 h-20 rounded-full mx-auto mb-3 overflow-hidden border-2 border-memorial-gold shadow-md bg-purple-900">
@@ -236,20 +292,19 @@
                         </div>
                     </div>
 
-                    <!-- Partner / Cherished Daughter Card -->
                     <div class="w-full flex justify-center">
                         <div class="bg-memorial-darkBg border border-purple-800/60 rounded-xl p-5 text-center w-44 sm:w-52 relative z-10 shadow-lg">
                             <div class="w-20 h-20 rounded-full mx-auto mb-3 overflow-hidden border-2 border-memorial-gold shadow-md bg-purple-900">
                                 <img src="Pictures/partner.jpg" alt="Mumbi Hinga" class="w-full h-full object-cover">
                             </div>
                             <h4 class="text-memorial-gold font-semibold text-sm sm:text-base">Mumbi Hinga</h4>
-                            <p class="text-gray-400 text-xs mt-0.5">Cherished Daughter</p>
+                            <p class="text-gray-400 text-xs mt-0.5">girlfriend</p>
                         </div>
                     </div>
 
                 </div>
             </div>
-        </section>
+        </section> -->
 
         <!-- FAVORITES SECTION -->
         <section id="favorites" class="scroll-mt-28">
@@ -266,9 +321,21 @@
                         <p class="text-gray-300 text-sm">Loved inspiring gospel hymns, classical instrumentals, and soul music that brought family together.</p>
                     </div>
                     <div class="bg-purple-900/20 border border-purple-800/40 p-5 rounded-xl">
+                        <h4 class="text-memorial-gold font-semibold text-lg mb-2"><i class="fa-solid fa-person-swimming mr-2"></i> Favorite Food</h4>
+                        <p class="text-gray-300 text-sm">french fries with humburgers.</p>
+                    </div>
+                    <div class="bg-purple-900/20 border border-purple-800/40 p-5 rounded-xl">
+                        <h4 class="text-memorial-gold font-semibold text-lg mb-2"><i class="fa-solid fa-person-swimming mr-2"></i>Favorite Dessert </h4>
+                        <p class="text-gray-300 text-sm">to be confirmed ..................</p>
+                    </div>
+                    <div class="bg-purple-900/20 border border-purple-800/40 p-5 rounded-xl">
                         <h4 class="text-memorial-gold font-semibold text-lg mb-2"><i class="fa-solid fa-person-swimming mr-2"></i> Outdoor & Sports</h4>
                         <p class="text-gray-300 text-sm">Swimming, hiking, football, and running. Certified lifeguard and professional swimming instructor.</p>
                     </div>
+                    <div class="bg-purple-900/20 border border-purple-800/40 p-5 rounded-xl">
+                        <h4 class="text-memorial-gold font-semibold text-lg mb-2"><i class="fa-solid fa-person-swimming mr-2"></i></h4>
+                        <p class="text-gray-300 text-sm">Don't say what I wouldn't say.</p>
+                    </div>                                                            
                     <div class="bg-purple-900/20 border border-purple-800/40 p-5 rounded-xl">
                         <h4 class="text-memorial-gold font-semibold text-lg mb-2"><i class="fa-solid fa-car mr-2"></i> Fun Fact</h4>
                         <p class="text-gray-300 text-sm">Demonstrated astounding independence and capability by learning to drive smoothly at the tender age of 13.</p>
@@ -299,7 +366,7 @@
 
                     <div class="relative pl-6 sm:pl-8">
                         <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-memorial-gold border-4 border-memorial-darkBg"></div>
-                        <span class="text-xs font-semibold text-memorial-gold uppercase tracking-wider">2011 – 2015</span>
+                        <span class="text-xs font-semibold text-memorial-gold uppercase tracking-wider">2012 – 2015</span>
                         <h3 class="text-xl font-bold text-white font-serif mt-1">High School & Sports Excellence</h3>
                         <p class="text-gray-300 text-sm mt-1">Consolata School and Likii Hill School; earned medals in swimming, football, and athletics.</p>
                     </div>
@@ -334,7 +401,7 @@
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b border-purple-900 pb-4 gap-4">
                     <div>
                         <h2 class="font-serif text-3xl font-bold text-memorial-gold">Memory Wall & Tributes</h2>
-                        <p class="text-gray-300 text-sm mt-1">"To live in the hearts we leave behind is not to die."</p>
+                        <p class="text-gray-300 text-sm mt-1">"Forever in our hearts until we meet again."</p>
                     </div>
                     <button onclick="openAddTributeModal()" class="px-4 py-2 bg-memorial-royal hover:bg-purple-800 text-memorial-gold border border-memorial-gold/40 rounded-xl text-sm font-semibold transition flex items-center gap-2 shadow-md">
                         <i class="fa-solid fa-pen-nib"></i> Add Tribute
@@ -369,8 +436,8 @@
             <div class="bg-purple-950/40 border border-purple-900/50 rounded-2xl p-6 sm:p-10 shadow-xl backdrop-blur-sm">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b border-purple-900 pb-4 gap-4">
                     <div>
-                        <h2 class="font-serif text-3xl font-bold text-memorial-gold">Mortuary Transport Bus Slots</h2>
-                        <p class="text-gray-300 text-sm mt-1">Register for a seat on the transport buses picking up family and guests from the mortuary.</p>
+                        <h2 class="font-serif text-3xl font-bold text-memorial-gold">Funeral home Transport Bus Slots</h2>
+                        <p class="text-gray-300 text-sm mt-1">Register for a seat on the transport buses picking up family and guests from the Funeral home.</p>
                     </div>
                     <div class="bg-purple-900/60 border border-memorial-gold/40 px-4 py-2 rounded-xl text-center">
                         <span class="text-xs text-gray-300 block">Available Slots</span>
@@ -391,7 +458,7 @@
                         <label class="block text-xs font-semibold text-memorial-gold mb-1">Pickup Location Preference</label>
                         <select id="bus-location" class="w-full bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-memorial-gold">
                             <option>Lower Kabete La Paz Pickup</option>
-                            <option>City Mortuary / Funeral Home</option>
+                            <option>City Funeral home / Funeral Home</option>
                             <option>CITAM Parklands</option>
                         </select>
                     </div>
@@ -471,7 +538,7 @@
                 <div class="border-t border-purple-900 pt-6">
                     <h3 class="font-serif text-2xl font-bold text-memorial-gold mb-4">Complete Order of Service & Funeral Program</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-gray-300">
-                        <div class="bg-purple-900/10 p-3 rounded-lg border border-purple-900/30"><strong>01. 08:30 AM</strong> - Arrival of family members at City Mortuary / Funeral Home</div>
+                        <div class="bg-purple-900/10 p-3 rounded-lg border border-purple-900/30"><strong>01. 08:30 AM</strong> - Arrival of family members at City Funeral home / Funeral Home</div>
                         <div class="bg-purple-900/10 p-3 rounded-lg border border-purple-900/30"><strong>02. 09:00 AM</strong> - Private viewing of the body & short family prayer</div>
                         <div class="bg-purple-900/10 p-3 rounded-lg border border-purple-900/30"><strong>03. 10:00 AM</strong> - Departure of cortege to Ndekei's Residence</div>
                         <div class="bg-purple-900/10 p-3 rounded-lg border border-purple-900/30"><strong>04. 10:30 AM</strong> - Arrival & Seating of guests at Ndekei's Residence</div>
