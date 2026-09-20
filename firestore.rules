@@ -1,0 +1,78 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAdmin() {
+      return request.auth != null &&
+             request.auth.token.email in ['nelvinekavaya@gmail.com', 'essiegons@gmail.com'];
+    }
+    function shortText(v, max) { return v is string && v.size() > 0 && v.size() <= max; }
+
+    // Published tributes: everyone reads, only admins write
+    match /tributes/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Tributes waiting for approval: anyone may submit, only admins may see or manage
+    // (text limit raised to 8000 because tributes can now contain formatting)
+    match /pendingTributes/{id} {
+      allow create: if request.resource.data.keys().hasOnly(['name','text','createdAt'])
+                    && shortText(request.resource.data.name, 100)
+                    && shortText(request.resource.data.text, 8000);
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Virtual candles (short messages: 200 characters)
+    match /candles/{id} {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasOnly(['name','text','createdAt'])
+                    && shortText(request.resource.data.name, 100)
+                    && shortText(request.resource.data.text, 200);
+      allow update, delete: if isAdmin();
+    }
+
+    // Shared gallery photos (small thumbnail + full-size copy)
+    match /photos/{id} {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasOnly(['name','caption','thumb','createdAt'])
+                    && shortText(request.resource.data.name, 100)
+                    && request.resource.data.caption is string && request.resource.data.caption.size() <= 300
+                    && request.resource.data.thumb is string && request.resource.data.thumb.size() <= 120000;
+      allow delete: if isAdmin();
+    }
+    match /photoFull/{id} {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasOnly(['data','createdAt'])
+                    && request.resource.data.data is string && request.resource.data.data.size() <= 900000;
+      allow delete: if isAdmin();
+    }
+
+    // RSVPs and bus registrations contain phone numbers: anyone may submit, ONLY admins can read
+    match /registrants/{id} {
+      allow create: if request.resource.data.keys().hasOnly(['name','phone','type','details','seatId','createdAt'])
+                    && shortText(request.resource.data.name, 120)
+                    && shortText(request.resource.data.phone, 40)
+                    && shortText(request.resource.data.details, 300);
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Anonymous "seat taken" markers so everyone sees how many bus slots remain
+    match /busSeats/{id} {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasOnly(['createdAt']);
+      allow delete: if isAdmin();
+    }
+
+    // Editable programs + family update text: everyone reads, only admins change it
+    match /settings/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Internal bookkeeping
+    match /meta/{id} {
+      allow read, write: if isAdmin();
+    }
+  }
+}
