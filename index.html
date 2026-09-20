@@ -205,10 +205,11 @@
             <!-- Quick Share Bar -->
             <div class="flex flex-wrap items-center justify-center gap-2 text-xs font-semibold">
                 <span class="text-gray-400 mr-2"><i class="fa-solid fa-share-nodes"></i> Share:</span>
-                <a href="https://www.facebook.com/sharer/sharer.php?u=" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded bg-blue-600 text-white hover:bg-blue-700 transition flex items-center gap-1.5"><i class="fa-brands fa-facebook-f"></i> Facebook</a>
-                <a href="https://twitter.com/intent/tweet?text=Remembering%20Kinuthia%20Ndekei" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded bg-sky-500 text-white hover:bg-sky-600 transition flex items-center gap-1.5"><i class="fa-brands fa-x-twitter"></i> X/Twitter</a>
-                <a href="https://api.whatsapp.com/send?text=In%20Loving%20Memory%20of%20Kinuthia%20Ndekei" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded bg-emerald-600 text-white hover:bg-emerald-700 transition flex items-center gap-1.5"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
-                <a href="mailto:?subject=Memorial%20for%20Kinuthia%20Ndekei&body=Please%20visit%20this%20tribute%20page." class="px-3 py-1.5 rounded bg-purple-700 text-white hover:bg-purple-800 transition flex items-center gap-1.5"><i class="fa-solid fa-envelope"></i> E-mail</a>
+                <a id="share-fb" href="#" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded bg-blue-600 text-white hover:bg-blue-700 transition flex items-center gap-1.5"><i class="fa-brands fa-facebook-f"></i> Facebook</a>
+                <a id="share-x" href="#" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded bg-sky-500 text-white hover:bg-sky-600 transition flex items-center gap-1.5"><i class="fa-brands fa-x-twitter"></i> X/Twitter</a>
+                <a id="share-wa" href="#" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded bg-emerald-600 text-white hover:bg-emerald-700 transition flex items-center gap-1.5"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+                <a id="share-email" href="#" class="px-3 py-1.5 rounded bg-purple-700 text-white hover:bg-purple-800 transition flex items-center gap-1.5"><i class="fa-solid fa-envelope"></i> E-mail</a>
+                <button id="share-copy" type="button" onclick="copySiteLink()" class="px-3 py-1.5 rounded bg-gray-700 text-white hover:bg-gray-600 transition flex items-center gap-1.5"><i class="fa-solid fa-link"></i> Copy Link</button>
             </div>
         </div>
     </section>
@@ -437,11 +438,11 @@
                 <div class="mb-8 rounded-xl border border-memorial-gold/40 bg-gradient-to-r from-purple-900/40 to-indigo-900/30 p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <div>
                         <h3 class="font-serif text-lg font-bold text-memorial-gold"><i class="fa-solid fa-camera-retro mr-2"></i>Share a memory with Kinuthia</h3>
-                        <p class="text-sm text-gray-300 mt-1">Have a photo of you and Kinuthia? Upload it and it will be added to the gallery below for everyone to see.</p>
+                        <p class="text-sm text-gray-300 mt-1">Have a photo of you and Kinuthia? Add it straight to our shared Google Photos album — everyone can see it there, and the family can feature it here on the site.</p>
                     </div>
-                    <button onclick="openUploadPhotoModal()" class="flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 bg-memorial-gold text-black rounded-xl text-sm font-bold hover:bg-yellow-500 transition shadow-md">
-                        <i class="fa-solid fa-cloud-arrow-up"></i> Upload a Photo
-                    </button>
+                    <a href="https://photos.google.com/share/AF1QipM9u5r7AU6I4PVdb9n7lEQB_LdbRpzepLw-4Ws2Amv-F_hIpIHmYqGWo0LASr_xaQ?key=cUxQNmNsV1FUMDd5QV9rQTF5VThKT0lKWmJzUVJR" target="_blank" rel="noopener noreferrer" class="flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 bg-memorial-gold text-black rounded-xl text-sm font-bold hover:bg-yellow-500 transition shadow-md">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Add Your Photo <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                    </a>
                 </div>
 
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b border-purple-900 pb-4 gap-4">
@@ -749,19 +750,21 @@ const SHARED_PAGE_SIZE   = 12;   // shared photos shown before "Show more"
 const MAX_UPLOAD_FILES   = 5;    // photos per upload
 const FULL_MAX_CHARS     = 850000; // keeps each photo under Firestore's 1 MB limit
 
-/* The hand-picked photos shown first in the gallery. Add, remove or reorder
-   by editing this list (one Google Photos image address per line, without
-   the "=w..." size ending). */
+/* The hand-picked photos shown first in the gallery. Each entry is
+   { url, caption }. "url" must be the DIRECT lh3.googleusercontent.com
+   image address (Google Photos "share" / "photo" page links do NOT work
+   as image sources — they're viewer pages, not image files). To get the
+   direct address for a new photo: open it in the Google Photos album,
+   right-click the picture itself → "Copy image address" (or open it in
+   its own browser tab and copy the resulting lh3.googleusercontent.com
+   URL), then paste it below WITHOUT any trailing "=w..." / "=s..." size
+   suffix — the site adds its own sizing automatically.
+   "caption" is optional text shown when someone taps the photo. */
 const FEATURED_PHOTOS = [
-        "https://lh3.googleusercontent.com/pw/AP1GczOwXIBBOxNoacKGLPDFJPEw4iAWk2dKuzQkv_c9HCoz0cCxwSQZH6MfLRDyGTtYpGzZTd8MDAKsAaWe-cqlC4JImtZsyh-2wvfKRpiy6XwW7bLTOmnX",
-        "https://lh3.googleusercontent.com/pw/AP1GczP8yqW9ukBr6SbDHEse1IDGk8oZDCpMJSB__QL0-xrNXo1NiWg6eeLV9Xg_rzhmQgOfTLrhweFyNDsTDeTuAd6hsZP1UUDc3rEajGG8MynO5LSCqiFo",
-        "https://lh3.googleusercontent.com/pw/AP1GczM3pDcuWxGwNX8AYe_YFDFHr8zgFR_jL6NJzfwDESSBREtVx8ZCm2CuzbV2Id0txs-wOgHImutf8AeFlyNFfo--2QzRWCfyNUT_C4L1SiYt5N4_isCj",
-        "https://lh3.googleusercontent.com/pw/AP1GczMMrcWLm9w1e0HNEb4hocbGp9G38odopkViPFscbXiA2hSU7-RtZ9iV_ZDrYqvj9Bdm47_LvBC_Vm7mzfwdyaIOMHbMjHXyIYhRFfjRMgdIhF5731Rp",
-        "https://lh3.googleusercontent.com/pw/AP1GczPMh0y93Q7MddDRXRQxxDtxSFRfIcYlHvsMYRuBbPf3MQ12WGfx56FzsdGibmUlXm6ukPMfVTfZQnGQJrTD1dP-jhuHP22RNoxj2UPBfB9OWeb8wSSJ",
-        "https://lh3.googleusercontent.com/pw/AP1GczOHyhKvvEVZrO48fA_aklrbJyQmbr4UY7xGwp8BNLJtlMxqub7AYGC7LHrqt84Uj7JXp8J0weQJMg4Yhwf10cZl6WbWrOduAm5SXdryt28kFjUVRaNQ",
-        "https://lh3.googleusercontent.com/pw/AP1GczPUy-UrjFWzDlI3B9jBTVq8S3EZ74RuuS9L50_0Pl7MOfhXqCjrTSlpjA9fxvPS7W9mwWzhiMIOuzY1pMsfhZIj6U9r7mYSK8GDL_j1gDdqlB2unKmZ",
-        "https://lh3.googleusercontent.com/pw/AP1GczNlF0KP7PJdVFAcAc8fK8VcRr3G9hs5ppJk5bghbIhjS_8bqoBSYI_c1MER_z1nX2m83wA5gZNwqBdXFbJI2vlBz-rauWwUhr9S3Xtof4sThgMllCaL",
-        "https://lh3.googleusercontent.com/pw/AP1GczOc4DY0nMvrxHD-Q1hn9yCSe-qo_GMy-Jppn_Auce6L78rmRXOHbinOVJ8cUyAU4dicARw2o25vdSK8OAFn3FOPovWgR7tLfI_iWgcwhxVQJQW9mMi-"
+        { url: "https://lh3.googleusercontent.com/pw/AP1GczPBAlqqw854beqcr3kibSGjFHMB8alt2AsNbD1Ddb1OaCPUonQXJIPfKmp6zaEOSCyokAiAm-Xoa5h9Z7tUs8cdkpOUG_NP7x23k9qoI1MKtckImRs", caption: "" },
+        { url: "https://lh3.googleusercontent.com/pw/AP1GczMZxrFFIvHWSaH35noBcSjDHV5ObjSxBw6qljZicAKxEG6XiyE2stKMLUfSiTslrqxgoGFUNj508d_lKYbn0BCWP4TG9R5OgF38xr_FfC6U3qcJ284", caption: "" },
+        { url: "https://lh3.googleusercontent.com/pw/AP1GczPmeTmAnA6q1CvJQ15PSFvFOPQL8Ah0Rpjn5fI0v3Dwo35SqIO2dwwpB9mH2eMpwT8qx9n7u0P76FftbY1NbrxzGxlBYo4JqJwClxsJHeqC__4MlUxD", caption: "" },
+        { url: "https://lh3.googleusercontent.com/pw/AP1GczO-mJH3KX9glSmSJZic5WjcyNWft0juKMCK58x3enH_Y8PTBVbbGv6vZdrsQQ78VP2V4p1_PfztyC6gWGE_nnyiTcrFwbsL4mY0-kfP4u8QDVSbLrI", caption: "" }
     ];
 
 /* Full-day programs. Each item is [time, description]. */
@@ -826,6 +829,30 @@ const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': 
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 const fmtDate = it => it.date || (it.createdAt ? new Date(it.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : '');
 const isJpegData = s => typeof s === 'string' && s.startsWith('data:image/jpeg;base64,');
+
+/* Quick Share Bar: build the share links from the site's OWN current
+   address (whatever domain it's actually deployed on), so Facebook,
+   X/Twitter, WhatsApp and E-mail all send people the real live link
+   rather than a blank/placeholder URL. */
+function setupShareLinks() {
+    const pageUrl = location.origin + location.pathname;
+    const title = 'In Loving Memory of Kinuthia Ndekei';
+    const fb = $('share-fb'), x = $('share-x'), wa = $('share-wa'), em = $('share-email');
+    if (fb) fb.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`;
+    if (x) x.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent('Remembering Kinuthia Ndekei')}&url=${encodeURIComponent(pageUrl)}`;
+    if (wa) wa.href = `https://api.whatsapp.com/send?text=${encodeURIComponent('In Loving Memory of Kinuthia Ndekei — ' + pageUrl)}`;
+    if (em) em.href = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent('Please visit this tribute page: ' + pageUrl)}`;
+}
+async function copySiteLink() {
+    const pageUrl = location.origin + location.pathname;
+    try {
+        await navigator.clipboard.writeText(pageUrl);
+        toast('Link copied — you can now paste it anywhere.', 'success');
+    } catch (e) {
+        console.error(e);
+        toast(pageUrl, 'info', 8000);
+    }
+}
 
 let toastTimer;
 function toast(msg, kind = 'info', ms = 5000) {
@@ -1417,9 +1444,10 @@ async function removeRegistrant(i) {
 
 /* ---------- Photo gallery ---------- */
 function renderGallery() {
-    const featured = FEATURED_PHOTOS.map((u, i) => `
+    const featured = FEATURED_PHOTOS.map((p, i) => `
         <button type="button" onclick="openFeaturedPhoto(${i})" class="group relative aspect-square overflow-hidden rounded-xl border border-purple-800/50 bg-purple-900/30">
-            <img src="${esc(u)}=w400-h400-c" alt="Kinuthia Ndekei memory" loading="lazy" decoding="async" onerror="this.closest('button').style.display='none'" class="w-full h-full object-cover group-hover:scale-110 transition duration-300">
+            <img src="${esc(p.url)}=w400-h400-c" alt="Kinuthia Ndekei memory" loading="lazy" decoding="async" onerror="this.closest('button').style.display='none'" class="w-full h-full object-cover group-hover:scale-110 transition duration-300">
+            ${p.caption ? `<span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-2 pt-6 pb-1.5 text-[11px] text-white text-left truncate">${esc(p.caption)}</span>` : ''}
         </button>`);
     const shared = state.photos.slice(0, sharedShown).map((p, i) => isJpegData(p.thumb) ? `
         <button type="button" onclick="openSharedPhoto(${i})" class="group relative aspect-square overflow-hidden rounded-xl border border-purple-800/50 bg-purple-900/30">
@@ -1441,7 +1469,7 @@ function showLightbox(src, caption) {
     cap.classList.toggle('hidden', !caption);
     const m = $('photo-lightbox'); m.classList.remove('hidden'); m.classList.add('flex');
 }
-function openFeaturedPhoto(i) { lbToken++; showLightbox(`${FEATURED_PHOTOS[i]}=w1200`, ''); }
+function openFeaturedPhoto(i) { const p = FEATURED_PHOTOS[i]; if (!p) return; lbToken++; showLightbox(`${p.url}=w1200`, p.caption || ''); }
 async function openSharedPhoto(i) {
     const p = state.photos[i]; if (!p) return;
     const token = ++lbToken;
@@ -1955,6 +1983,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         pc.appendChild(p);
     }
 
+    setupShareLinks();
     renderProgramsEverywhere();
     renderGallery();
     updateSyncBanner();
