@@ -194,11 +194,11 @@
             <div class="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-2xl mx-auto mb-8">
                 <a id="chip-us" href="#program-us" class="w-full sm:w-auto flex items-center gap-2 bg-purple-900/40 border border-purple-800/60 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-gray-200 hover:border-memorial-gold/60 transition">
                     <span class="w-2 h-2 rounded-full bg-emerald-400 flex-shrink-0"></span>
-                    <span><span class="font-semibold text-white">Seattle,United States Service</span> — Sept 23, 2026 <span class="text-emerald-400 font-semibold">(Upcoming)</span></span>
+                    <span><span class="font-semibold text-white">Seattle,US Service</span> — Sept 23, 2026 <span class="text-emerald-400 font-semibold">(Upcoming)</span></span>
                 </a>
                 <a id="chip-kenya" href="#program-kenya" class="w-full sm:w-auto flex items-center gap-2 bg-purple-900/40 border border-memorial-gold/40 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-gray-200 hover:border-memorial-gold/60 transition">
                     <span class="w-2 h-2 rounded-full bg-memorial-gold flex-shrink-0 animate-pulse"></span>
-                    <span><span class="font-semibold text-white">Kenya Funeral Service</span> — Sept 30, 2026 <span class="text-memorial-gold font-semibold">(Upcoming)</span></span>
+                    <span><span class="font-semibold text-white">lower Kabete, Kenya Funeral Service</span> — Sept 30, 2026 <span class="text-memorial-gold font-semibold">(Upcoming)</span></span>
                 </a>
             </div>
             
@@ -236,7 +236,7 @@
                         Shortly after completing high school, Kinuthia volunteered as an intern at Boxraft Limited (Kenyans.co.ke) before completing his International Computer Driving Licence (ICDL) at the Institute of Software Technologies in Nairobi. In 2016, he enrolled at KCA University (Ruaraka Campus) to pursue a Diploma in Investment and Financial Analysis, later earning his certified Lifeguard and Swimming Instructor accreditation from the YMCA in Nairobi in 2018.
                     </p>
                     <p>
-                        Driven by a passion for technology, he undertook foundational and advanced web development training in Nairobi in 2020. In December 2021, Kinuthia relocated to the Seattle,United States to advance his education, successfully graduating from Sumner College in 2025 and passing his board exams. Deeply committed to lifelong learning, he was eagerly preparing to continue his academic journey prior to his untimely demise.
+                        Driven by a passion for technology, he undertook foundational and advanced web development training in Nairobi in 2020. In December 2021, Kinuthia relocated to the Seattle,US to advance his education, successfully graduating from Sumner College in 2025 and passing his board exams. Deeply committed to lifelong learning, he was eagerly preparing to continue his academic journey prior to his untimely demise.
                     </p>
 
                     <h3 class="font-serif text-xl font-semibold text-memorial-gold pt-4">Family Life & Character</h3>
@@ -394,7 +394,7 @@
                     <div class="relative pl-6 sm:pl-8">
                         <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-memorial-gold border-4 border-memorial-darkBg"></div>
                         <span class="text-xs font-semibold text-memorial-gold uppercase tracking-wider">December 2021</span>
-                        <h3 class="text-xl font-bold text-white font-serif mt-1">Relocation to the Seattle,United States</h3>
+                        <h3 class="text-xl font-bold text-white font-serif mt-1">Relocation to the Seattle,US</h3>
                         <p class="text-gray-300 text-sm mt-1">Advanced his education, successfully graduating from Sumner College in 2025.</p>
                     </div>
 
@@ -408,7 +408,7 @@
                     <div class="relative pl-6 sm:pl-8">
                         <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-emerald-400 border-4 border-memorial-darkBg"></div>
                         <span class="text-xs font-semibold text-emerald-400 uppercase tracking-wider">September 23, 2026 · Upcoming</span>
-                        <h3 class="text-xl font-bold text-white font-serif mt-1"><a href="#program-us" class="hover:text-memorial-gold underline decoration-dotted underline-offset-4">Seattle,United States Memorial Service</a></h3>
+                        <h3 class="text-xl font-bold text-white font-serif mt-1"><a href="#program-us" class="hover:text-memorial-gold underline decoration-dotted underline-offset-4">Seattle,US Memorial Service</a></h3>
                         <p class="text-gray-300 text-sm mt-1">Memorial service at Valor Memorial, Lakewood, WA, from 11:00 AM to 2:00 PM.</p>
                     </div>
 
@@ -563,7 +563,7 @@
                             <div>
                                 <strong class="block text-white">Virtual Livestream Link (Kenya Service)</strong>
                                 <a id="live-link" href="https://zoom.us/#" target="_blank" rel="noopener noreferrer" class="text-memorial-gold underline hover:text-yellow-400">Click here to join the live stream event →</a>
-                                <p class="text-[11px] text-gray-400 mt-1">For those unable to travel, including family and friends joining from the Seattle,United States.</p>
+                                <p class="text-[11px] text-gray-400 mt-1">For those unable to travel, including family and friends joining from the Seattle,US.</p>
                             </div>
                         </div>
                     </div>
@@ -769,7 +769,7 @@ const PROGRAMS_DEFAULT = {
     us: {
         icon: 'fa-flag-usa',
         status: 'Upcoming',
-        title: 'Seattle,United States Memorial Service',
+        title: 'Seattle,US Memorial Service',
         date: 'Wednesday, September 23, 2026',
         time: '11:00 AM – 2:00 PM',
         venue: 'Valor Memorial, 4606 108th St SW, Lakewood, WA 98499',
@@ -1732,7 +1732,7 @@ function renderChips() {
         el.innerHTML = `<span class="w-2 h-2 rounded-full ${st.dot} flex-shrink-0"></span>
             <span><span class="font-semibold text-white">${label}</span> — ${esc(p.date.replace(/^[A-Za-z]+day,?\s*/i, ''))} <span class="${st.text} font-semibold">(${esc(p.status)})</span></span>`;
     };
-    chip('us', 'Seattle,United States Service');
+    chip('us', 'Seattle,US Service');
     chip('kenya', 'Kenya Funeral Service');
 }
 
@@ -1812,7 +1812,7 @@ function programFormMarkup(k) {
         <input type="text" value="${esc(p[field])}" maxlength="${max}" placeholder="${esc(ph)}" oninput="progField('${k}','${field}',this.value)" class="${inputBase} w-full"></label>`;
     return `
     <details class="bg-purple-950 border border-purple-800 rounded-xl" ${k === 'kenya' ? 'open' : ''}>
-        <summary class="cursor-pointer select-none px-4 py-3 font-semibold text-white flex items-center gap-2"><i class="fa-solid ${PROGRAMS_DEFAULT[k].icon} text-memorial-gold"></i> ${k === 'us' ? 'Seattle,United States Memorial Service' : 'Kenya Homegoing Funeral Service'}</summary>
+        <summary class="cursor-pointer select-none px-4 py-3 font-semibold text-white flex items-center gap-2"><i class="fa-solid ${PROGRAMS_DEFAULT[k].icon} text-memorial-gold"></i> ${k === 'us' ? 'Seattle,US Memorial Service' : 'Kenya Homegoing Funeral Service'}</summary>
         <div class="px-4 pb-4 space-y-3">
             <label class="block"><span class="block text-[11px] font-semibold text-memorial-gold mb-1">Status (shown as a badge)</span>
                 <select onchange="progField('${k}','status',this.value)" class="${inputBase} w-full">${STATUSES.map(s => `<option ${p.status === s ? 'selected' : ''}>${s}</option>`).join('')}</select></label>
@@ -1875,7 +1875,7 @@ async function saveProgramSettings() {
     };
     const payload = { us: pack('us'), kenya: pack('kenya'), notice: { title: d.notice.title.trim(), body: d.notice.body.trim() }, updatedAt: Date.now() };
     for (const k of ['us', 'kenya']) {
-        const p = payload[k], name = k === 'us' ? 'Seattle,United States' : 'Kenya';
+        const p = payload[k], name = k === 'us' ? 'Seattle,US' : 'Kenya';
         if (!p.date) { toast(`${name}: please enter a date.`, 'error'); return; }
         for (const f of ['mapUrl', 'livestream']) {
             if (p[f] && !/^https?:\/\/\S+$/i.test(p[f])) { toast(`${name}: the ${f === 'mapUrl' ? 'map' : 'livestream'} link must start with https://`, 'error', 7000); return; }
