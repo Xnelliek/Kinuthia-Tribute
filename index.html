@@ -709,11 +709,15 @@
    slots and shared photos visible on EVERY device (see FIREBASE-SETUP.md).
    Leave empty and the site still works, but each visitor's data stays only
    in their own browser (which is why an admin can't see other people's). */
+
+
 const FIREBASE_CONFIG = {
-    apiKey: "",
-    authDomain: "",
-    projectId: "",
-    appId: ""
+  apiKey: "AIzaSyBoFUrJCRPXTVw36qUVqJnMMzocracB9Io",
+  authDomain: "kinuthia-memorial.firebaseapp.com",
+  projectId: "kinuthia-memorial",
+  storageBucket: "kinuthia-memorial.firebasestorage.app",
+  messagingSenderId: "274368039276",
+  appId: "1:274368039276:web:c9f86e12eac56b138dcb49"
 };
 const CLOUD = Boolean(FIREBASE_CONFIG.apiKey && FIREBASE_CONFIG.projectId);
 
@@ -814,7 +818,7 @@ const localStore = {
 
 function seedTributes() {
     return [
-        { name: 'Valerie Frye', text: 'Kinuthia was a brother and friend whose bright smile and unwavering confidence uplifted everyone around him. His legacy in technology and sports will forever inspire us.', createdAt: new Date(2026, 8, 10).getTime() },
+        { name: 'Njeri’s Heartfelt Tribute ', text: 'Kinuthia was a brother and friend whose bright smile and unwavering confidence uplifted everyone around him. His legacy in technology and sports will forever inspire us.', createdAt: new Date(2026, 8, 10).getTime() },
         { name: 'Clayton Steinberg', text: 'A true gentleman of noble character and deep faith. May God comfort the Ndekei family during this difficult time.', createdAt: new Date(2026, 8, 8).getTime() }
     ];
 }
