@@ -1845,7 +1845,7 @@ function programFormMarkup(k) {
         <input type="text" value="${esc(p[field])}" maxlength="${max}" placeholder="${esc(ph)}" oninput="progField('${k}','${field}',this.value)" class="${inputBase} w-full"></label>`;
     return `
     <details class="bg-purple-950 border border-purple-800 rounded-xl" ${k === 'kenya' ? 'open' : ''}>
-        <summary class="cursor-pointer select-none px-4 py-3 font-semibold text-white flex items-center gap-2"><i class="fa-solid ${PROGRAMS_DEFAULT[k].icon} text-memorial-gold"></i> ${k === 'us' ? 'Seattle,US Memorial Service' : 'Kenya Homegoing Funeral Service'}</summary>
+        <summary class="cursor-pointer select-none px-4 py-3 font-semibold text-white flex items-center gap-2"><i class="fa-solid ${PROGRAMS_DEFAULT[k].icon} text-memorial-gold"></i> ${k === 'us' ? 'Seattle,US Service' : 'Lower Kabete, KE Funeral Service'}</summary>
         <div class="px-4 pb-4 space-y-3">
             <label class="block"><span class="block text-[11px] font-semibold text-memorial-gold mb-1">Status (shown as a badge)</span>
                 <select onchange="progField('${k}','status',this.value)" class="${inputBase} w-full">${STATUSES.map(s => `<option ${p.status === s ? 'selected' : ''}>${s}</option>`).join('')}</select></label>
