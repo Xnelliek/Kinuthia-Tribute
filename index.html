@@ -990,7 +990,7 @@ const PROGRAMS_DEFAULT = {
         status: 'Upcoming',
         title: 'Seattle,US Memorial Service',
         date: 'Wednesday, September 23, 2026',
-        time: '11:00 AM – 2:00 PM',
+        time: '11:00 AM – 2:00 PM PST',
         venue: 'Valor Memorial, 4606 108th St SW, Lakewood, WA 98499',
         mapUrl: 'https://www.google.com/maps/search/?api=1&query=Valor+Memorial+4606+108th+St+SW+Lakewood+WA+98499',
         livestream: '',
@@ -1024,7 +1024,6 @@ const PROGRAMS_DEFAULT = {
             ['11:45 AM', 'Reading of Biography / Eulogy (by Family Representative)'],
             ['12:15 PM', 'Tributes from Parents, Family, and Mumbi Hinga'],
             ['01:00 PM', 'Memorial Sermon & Message of Hope (SRPC Wangige church)'],
-            ['02:00 PM', 'Physical Candle Lighting Moment & Final Viewing'],
             ['02:45 PM', 'Recessional Hymn & Movement to Graveside'],
             ['03:30 PM', 'Graveside Committal Service & Lowering of Casket']
         ],
@@ -2244,7 +2243,7 @@ function programFormMarkup(k) {
             ${f('Title', 'title', 'Service name', 120)}
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 ${f('Date', 'date', 'Wednesday, September 23, 2026', 60)}
-                ${f('Time', 'time', '11:00 AM – 2:00 PM', 60)}
+                ${f('Time', 'time', '11:00 AM – 2:00 PM PST', 60)}
             </div>
             ${f('Venue / address', 'venue', 'Venue name and address', 200)}
             ${f('Google Maps link (optional)', 'mapUrl', 'https://maps.google.com/...', 600)}
