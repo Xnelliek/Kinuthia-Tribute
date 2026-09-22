@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Virtual Candles — In Loving Memory of Kinuthia Ndekei</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { memorial: {
+            royal: '#3b145a', purple: '#4c1d76', lightPurple: '#f3e8ff',
+            gold: '#d4af37', lightGold: '#fef3c7', darkBg: '#1f1035'
+        } }, fontFamily: {
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif']
+        } } } }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body.bg-memorial-darkBg {
+            background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(76,29,118,.35), transparent),
+                        linear-gradient(180deg, #2a1450 0%, #1f1035 22%, #190c2c 55%, #140823 100%);
+        }
+        a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+            outline: 2px solid #d4af37; outline-offset: 2px; border-radius: 4px;
+        }
+        [class*="bg-purple-900/30"][class*="rounded-xl"] { transition: transform .3s ease, border-color .3s ease; }
+        [class*="bg-purple-900/30"][class*="rounded-xl"]:hover { transform: translateY(-3px); border-color: rgba(212,175,55,.4); }
+        @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+    </style>
+</head>
+<body class="bg-memorial-darkBg text-gray-100 font-sans antialiased min-h-screen">
+
+    <header class="sticky top-0 z-40 bg-[#1f1035]/95 backdrop-blur-md border-b border-purple-900/40 shadow-xl">
+        <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+            <a href="index.html#candles" class="inline-flex items-center gap-2 text-sm text-memorial-gold hover:text-yellow-400 font-semibold">
+                <i class="fa-solid fa-arrow-left"></i> Back to Virtual Candles
+            </a>
+            <a href="index.html" class="text-xs text-gray-400 hover:text-white">Kinuthia Ndekei · 1998–2026</a>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-10">
+        <div class="mb-8">
+            <h1 class="font-serif text-3xl sm:text-4xl font-bold text-memorial-gold mb-1">All Virtual Candles</h1>
+            <p id="candle-count-line" class="text-gray-300 text-sm">Loading…</p>
+        </div>
+
+        <!-- Physical candle lighting info + quick action -->
+        <div class="mb-8 rounded-xl border border-memorial-gold/40 bg-memorial-gold/10 p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div class="flex items-start gap-3">
+                <i class="fa-solid fa-fire text-memorial-gold text-xl mt-1"></i>
+                <div>
+                    <strong class="block text-white">Physical Candle Lighting Moment</strong>
+                    <span class="text-sm text-gray-200">Wednesday, September 30, 2026 — 2:00 PM at Ndekei's Residence, Nairobi</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Light a candle -->
+        <div class="bg-purple-950/40 border border-purple-900/50 rounded-2xl p-6 sm:p-8 shadow-xl mb-10">
+            <h2 class="font-serif text-xl font-bold text-memorial-gold mb-4"><i class="fa-solid fa-fire-flame-curved mr-2"></i>Light a Candle</h2>
+            <form id="candle-form" class="space-y-3 max-w-xl">
+                <input type="text" id="candle-name" placeholder="Your Full Name" required maxlength="100" class="w-full bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-memorial-gold">
+                <textarea id="candle-msg" placeholder="A short message: one or two sentences" rows="3" required maxlength="200" oninput="candleCount()" class="w-full bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-memorial-gold"></textarea>
+                <p class="text-[11px] text-gray-400 flex justify-between"><span>Keep it short.</span><span id="candle-count" class="flex-shrink-0 ml-2">0 / 200</span></p>
+                <button id="candle-submit" type="submit" class="px-6 py-2.5 bg-memorial-gold text-black font-bold rounded-lg text-sm hover:bg-yellow-500 transition disabled:opacity-60">Light Candle</button>
+                <p id="candle-status" class="text-xs min-h-[1rem]"></p>
+            </form>
+        </div>
+
+        <div id="candles-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <p class="text-sm text-gray-400 italic sm:col-span-2 md:col-span-3 text-center">Loading candles…</p>
+        </div>
+    </main>
+
+    <script>
+        /* ---- Firebase config (public by design; Firestore rules protect the data) ---- */
+        const FIREBASE_CONFIG = {
+            apiKey: "AIzaSyBoFUrJCRPXTVw36qUVqJnMMzocracB9Io",
+            authDomain: "kinuthia-memorial.firebaseapp.com",
+            projectId: "kinuthia-memorial",
+            storageBucket: "kinuthia-memorial.firebasestorage.app",
+            messagingSenderId: "274368039276",
+            appId: "1:274368039276:web:c9f86e12eac56b138dcb49"
+        };
+        const CLOUD = Boolean(FIREBASE_CONFIG.apiKey && FIREBASE_CONFIG.projectId);
+        const $ = id => document.getElementById(id);
+        const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+        const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+        const fmtDate = it => it.date || (it.createdAt ? new Date(it.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : '');
+        const errCode = e => (e && (e.code || e.message)) || 'unknown error';
+
+        const localStore = {
+            _read(col) { try { return JSON.parse(localStorage.getItem(col)) || []; } catch { return []; } },
+            _write(col, arr) { localStorage.setItem(col, JSON.stringify(arr)); },
+            async list(col) { return this._read(col); },
+            async add(col, data, id) { const arr = this._read(col); const item = { ...data, id: id || uid() }; arr.unshift(item); this._write(col, arr); return item.id; }
+        };
+        async function makeCloudStore() {
+            const base = 'https://www.gstatic.com/firebasejs/10.14.1/';
+            const [appMod, fs] = await Promise.all([import(base + 'firebase-app.js'), import(base + 'firebase-firestore.js')]);
+            const fapp = appMod.initializeApp(FIREBASE_CONFIG);
+            const db = fs.getFirestore(fapp);
+            return {
+                async list(col, { max = 500 } = {}) {
+                    const snap = await fs.getDocs(fs.query(fs.collection(db, col), fs.orderBy('createdAt', 'desc'), fs.limit(max)));
+                    return snap.docs.map(d => ({ ...d.data(), id: d.id }));
+                },
+                async add(col, data) { return (await fs.addDoc(fs.collection(db, col), data)).id; }
+            };
+        }
+        let Store = localStore;
+
+        function candleCount() { $('candle-count').textContent = `${$('candle-msg').value.length} / 200`; }
+
+        function candleCardHtml(c) {
+            return `
+            <div class="bg-purple-900/30 border border-purple-800/50 p-5 rounded-xl text-center relative">
+                <div class="text-memorial-gold text-3xl mb-3"><i class="fa-solid fa-candle-holder"></i></div>
+                <p class="text-sm font-serif italic text-gray-200 mb-3 whitespace-pre-line">"${esc(c.text)}"</p>
+                <p class="text-xs font-bold text-memorial-gold">${esc(c.name)}</p>
+                <span class="text-[10px] text-gray-400 block mt-1">${esc(fmtDate(c))}</span>
+            </div>`;
+        }
+
+        async function loadCandles() {
+            const grid = $('candles-grid');
+            try {
+                const candles = await Store.list('candles');
+                $('candle-count-line').textContent = `${candles.length} candle${candles.length === 1 ? '' : 's'} lit in honor of Kinuthia.`;
+                grid.innerHTML = candles.length
+                    ? candles.map(candleCardHtml).join('')
+                    : '<p class="text-sm text-gray-400 italic sm:col-span-2 md:col-span-3 text-center">No candles lit yet. Be the first.</p>';
+            } catch (e) {
+                console.error(e);
+                $('candle-count-line').textContent = '';
+                grid.innerHTML = '<p class="text-sm text-red-300 sm:col-span-2 md:col-span-3 text-center">Could not load candles. Please check your connection and refresh.</p>';
+            }
+        }
+
+        $('candle-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = $('candle-submit'), status = $('candle-status');
+            if (btn.disabled) return;
+            const name = $('candle-name').value.trim(), text = $('candle-msg').value.trim();
+            if (!name) { status.textContent = 'Please enter your name.'; status.className = 'text-xs text-red-300'; return; }
+            if (!text) { status.textContent = 'Please write a short message.'; status.className = 'text-xs text-red-300'; return; }
+            if (text.length > 200) { status.textContent = 'Please keep your message under 200 characters.'; status.className = 'text-xs text-red-300'; return; }
+            btn.disabled = true; status.textContent = '';
+            try {
+                await Store.add('candles', { name, text, createdAt: Date.now() });
+                status.textContent = 'Your virtual candle has been lit. Thank you.';
+                status.className = 'text-xs text-emerald-300';
+                e.target.reset(); candleCount();
+                await loadCandles();
+            } catch (err) {
+                console.error(err);
+                status.textContent = errCode(err) === 'permission-denied'
+                    ? 'Could not save (database rules need updating).'
+                    : `Could not light your candle (${errCode(err)}). Please try again.`;
+                status.className = 'text-xs text-red-300';
+            } finally { btn.disabled = false; }
+        });
+
+        (async () => {
+            if (CLOUD) {
+                try { Store = await makeCloudStore(); }
+                catch (e) { console.error(e); $('candle-count-line').textContent = 'Could not connect to the shared database.'; }
+            }
+            await loadCandles();
+        })();
+    </script>
+</body>
+</html>

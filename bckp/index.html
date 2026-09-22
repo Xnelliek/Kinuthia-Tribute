@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#ffffff">
     <title>In Loving Memory of Kinuthia Ndekei (KK) (1998 - 2026)</title>
     <script>
     /* Safety net: shows a red warning if index.html was accidentally pasted twice (old + new mixed). */
@@ -20,10 +19,6 @@
     <link rel="preconnect" href="https://cdn.tailwindcss.com">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="preconnect" href="https://lh3.googleusercontent.com">
-    <!-- Performance: warm up the connections Firebase needs, so the first tribute/candle/etc. submission isn't slowed down by a cold DNS+TLS handshake -->
-    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
-    <link rel="preconnect" href="https://identitytoolkit.googleapis.com" crossorigin>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -31,36 +26,18 @@
             theme: {
                 extend: {
                     colors: {
-                        /* Fixed brand colours (buttons / decoration that look the same on every band) */
                         memorial: {
-                            royal: '#3C096C',
-                            purple: '#5A189A',
-                            lightPurple: '#E6BBFF',
+                            royal: '#3b145a',
+                            purple: '#4c1d76',
+                            lightPurple: '#f3e8ff',
                             gold: '#d4af37',
-                            lightGold: '#fef3c7'
-                        },
-                        /* Zone-aware colours: they change value depending on which colour band they sit in
-                           (see .zone-light / .zone-mid / .zone-dark / .zone-modal in the <style> block). */
-                        ink:    'rgb(var(--ink) / <alpha-value>)',
-                        soft:   'rgb(var(--soft) / <alpha-value>)',
-                        muted:  'rgb(var(--muted) / <alpha-value>)',
-                        head:   'rgb(var(--head) / <alpha-value>)',
-                        accent: 'rgb(var(--accent) / <alpha-value>)',
-                        field:  'rgb(var(--field) / <alpha-value>)',
-                        modal:  'rgb(var(--modal) / <alpha-value>)',
-                        halo:   'rgb(var(--halo) / <alpha-value>)',
-                        ok:     'rgb(var(--ok) / <alpha-value>)',
-                        warn:   'rgb(var(--warn) / <alpha-value>)',
-                        bad:    'rgb(var(--bad) / <alpha-value>)',
-                        card:          'var(--card)',
-                        'card-strong': 'var(--card-strong)',
-                        line:          'var(--line)',
-                        'line-strong': 'var(--line-strong)',
-                        connector:     'var(--connector)'
+                            lightGold: '#fef3c7',
+                            darkBg: '#1f1035'
+                        }
                     },
                     fontFamily: {
-                        serif: ['Georgia', 'Cambria', 'Times New Roman', 'serif'],
-                        sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif']
+                        serif: ['Georgia', 'Cambria', 'serif'],
+                        sans: ['Inter', 'sans-serif']
                     }
                 }
             }
@@ -90,260 +67,62 @@
             animation: sway 6s ease-in-out infinite;
             transform-origin: bottom center;
         }
-
-        /* =====================================================================
-           COLOUR FLOW  —  one continuous vertical journey, light to dark
-
-             header / quote / hero ....... white  -> very soft lavender
-             obituary, family ............ very soft lavender -> light lavender
-             favorites ................... light lavender -> pale purple
-             timeline .................... pale purple  (dark text)  ~~ crossover ~~
-             gallery, memory wall ........ soft muted rich purple  (light text)
-             candles, bus transport ...... deep purple
-             service & RSVP, footer ...... very dark purple -> almost black
-
-           Each <section> is a full-width "band" with its own top and bottom colour.
-           The bottom colour of one band is the top colour of the next, so the
-           whole page reads as one smooth gradient no matter how tall each
-           section grows (tributes, photos etc. load in later).
-
-           Colours are stored as "R G B" triplets so they can be re-used with any
-           opacity.  --veil is how opaque a band is: 1 = solid colour, lower
-           lets the fixed background photo show through a little more.
-           ===================================================================== */
-
-        /* ---- Text / surface tokens per zone. Every class like text-ink, text-soft,
-                bg-card, border-line ... resolves to these, so the same markup
-                automatically reads correctly on a light band or a dark one. ---- */
-        :root, .zone-light, .zone-modal {
-            --ink: 29 13 51;          /* main text            */
-            --soft: 47 27 77;         /* secondary text       */
-            --muted: 61 40 96;        /* small print / dates  */
-            --head: 38 12 64;         /* headings             */
-            --accent: 67 25 107;      /* links, icons, labels */
-            --field: 255 255 255;     /* input background     */
-            --halo: 199 125 255;      /* ring behind timeline dots (matches band) */
-            --ok: 6 95 63; --warn: 130 70 0; --bad: 166 27 27;
-            --card: rgb(255 255 255 / .58);
-            --card-strong: rgb(255 255 255 / .82);
-            --line: rgb(90 24 154 / .16);
-            --line-strong: rgb(90 24 154 / .32);
-            --connector: rgb(90 24 154 / .38);
-            --shadow: 0 1px 2px rgb(60 9 108 / .06), 0 12px 28px -14px rgb(60 9 108 / .30);
-            color-scheme: light;
+        .hero-bg {
+            background: linear-gradient(rgba(31, 16, 53, 0.65), rgba(31, 16, 53, 0.8)), url('Pictures/image_328d6d.png') no-repeat center center/cover;
         }
-        .zone-modal {
-            --modal: 247 243 253;
-            --halo: 247 243 253;
-            --card: rgb(122 90 175 / .08);
-            --card-strong: rgb(122 90 175 / .13);
-        }
-        .zone-mid, .zone-dark {
-            --ink: 255 255 255;
-            --soft: 239 230 251;
-            --muted: 217 201 242;
-            --head: 246 226 160;
-            --accent: 243 217 138;
-            --ok: 110 231 183; --warn: 251 191 36; --bad: 252 165 165;
-            --line: rgb(255 255 255 / .16);
-            --line-strong: rgb(255 255 255 / .30);
-            --connector: rgb(243 217 138 / .45);
-            --shadow: 0 12px 30px -14px rgb(0 0 0 / .55);
-            color-scheme: dark;
-        }
-        .zone-mid  { --card: rgb(36 0 70 / .30);  --card-strong: rgb(36 0 70 / .46);  --field: 36 0 70; --halo: 90 24 154; }
-        .zone-dark { --card: rgb(255 255 255 / .06); --card-strong: rgb(255 255 255 / .10); --field: 16 0 43;  --halo: 60 9 108; }
-        .print-area { --halo: 246 242 252; }
-
-        .zone-light .shadow-md, .zone-light .shadow-lg, .zone-light .shadow-xl, .zone-light .shadow-2xl,
-        .zone-mid .shadow-md,   .zone-mid .shadow-lg,   .zone-mid .shadow-xl,   .zone-mid .shadow-2xl,
-        .zone-dark .shadow-md,  .zone-dark .shadow-lg,  .zone-dark .shadow-xl,  .zone-dark .shadow-2xl {
-            --tw-shadow: var(--shadow); --tw-shadow-colored: var(--shadow);
-        }
-
-        /* ---- Fixed background photo: pinned to the screen, so it never moves while
-                the coloured bands scroll over it. (Behind everything, cheap to paint.) ---- */
-        #site-bg-photo {
-            position: fixed; inset: 0; z-index: -2;
-            background: url('Pictures/image_328d6d.png') no-repeat center center / cover, #5A189A;
-        }
-        body { background-color: #5A189A; }
-
-        /* ---- The bands ----
-           Colour flow now runs the exact requested palette, light to dark:
-           #EBC9FF -> #E6BBFF -> #E0AAFF -> #C77DFF -> #9D4EDD -> #7B2CBF -> #5A189A -> #3C096C -> #240046 -> #10002B
-           --veil also climbs as you scroll: it starts LOW near the top so the fixed
-           background photo reads clearly through the hero, and rises toward 1 (fully
-           opaque) by the time you reach the service/footer bands, so the photo fades
-           out of view the further down the page you go. */
-        .band {
-            --veil: .55;
-            position: relative;
-            padding: 4rem 1rem;
-            background: linear-gradient(180deg, rgb(var(--c0) / var(--veil)) 0%, rgb(var(--c1) / var(--veil)) 100%);
-        }
-        @media (min-width: 640px) { .band { padding-top: 5rem; padding-bottom: 5rem; } }
-
-        .quote-band { background: rgb(235 201 255 / .5); }
-        .hero-band  { background: linear-gradient(180deg, rgb(235 201 255 / .45) 0%, rgb(230 187 255 / .55) 100%); }
-        .hero-portrait { box-shadow: 0 0 0 8px rgb(255 255 255 / .75), 0 0 0 9px rgb(212 175 55 / .35), 0 22px 50px -14px rgb(60 9 108 / .45); }
-
-        .band-obituary  { --c0: 230 187 255; --c1: 224 170 255; --veil: .62; }
-        .band-family    { --c0: 224 170 255; --c1: 199 125 255; --veil: .70; }
-        .band-favorites { --c0: 199 125 255; --c1: 157 78 221;  --veil: .78; }
-        /* Timeline -> Gallery: this is where dark text hands over to light text. It happens in
-           the (text-free) bottom padding of the timeline and top padding of the gallery, and is eased
-           with a smoothstep curve so it reads as one soft fade rather than a hard edge. */
-        .band-timeline  {
-            --c0: 157 78 221; --c1: 123 44 191; --veil: .85;
-            padding-bottom: 6rem;
-            background: linear-gradient(180deg,
-                rgb(var(--c0) / var(--veil)) 0%,
-                rgb(var(--c1) / var(--veil)) calc(100% - 6rem),
-                rgb(140 66 199 / var(--veil)) calc(100% - 4.5rem),
-                rgb(133 55 195 / var(--veil)) calc(100% - 3rem),
-                rgb(128 50 193 / var(--veil)) calc(100% - 1.5rem),
-                rgb(123 44 191 / var(--veil)) 100%);
-        }
-        .band-gallery   {
-            --c2: 90 24 154; --veil: .90;
-            padding-top: 5rem;
-            background: linear-gradient(180deg,
-                rgb(123 44 191 / var(--veil)) 0%,
-                rgb(114 38 178 / var(--veil)) 1.5rem,
-                rgb(102 31 166 / var(--veil)) 3rem,
-                rgb(96 27 160 / var(--veil)) 5rem,
-                rgb(var(--c2) / var(--veil)) 100%);
-        }
-        .band-memory    { --c0: 90 24 154; --c1: 60 9 108;  --veil: .94; }
-        .band-candles   { --c0: 60 9 108;  --c1: 36 0 70;   --veil: .97; }
-        .band-buses     { --c0: 36 0 70;   --c1: 16 0 43;   --veil: .99; }
-        .band-service   { --c0: 16 0 43;   --c1: 10 0 27;   --veil: 1; }
         .footer-bg {
-            background: linear-gradient(rgb(16 0 43 / .96), rgb(6 0 15 / .98)), url('Pictures/image_2647a7.jpeg') no-repeat center center / cover;
+            background: linear-gradient(rgba(23, 12, 42, 0.85), rgba(23, 12, 42, 0.95)), url('Pictures/image_2647a7.jpeg') no-repeat center center/cover;
         }
-        /* The full-day program page flows the same way, so it meets the footer without a seam. */
-        .program-band {
-            min-height: 100vh;
-            background: linear-gradient(180deg, rgb(230 187 255 / .55) 0%, rgb(199 125 255 / .70) 50%, rgb(90 24 154 / .90) 80%, rgb(16 0 43 / .98) 100%);
-        }
-
-        /* Royal-purple buttons keep their look on light bands; on the purple bands they turn into gold-tinted
-           "glass" buttons so they don't sink into the background. */
-        .zone-mid .bg-memorial-royal, .zone-dark .bg-memorial-royal { background-color: rgb(243 217 138 / .12); }
-        .zone-mid .hover\:bg-purple-800:hover, .zone-dark .hover\:bg-purple-800:hover { background-color: rgb(243 217 138 / .22); }
-
-        /* ---- Scrollbar: mid lavender reads on both the light and the dark ends ---- */
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #9D4EDD; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #7B2CBF; }
+        ::-webkit-scrollbar-track { background: #1f1035; }
+        ::-webkit-scrollbar-thumb { background: #4c1d76; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #d4af37; }
         html { overflow-x: hidden; }
         body { overflow-x: clip; }
         img, video { max-width: 100%; }
-
-        /* ---- Form details ---- */
-        ::placeholder { color: rgb(var(--muted) / .75); opacity: 1; }
-        select option { background: rgb(var(--field)); color: rgb(var(--ink)); }
-        :focus-visible { outline: 2px solid rgb(var(--accent)); outline-offset: 2px; }
-        input:focus-visible, select:focus-visible, textarea:focus-visible, .rte-editor:focus-visible {
-            outline: none; box-shadow: 0 0 0 3px rgb(var(--accent) / .28);
-        }
-
-        /* ---- Rich text (tributes) ---- */
+        /* rich text (tributes) */
         .rich p { margin: 0 0 .8em; }
         .rich p:last-child, .rich ul:last-child, .rich ol:last-child, .rich blockquote:last-child { margin-bottom: 0; }
         .rich ul { list-style: disc; margin: 0 0 .8em 1.4em; }
         .rich ol { list-style: decimal; margin: 0 0 .8em 1.4em; }
         .rich li { margin: .15em 0; }
-        .rich blockquote { border-left: 3px solid #d4af37; padding-left: .8em; margin: 0 0 .8em; font-style: italic; color: rgb(var(--soft)); }
-        .rich h3 { font-weight: 700; font-size: 1.1em; color: rgb(var(--head)); margin: 0 0 .5em; }
-        .rich a { color: rgb(var(--accent)); text-decoration: underline; word-break: break-all; }
+        .rich blockquote { border-left: 3px solid #d4af37; padding-left: .8em; margin: 0 0 .8em; font-style: italic; color: #fef3c7; }
+        .rich h3 { font-weight: 700; font-size: 1.1em; color: #d4af37; margin: 0 0 .5em; }
+        .rich a { color: #d4af37; text-decoration: underline; word-break: break-all; }
         .rich b, .rich strong { font-weight: 700; }
         .rich i, .rich em { font-style: italic; }
         .rich u { text-decoration: underline; }
         .rich s, .rich strike, .rich del { text-decoration: line-through; }
         .tribute-clamped { max-height: 11rem; overflow: hidden; -webkit-mask-image: linear-gradient(#000 65%, transparent); mask-image: linear-gradient(#000 65%, transparent); }
-
-        /* ---- Tribute editor ---- */
-        .rte-toolbar { display: flex; flex-wrap: wrap; gap: 2px; padding: 6px; background: var(--card-strong); border: 1px solid var(--line-strong); border-bottom: 0; border-radius: .5rem .5rem 0 0; }
-        .rte-btn { width: 34px; height: 34px; border-radius: 6px; color: rgb(var(--accent)); font-size: 14px; }
-        .rte-btn:hover { background: rgb(var(--accent) / .14); color: rgb(var(--head)); }
-        .rte-sep { width: 1px; background: var(--line-strong); margin: 4px 3px; }
-        .rte-emoji { display: flex; flex-wrap: wrap; gap: 2px; padding: 6px; background: var(--card-strong); border: 1px solid var(--line-strong); border-bottom: 0; max-height: 7.5rem; overflow-y: auto; }
+        /* editor */
+        .rte-toolbar { display: flex; flex-wrap: wrap; gap: 2px; padding: 6px; background: #2a1450; border: 1px solid #5b21b6; border-bottom: 0; border-radius: .5rem .5rem 0 0; }
+        .rte-btn { width: 34px; height: 34px; border-radius: 6px; color: #e9d5ff; font-size: 14px; }
+        .rte-btn:hover { background: #4c1d76; color: #d4af37; }
+        .rte-sep { width: 1px; background: #5b21b6; margin: 4px 3px; }
+        .rte-emoji { display: flex; flex-wrap: wrap; gap: 2px; padding: 6px; background: #2a1450; border: 1px solid #5b21b6; border-bottom: 0; max-height: 7.5rem; overflow-y: auto; }
         .rte-emoji.hidden { display: none; }
         .rte-emoji button { font-size: 20px; width: 34px; height: 34px; border-radius: 6px; }
-        .rte-emoji button:hover { background: rgb(var(--accent) / .14); }
-        .rte-editor { min-height: 170px; max-height: 42vh; overflow-y: auto; padding: .75rem; background: rgb(var(--field)); border: 1px solid var(--line-strong); border-radius: 0 0 .5rem .5rem; color: rgb(var(--ink)); font-size: .95rem; line-height: 1.55; outline: none; word-break: break-word; }
-        .rte-editor:focus { border-color: rgb(var(--accent)); }
-        .rte-editor:empty::before { content: attr(data-placeholder); color: rgb(var(--muted) / .8); pointer-events: none; }
-
+        .rte-emoji button:hover { background: #4c1d76; }
+        .rte-editor { min-height: 170px; max-height: 42vh; overflow-y: auto; padding: .75rem; background: #1f1035; border: 1px solid #5b21b6; border-radius: 0 0 .5rem .5rem; color: #fff; font-size: .95rem; line-height: 1.55; outline: none; word-break: break-word; }
+        .rte-editor:focus { border-color: #d4af37; }
+        .rte-editor:empty::before { content: attr(data-placeholder); color: #9ca3af; pointer-events: none; }
         @media print {
             header, footer, #particles-container, .no-print, #toast { display: none !important; }
             body { background: #fff !important; color: #000 !important; }
-            #site-bg-photo, .program-band { background: none !important; }
             .print-area, .print-area * { color: #000 !important; background: transparent !important; border-color: #999 !important; box-shadow: none !important; }
         }
         @media (prefers-reduced-motion: reduce) {
             .floating-particle, .palm-branch { animation: none !important; }
         }
-        /* Scroll reveal: each section's content eases in once, when it first
-           scrolls into view. Only opacity/transform are animated (no layout cost)
-           and it plays once per element via IntersectionObserver. */
-        .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s cubic-bezier(.21,.6,.35,1), transform .7s cubic-bezier(.21,.6,.35,1); will-change: opacity, transform; }
-        .reveal.in { opacity: 1; transform: translateY(0); }
-        @media (prefers-reduced-motion: reduce) {
-            .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
-        }
-
-        /* ---- Purple highlight frame (#9D4EDD): wraps a block to make it pop
-                against the surrounding band so its text stays clearly readable. ---- */
-        .purple-frame {
-            border: 3px solid #9D4EDD;
-            background: rgba(157, 78, 221, 0.12);
-            border-radius: 1.25rem;
-            padding: 1.25rem 1.25rem 1.5rem;
-            box-shadow: 0 10px 28px -10px rgba(157, 78, 221, 0.55), inset 0 0 0 1px rgba(157, 78, 221, 0.2);
-        }
-        @media (min-width: 640px) { .purple-frame { padding: 1.75rem 2rem 2rem; } }
-
-        /* ---- Floating card (e.g. favorite video game): gently bobs up and down
-                with a soft shadow underneath, so it reads as hovering above the page. ---- */
-        .floaty-card {
-            animation: floatCard 4.5s ease-in-out infinite;
-            box-shadow: 0 30px 40px -18px rgba(16, 0, 43, 0.55), 0 8px 18px -6px rgba(157, 78, 221, 0.4);
-        }
-        @keyframes floatCard {
-            0%, 100% { transform: translateY(0) rotate(-1deg); }
-            50% { transform: translateY(-12px) rotate(1deg); }
-        }
-        @media (prefers-reduced-motion: reduce) { .floaty-card { animation: none; } }
-
-        /* ---- Chat-style items: slide up from below as they scroll into view. ---- */
-        .chat-slide {
-            opacity: 0;
-            transform: translateY(60px);
-            transition: opacity .6s ease, transform .6s cubic-bezier(.21,.6,.35,1);
-            will-change: opacity, transform;
-        }
-        .chat-slide.in { opacity: 1; transform: translateY(0); }
-        @media (prefers-reduced-motion: reduce) {
-            .chat-slide { opacity: 1 !important; transform: none !important; transition: none !important; }
-        }
-
     </style>
 </head>
-<body class="text-ink font-sans antialiased selection:bg-memorial-gold selection:text-black">
-
-    <!-- Fixed background photo: pinned behind the whole page, so it stays perfectly still while the
-         colour-flow bands (white -> lavender -> purple -> near-black) scroll over it. -->
-    <div id="site-bg-photo" aria-hidden="true"></div>
+<body class="bg-memorial-darkBg text-gray-100 font-sans antialiased selection:bg-memorial-gold selection:text-black">
 
     <!-- FLOATING BACKGROUND PARTICLES -->
     <div id="particles-container" class="absolute inset-0 overflow-hidden pointer-events-none"></div>
 
     <!-- HEADER NAV -->
-    <header class="zone-light sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-line shadow-sm">
+    <header class="sticky top-0 z-50 bg-[#1f1035]/95 backdrop-blur-md border-b border-purple-900/40 shadow-xl">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <a href="#home" class="flex items-center space-x-2 sm:space-x-3 cursor-pointer group min-w-0">
@@ -351,29 +130,29 @@
                         <img src="Pictures/image_328d6d.png" alt="Kinuthia Ndekei" class="w-full h-full object-cover">
                     </div>
                     <div class="min-w-0">
-                        <h1 class="font-serif text-base sm:text-xl font-bold text-head tracking-wide group-hover:text-accent transition truncate">Kinuthia Ndekei</h1>
-                        <p class="text-[10px] sm:text-xs text-accent font-medium truncate">1998 – 2026 | Online Tribute</p>
+                        <h1 class="font-serif text-base sm:text-xl font-bold text-white tracking-wide group-hover:text-memorial-gold transition truncate">Kinuthia Ndekei</h1>
+                        <p class="text-[10px] sm:text-xs text-memorial-gold font-medium truncate">1998 – 2026 | Online Tribute</p>
                     </div>
                 </a>
 
                 <!-- Navigation Links -->
-                <nav class="hidden xl:flex items-center space-x-0.5 text-[13px] font-medium">
-                    <a href="#obituary" class="px-2.5 py-2 rounded-lg transition whitespace-nowrap text-soft hover:text-ink hover:bg-card-strong">Obituary</a>
-                    <a href="#family" class="px-2.5 py-2 rounded-lg transition whitespace-nowrap text-soft hover:text-ink hover:bg-card-strong">Family Tree</a>
-                    <a href="#favorites" class="px-2.5 py-2 rounded-lg transition whitespace-nowrap text-soft hover:text-ink hover:bg-card-strong">Favorites</a>
-                    <a href="#timeline" class="px-2.5 py-2 rounded-lg transition whitespace-nowrap text-soft hover:text-ink hover:bg-card-strong">Timeline</a>
-                    <a href="#gallery" class="px-2.5 py-2 rounded-lg transition whitespace-nowrap text-soft hover:text-ink hover:bg-card-strong">Gallery</a>
-                    <a href="#memory" class="px-2.5 py-2 rounded-lg transition whitespace-nowrap text-soft hover:text-ink hover:bg-card-strong">Memory Wall</a>
-                    <a href="#candles" class="px-2.5 py-2 rounded-lg transition whitespace-nowrap text-soft hover:text-ink hover:bg-card-strong">Virtual Candles</a>
-                    <a href="#buses" class="px-2.5 py-2 rounded-lg transition whitespace-nowrap text-soft hover:text-ink hover:bg-card-strong">Bus Transport</a>
-                    <a href="#service" class="px-2.5 py-2 rounded-lg transition whitespace-nowrap text-soft hover:text-ink hover:bg-card-strong">Service & RSVP</a>
+                <nav class="hidden lg:flex items-center space-x-1 xl:space-x-2 text-sm font-medium">
+                    <a href="#obituary" class="px-3 py-2 rounded-lg transition text-gray-300 hover:text-white hover:bg-purple-900/20">Obituary</a>
+                    <a href="#family" class="px-3 py-2 rounded-lg transition text-gray-300 hover:text-white hover:bg-purple-900/20">Family Tree</a>
+                    <a href="#favorites" class="px-3 py-2 rounded-lg transition text-gray-300 hover:text-white hover:bg-purple-900/20">Favorites</a>
+                    <a href="#timeline" class="px-3 py-2 rounded-lg transition text-gray-300 hover:text-white hover:bg-purple-900/20">Timeline</a>
+                    <a href="#gallery" class="px-3 py-2 rounded-lg transition text-gray-300 hover:text-white hover:bg-purple-900/20">Gallery</a>
+                    <a href="#memory" class="px-3 py-2 rounded-lg transition text-gray-300 hover:text-white hover:bg-purple-900/20">Memory Wall</a>
+                    <a href="#candles" class="px-3 py-2 rounded-lg transition text-gray-300 hover:text-white hover:bg-purple-900/20">Virtual Candles</a>
+                    <a href="#buses" class="px-3 py-2 rounded-lg transition text-gray-300 hover:text-white hover:bg-purple-900/20">Bus Transport</a>
+                    <a href="#service" class="px-3 py-2 rounded-lg transition text-gray-300 hover:text-white hover:bg-purple-900/20">Service & RSVP</a>
                     <button onclick="openAdminModal()" class="px-3 py-2 rounded-lg bg-memorial-royal border border-memorial-gold/40 text-memorial-gold hover:bg-purple-800 transition text-xs font-semibold flex items-center gap-1.5"><i class="fa-solid fa-lock text-[10px]"></i> Admin</button>
                 </nav>
 
                 <!-- Mobile Menu Button -->
-                <div class="flex items-center xl:hidden flex-shrink-0 pl-2">
+                <div class="flex items-center lg:hidden flex-shrink-0 pl-2">
                     <button onclick="openAdminModal()" class="mr-1 px-2.5 py-1.5 rounded bg-memorial-royal text-memorial-gold text-xs border border-memorial-gold/30"><i class="fa-solid fa-lock"></i> Admin</button>
-                    <button onclick="toggleMobileMenu()" class="text-soft hover:text-ink focus:outline-none p-2">
+                    <button onclick="toggleMobileMenu()" class="text-gray-300 hover:text-white focus:outline-none p-2">
                         <i class="fa-solid fa-bars text-xl"></i>
                     </button>
                 </div>
@@ -381,51 +160,51 @@
         </div>
 
         <!-- Mobile Nav Menu -->
-        <div id="mobile-menu" class="hidden xl:hidden border-t border-line px-4 pt-2 pb-4 space-y-1">
-            <a href="#obituary" onclick="toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded text-soft hover:bg-card-strong">Obituary</a>
-            <a href="#family" onclick="toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded text-soft hover:bg-card-strong">Family Tree</a>
-            <a href="#favorites" onclick="toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded text-soft hover:bg-card-strong">Favorites</a>
-            <a href="#timeline" onclick="toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded text-soft hover:bg-card-strong">Timeline</a>
-            <a href="#gallery" onclick="toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded text-soft hover:bg-card-strong">Gallery</a>
-            <a href="#memory" onclick="toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded text-soft hover:bg-card-strong">Memory Wall</a>
-            <a href="#candles" onclick="toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded text-soft hover:bg-card-strong">Virtual Candles</a>
-            <a href="#buses" onclick="toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded text-soft hover:bg-card-strong">Bus Transport</a>
-            <a href="#service" onclick="toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded text-soft hover:bg-card-strong">Service & RSVP</a>
+        <div id="mobile-menu" class="hidden lg:hidden bg-memorial-darkBg border-b border-purple-900 px-4 pt-2 pb-4 space-y-1">
+            <a href="#obituary" onclick="toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded text-gray-300 hover:bg-purple-900/20">Obituary</a>
+            <a href="#family" onclick="toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded text-gray-300 hover:bg-purple-900/20">Family Tree</a>
+            <a href="#favorites" onclick="toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded text-gray-300 hover:bg-purple-900/20">Favorites</a>
+            <a href="#timeline" onclick="toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded text-gray-300 hover:bg-purple-900/20">Timeline</a>
+            <a href="#gallery" onclick="toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded text-gray-300 hover:bg-purple-900/20">Gallery</a>
+            <a href="#memory" onclick="toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded text-gray-300 hover:bg-purple-900/20">Memory Wall</a>
+            <a href="#candles" onclick="toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded text-gray-300 hover:bg-purple-900/20">Virtual Candles</a>
+            <a href="#buses" onclick="toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded text-gray-300 hover:bg-purple-900/20">Bus Transport</a>
+            <a href="#service" onclick="toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded text-gray-300 hover:bg-purple-900/20">Service & RSVP</a>
         </div>
     </header>
 
     <div id="site-content">
     <!-- HERO QUOTE BANNER -->
-    <div class="zone-light quote-band py-6 border-b border-line text-center px-4">
-        <p class="font-serif italic text-accent text-lg sm:text-xl max-w-3xl mx-auto">
+    <div class="bg-gradient-to-r from-purple-950 via-indigo-950 to-purple-950 py-6 border-b border-purple-900/50 text-center px-4">
+        <p class="font-serif italic text-memorial-gold text-lg sm:text-xl max-w-3xl mx-auto">
             "In the end, it's not the years in your life that count. It's the life in your years."
         </p>
     </div>
 
     <!-- MAIN HERO SECTION -->
-    <section id="home" class="zone-light hero-band py-16 sm:py-24 relative overflow-hidden scroll-mt-20">
+    <section id="home" class="hero-bg py-16 sm:py-24 relative overflow-hidden border-b border-purple-900/40">
         <div class="max-w-5xl mx-auto px-4 text-center relative z-10">
-            <div class="hero-portrait w-36 h-36 sm:w-48 sm:h-48 rounded-full border-4 border-memorial-gold mx-auto overflow-hidden mb-6 bg-card-strong">
+            <div class="w-36 h-36 sm:w-48 sm:h-48 rounded-full border-4 border-memorial-gold mx-auto shadow-2xl overflow-hidden mb-6 bg-purple-900">
                 <img src="Pictures/image_328d6d.png" alt="Kinuthia Ndekei" class="w-full h-full object-cover">
             </div>
-            <h1 class="font-serif text-4xl sm:text-6xl font-bold tracking-tight text-head mb-3">Kinuthia Ndekei</h1>
-            <p class="text-lg sm:text-xl text-accent font-medium mb-4"><i class="fa-solid fa-calendar-days mr-2"></i> January 29, 1998 – September 5, 2026</p>
+            <h1 class="font-serif text-4xl sm:text-6xl font-bold tracking-tight text-white mb-3">Kinuthia Ndekei</h1>
+            <p class="text-lg sm:text-xl text-memorial-gold font-medium mb-4"><i class="fa-solid fa-calendar-days mr-2"></i> January 29, 1998 – September 5, 2026</p>
 
             <!-- Two Services At-a-Glance -->
             <div class="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-2xl mx-auto mb-8">
-                <a id="chip-us" href="#program-us" class="w-full sm:w-auto flex items-center gap-2 bg-card border border-line rounded-xl px-4 py-2.5 text-xs sm:text-sm text-ink/90 hover:border-memorial-gold/60 transition">
-                    <span class="w-2 h-2 rounded-full bg-ok flex-shrink-0"></span>
-                    <span><span class="font-semibold text-ink">Seattle,US Service</span> — Sept 23, 2026 <span class="text-ok font-semibold">(Upcoming)</span></span>
+                <a id="chip-us" href="#program-us" class="w-full sm:w-auto flex items-center gap-2 bg-purple-900/40 border border-purple-800/60 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-gray-200 hover:border-memorial-gold/60 transition">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 flex-shrink-0"></span>
+                    <span><span class="font-semibold text-white">Seattle,US Service</span> — Sept 23, 2026 <span class="text-emerald-400 font-semibold">(Upcoming)</span></span>
                 </a>
-                <a id="chip-kenya" href="#program-kenya" class="w-full sm:w-auto flex items-center gap-2 bg-card border border-memorial-gold/40 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-ink/90 hover:border-memorial-gold/60 transition">
-                    <span class="w-2 h-2 rounded-full bg-memorial-gold flex-shrink-0 animate-pulse"></span>
-                    <span><span class="font-semibold text-ink">lower Kabete, KE Funeral Service</span> — Sept 30, 2026 <span class="text-accent font-semibold">(Upcoming)</span></span>
+                <a id="chip-kenya" href="#program-kenya" class="w-full sm:w-auto flex items-center gap-2 bg-purple-900/40 border border-memorial-gold/40 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-gray-200 hover:border-memorial-gold/60 transition">
+                    <span class="w-2 h-2 rounded-full bg-memorial-gold flex-shrink-0 "></span>
+                    <span><span class="font-semibold text-white">Lower Kabete, KE Funeral Service</span> — Sept 30, 2026 <span class="text-memorial-gold font-semibold">(Upcoming)</span></span>
                 </a>
             </div>
             
             <!-- Quick Share Bar -->
             <div class="flex flex-wrap items-center justify-center gap-2 text-xs font-semibold">
-                <span class="text-muted mr-2"><i class="fa-solid fa-share-nodes"></i> Share:</span>
+                <span class="text-gray-400 mr-2"><i class="fa-solid fa-share-nodes"></i> Share:</span>
                 <a id="share-fb" href="#" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded bg-blue-600 text-white hover:bg-blue-700 transition flex items-center gap-1.5"><i class="fa-brands fa-facebook-f"></i> Facebook</a>
                 <a id="share-x" href="#" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded bg-sky-500 text-white hover:bg-sky-600 transition flex items-center gap-1.5"><i class="fa-brands fa-x-twitter"></i> X/Twitter</a>
                 <a id="share-wa" href="#" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded bg-emerald-600 text-white hover:bg-emerald-700 transition flex items-center gap-1.5"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
@@ -435,64 +214,42 @@
         </div>
     </section>
 
-    <!-- From here down, the colour bands are slightly translucent, so the fixed background photo
-         (#site-bg-photo) stays faintly visible and perfectly still while the page scrolls over it,
-         right down to the footer. -->
-    <div class="relative">
-    <!-- CONTENT: each <section> is a full-width colour band. The bands chain together so the end colour of
-         one is the start colour of the next: white -> lavender -> purple -> near-black (see COLOUR FLOW in <style>). -->
-    <main>
+    <!-- CONTENT CONTAINER -->
+    <main class="max-w-5xl mx-auto px-4 py-12 space-y-16">
 
         <!-- OBITUARY SECTION -->
-        <section id="obituary" class="band band-obituary zone-light scroll-mt-20">
-            <div class="max-w-5xl mx-auto">
-                <h2 class="font-serif text-3xl font-bold text-head mb-6 border-b border-line pb-3">Obituary & Life Story</h2>
+        <section id="obituary" class="scroll-mt-28">
+            <div class="bg-purple-950/40 border border-purple-900/50 rounded-2xl p-6 sm:p-10 shadow-xl backdrop-blur-sm">
+                <h2 class="font-serif text-3xl font-bold text-memorial-gold mb-6 border-b border-purple-900 pb-3">Obituary & Life Story</h2>
                 
-                <div class="space-y-6 text-ink/90 leading-relaxed text-base sm:text-lg">
-                    <p class="font-serif italic text-xl text-head">“A beautiful soul lives on in our hearts forever.”</p>
-
-                    <h3 class="font-serif text-xl font-semibold text-head pt-2">Early Life</h3>
-                    <p class="first-letter:text-5xl first-letter:font-serif first-letter:text-head first-letter:mr-1 first-letter:float-left">
-                        John Kinuthia Ndekei was born on January 29, 1998, in Parklands, Nairobi, bringing immense joy to his devoted parents, Peter Ndekei Kinuthia and Njeri Ndiho Ndekei. Raised in Lower Kabete, Kinuthia grew up as a vibrant and inquisitive child whose early years were shaped by a strong Christian foundation, built on love, faith, and family values.
+                <div class="space-y-6 text-gray-200 leading-relaxed text-base sm:text-lg">
+                    <p class="first-letter:text-5xl first-letter:font-serif first-letter:text-memorial-gold first-letter:mr-3 first-letter:float-left">
+                        “The memory of the righteous is blessed.” Kinuthia Ndekei was born on January 29, 1998, in Parklands, Nairobi, bringing immense joy to his devoted parents, Peter Ndekei Kinuthia and Njeri Ndiho Ndekei. Raised in Lower Kabete, Kinuthia grew up as a vibrant and inquisitive child whose early years were shaped by a strong Christian foundation, built on love, faith, and family values.
                     </p>
 
-                    <h3 class="font-serif text-xl font-semibold text-head pt-4">Education</h3>
+                    <h3 class="font-serif text-xl font-semibold text-memorial-gold pt-4">Education</h3>
                     <p>
-                        Kinuthia attended Consolata School in Westlands, Nairobi from baby class in 2001 to 2011 where he sat for his KCPE (Kenya Certificate of Primary Education) and initial secondary school (Form 1 and 2) before transitioning to Likii Hill School in Nanyuki, Laikipia where he sat for his KCSE (Kenya Certificate of Secondary Education) in 2015.
-                    </p>
-                    <p>
-                        During his time in school, Kinuthia stood out as a dynamic and multi-talented student who truly shone in sports, earning well-deserved medals in swimming, football, and athletics. His natural capability and early independence were clear to all—highlighted by the astounding feat of learning to drive at the tender age of 13.
+                        Kinuthia attended Consolata School in Westlands, Nairobi from baby class in 2001 to 2011 where he sat for his KCPE and initial secondary school before transitioning to Likii Hill School in Nanyuki, Laikipia where he sat for his KCSE in 2015. During his time in school, Kinuthia stood out as a dynamic and multi-talented student who truly shone in sports, earning well-deserved medals in swimming, football, and athletics. His natural capability and early independence were clear to all—highlighted by the astounding feat of learning to drive at the tender age of 13.
                     </p>
 
-                    <h3 class="font-serif text-xl font-semibold text-head pt-4">Career & Work Life</h3>
+                    <h3 class="font-serif text-xl font-semibold text-memorial-gold pt-4">Career & Work Life</h3>
                     <p>
-                        Shortly after completing high school, Kinuthia enrolled at the Institute of Software Technologies in Nairobi for the International Computer Driving Licence (ICDL) certificate. During this period, he took on a keen interest in frequently visiting his Uncle in one of the media houses. In 2016, he enrolled at KCA University (Ruaraka Campus) to pursue a Diploma in Investment and Financial Analysis, later earning his certified Lifeguard and Swimming Instructor accreditation from YMCA in Nairobi in 2018.
+                        Shortly after completing high school, Kinuthia volunteered as an intern at Boxraft Limited (Kenyans.co.ke) before completing his International Computer Driving Licence (ICDL) at the Institute of Software Technologies in Nairobi. In 2016, he enrolled at KCA University (Ruaraka Campus) to pursue a Diploma in Investment and Financial Analysis, later earning his certified Lifeguard and Swimming Instructor accreditation from YMCA in Nairobi in 2018.
                     </p>
                     <p>
-                        Driven by a passion for technology, he undertook foundational and advanced web development training in Nairobi in 2020. In December 2021, Kinuthia relocated to the United States to advance his education, successfully graduating from Sumner College in 2025 and passing his board exams. Deeply committed to lifelong learning, he was eagerly preparing to continue his academic journey prior to his untimely demise.
-                    </p>
-
-                    <h3 class="font-serif text-xl font-semibold text-head pt-4">Family Life</h3>
-                    <p>
-                        Kinuthia was deeply cherished by his beloved parents, remaining a loving, obedient and hardworking son. Confident and articulate, he always expressed his thoughts with clarity and possessed a remarkable sense of discernment. A person of diverse interests, Kinuthia genuinely enjoyed music and reading books. He was the anchor of many treasured family memories, holding an irreplaceable place in the hearts of his mum and dad. His relationship with them was defined by deep respect, open laughter and an unconditional love that distance across continents could never diminish.
-                    </p>
-                    <p>
-                        Anchored by steady confidence and a heart full of devotion, Kinuthia brought his girlfriend Mumbi Hinga into the warmth of his family’s fold, where she was embraced not just as a friend, but as a cherished daughter.
+                        Driven by a passion for technology, he undertook foundational and advanced web development training in Nairobi in 2020. In December 2021, Kinuthia relocated to the Seattle,US to advance his education, successfully graduating from Sumner College in 2025 and passing his board exams. Deeply committed to lifelong learning, he was eagerly preparing to continue his academic journey prior to his untimely demise.
                     </p>
 
-                    <h3 class="font-serif text-xl font-semibold text-head pt-4">Faith, Character & Community</h3>
+                    <h3 class="font-serif text-xl font-semibold text-memorial-gold pt-4">Family Life & Character</h3>
                     <p>
-                        Upon confession of his faith in the Lord Jesus Christ as his personal Savior, Kinuthia was publicly baptized by immersion on December 3, 2006, at CITAM Parklands (then NPC). He built a strong biblical foundation during his formative years, faithfully attending Sunday School and Daily Vacation Bible School (DVBS) at CITAM Parklands, Bible Study Fellowship (BSF) at All Saints Cathedral, and the Form 4 Ex-Candidates Program.
-                    </p>
-                    <p>
-                        Demonstrating a heart for ministry from a young age, Kinuthia faithfully served with the DVBS program at CITAM Parklands during his teenage years.
+                        Kinuthia was deeply cherished by his beloved parents, remaining a loving, obedient and hardworking son. Confident and articulate, he always expressed his thoughts with clarity and possessed a remarkable sense of discernment. A person of diverse interests, Kinuthia genuinely enjoyed music and reading books. He was the anchor of many treasured family memories, holding an irreplaceable place in the hearts of his mum and dad. Anchored by steady confidence, Kinuthia brought his girlfriend Mumbi Hinga into the warmth of his family’s fold, where she was embraced not just as a friend, but as a cherished daughter.
                     </p>
 
-                    <h3 class="font-serif text-xl font-semibold text-head pt-4">Final Journey</h3>
+                    <h3 class="font-serif text-xl font-semibold text-memorial-gold pt-4">Faith & Final Journey</h3>
                     <p>
-                        Kinuthia was blessed with vibrant health throughout his life, maintaining a passionate, athletic lifestyle. He found great joy in the outdoors-frequently hiking, swimming, and running. On Saturday, September 5, 2026, Kinuthia peacefully rested in his sleep. May his soul rest in eternal peace.
+                        Upon confession of his faith in the Lord Jesus Christ as his personal Savior, Kinuthia was publicly baptized by immersion on December 3, 2006, at CITAM Parklands. On Saturday, September 5, 2026, Kinuthia peacefully rested in his sleep. May his soul rest in eternal peace.
                     </p>
-                    <blockquote class="border-l-4 border-memorial-gold pl-4 py-2 italic text-soft font-serif">
+                    <blockquote class="border-l-4 border-memorial-gold pl-4 py-2 italic text-memorial-lightGold font-serif">
                         “The Lord gave and the Lord has taken away; may the name of the Lord be praised.” - Job 1:21b
                     </blockquote>
                 </div>
@@ -500,61 +257,61 @@
         </section>
 
         <!-- FAMILY TREE SECTION -->
-        <section id="family" class="band band-family zone-light scroll-mt-20">
-            <div class="max-w-5xl mx-auto">
-                <h2 class="font-serif text-2xl sm:text-3xl font-bold text-head mb-8 text-center border-b border-line pb-3">Family Tree</h2>
+        <section id="family" class="scroll-mt-28">
+            <div class="bg-purple-950/40 border border-purple-900/50 rounded-2xl p-4 sm:p-10 shadow-xl backdrop-blur-sm">
+                <h2 class="font-serif text-2xl sm:text-3xl font-bold text-memorial-gold mb-8 text-center border-b border-purple-900 pb-3">Family Tree</h2>
 
                 <div class="max-w-3xl mx-auto flex flex-col items-center">
 
                     <!-- Parents Level -->
                     <div class="w-full grid grid-cols-2 gap-3 sm:gap-6 justify-items-center">
-                        <div class="bg-card-strong border border-line rounded-xl p-3 sm:p-5 text-center relative z-10 shadow-lg min-w-0 w-full max-w-[13rem]">
-                            <div class="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full mx-auto mb-3 overflow-hidden border-2 border-memorial-gold shadow-md bg-card-strong flex items-center justify-center">
-                                <i class="fa-solid fa-user text-muted text-2xl"></i>
+                        <div class="bg-memorial-darkBg border border-purple-800/60 rounded-xl p-3 sm:p-5 text-center relative z-10 shadow-lg min-w-0 w-full max-w-[13rem]">
+                            <div class="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full mx-auto mb-3 overflow-hidden border-2 border-memorial-gold shadow-md bg-purple-900 flex items-center justify-center">
+                                <i class="fa-solid fa-user text-purple-300 text-2xl"></i>
                                 <img src="https://lh3.googleusercontent.com/pw/AP1GczMcE9bci_RCoS4sxps3gWwL3dIoVv_RNDxwvt0uijBEKp_2r0OvJIkc-u5PIB7ekF0_bQLBC1Astt_L8UsgEw7SbPOtD2L2jGEMX8wHiZfIFv-BD0pk=w400-h400-c" alt="Peter Ndekei Kinuthia" loading="lazy" decoding="async" onerror="this.style.display='none'" class="absolute inset-0 w-full h-full object-cover">
                             </div>
-                            <h4 class="text-head font-semibold text-xs sm:text-base break-words">Peter Ndekei Kinuthia</h4>
-                            <p class="text-muted text-xs mt-0.5">Father</p>
+                            <h4 class="text-memorial-gold font-semibold text-xs sm:text-base break-words">Peter Ndekei Kinuthia</h4>
+                            <p class="text-gray-400 text-xs mt-0.5">Father</p>
                         </div>
-                        <div class="bg-card-strong border border-line rounded-xl p-3 sm:p-5 text-center relative z-10 shadow-lg min-w-0 w-full max-w-[13rem]">
-                            <div class="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full mx-auto mb-3 overflow-hidden border-2 border-memorial-gold shadow-md bg-card-strong flex items-center justify-center">
-                                <i class="fa-solid fa-user text-muted text-2xl"></i>
+                        <div class="bg-memorial-darkBg border border-purple-800/60 rounded-xl p-3 sm:p-5 text-center relative z-10 shadow-lg min-w-0 w-full max-w-[13rem]">
+                            <div class="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full mx-auto mb-3 overflow-hidden border-2 border-memorial-gold shadow-md bg-purple-900 flex items-center justify-center">
+                                <i class="fa-solid fa-user text-purple-300 text-2xl"></i>
                                 <img src="https://lh3.googleusercontent.com/pw/AP1GczPeT9Zlf8Urv6Dbxuf11WJp-T13niQoRp1GdqNTR42x_OHG1HTveJsNAxI0er-h1A5UoKrg88BJe8mw7mT7TuhkQCMabGjGAPeEAKXg_zEFVum7sDQ%3Ds250-k-no" alt="Njeri Ndiho Ndekei" loading="lazy" decoding="async" onerror="this.style.display='none'" class="absolute inset-0 w-full h-full object-cover">
                             </div>
-                            <h4 class="text-head font-semibold text-xs sm:text-base break-words">Njeri Ndiho Ndekei</h4>
-                            <p class="text-muted text-xs mt-0.5">Mother</p>
+                            <h4 class="text-memorial-gold font-semibold text-xs sm:text-base break-words">Njeri Ndiho Ndekei</h4>
+                            <p class="text-gray-400 text-xs mt-0.5">Mother</p>
                         </div>
                     </div>
 
                     <!-- Bracket connector -->
                     <div class="relative w-full h-14 sm:h-16">
-                        <div class="absolute left-1/4 top-0 h-1/2 w-0.5 bg-connector -translate-x-1/2"></div>
-                        <div class="absolute left-3/4 top-0 h-1/2 w-0.5 bg-connector -translate-x-1/2"></div>
-                        <div class="absolute left-1/4 right-1/4 top-1/2 h-0.5 bg-connector"></div>
-                        <div class="absolute left-1/2 top-1/2 h-1/2 w-0.5 bg-connector -translate-x-1/2"></div>
+                        <div class="absolute left-1/4 top-0 h-1/2 w-0.5 bg-purple-700/60 -translate-x-1/2"></div>
+                        <div class="absolute left-3/4 top-0 h-1/2 w-0.5 bg-purple-700/60 -translate-x-1/2"></div>
+                        <div class="absolute left-1/4 right-1/4 top-1/2 h-0.5 bg-purple-700/60"></div>
+                        <div class="absolute left-1/2 top-1/2 h-1/2 w-0.5 bg-purple-700/60 -translate-x-1/2"></div>
                     </div>
 
                     <!-- Son (girlfriend sits below him on phones/tablets, beside him on large screens) -->
                     <div class="w-full flex justify-center">
                         <div class="relative flex flex-col items-center">
-                            <div class="bg-card-strong border border-memorial-gold/50 rounded-xl p-4 sm:p-5 text-center w-44 sm:w-52 relative z-10 shadow-xl ring-2 ring-memorial-gold/20">
-                                <div class="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full mx-auto mb-3 overflow-hidden border-2 border-memorial-gold shadow-md bg-card-strong flex items-center justify-center">
-                                <i class="fa-solid fa-user text-muted text-2xl"></i>
+                            <div class="bg-memorial-darkBg border border-memorial-gold/50 rounded-xl p-4 sm:p-5 text-center w-44 sm:w-52 relative z-10 shadow-xl ring-2 ring-memorial-gold/20">
+                                <div class="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full mx-auto mb-3 overflow-hidden border-2 border-memorial-gold shadow-md bg-purple-900 flex items-center justify-center">
+                                <i class="fa-solid fa-user text-purple-300 text-2xl"></i>
                                 <img src="Pictures/image_328d6d.png" alt="Kinuthia Ndekei" loading="lazy" decoding="async" onerror="this.style.display='none'" class="absolute inset-0 w-full h-full object-cover">
                             </div>
-                                <h4 class="text-head font-semibold text-sm sm:text-base">Kinuthia Ndekei</h4>
-                                <p class="text-soft text-xs mt-0.5 font-medium">Beloved Son</p>
+                                <h4 class="text-memorial-gold font-semibold text-sm sm:text-base">Kinuthia Ndekei</h4>
+                                <p class="text-gray-300 text-xs mt-0.5 font-medium">Beloved Son</p>
                             </div>
 
                             <div class="flex flex-col items-center lg:absolute lg:top-1/2 lg:left-full lg:-translate-y-1/2 lg:flex-row">
-                                <div class="h-8 border-l-2 border-dotted border-connector lg:h-0 lg:w-14 lg:border-l-0 lg:border-t-2"></div>
-                                <div class="bg-card-strong border border-line rounded-xl p-4 sm:p-5 text-center w-44 sm:w-52 relative z-10 shadow-lg">
-                                    <div class="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full mx-auto mb-3 overflow-hidden border-2 border-memorial-gold shadow-md bg-card-strong flex items-center justify-center">
-                                <i class="fa-solid fa-user text-muted text-2xl"></i>
+                                <div class="h-8 border-l-2 border-dotted border-purple-400/70 lg:h-0 lg:w-14 lg:border-l-0 lg:border-t-2"></div>
+                                <div class="bg-memorial-darkBg border border-purple-800/60 rounded-xl p-4 sm:p-5 text-center w-44 sm:w-52 relative z-10 shadow-lg">
+                                    <div class="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full mx-auto mb-3 overflow-hidden border-2 border-memorial-gold shadow-md bg-purple-900 flex items-center justify-center">
+                                <i class="fa-solid fa-user text-purple-300 text-2xl"></i>
                                 <img src="https://lh3.googleusercontent.com/pw/AP1GczPgK2x2l-tN6e3ynThnzXX9-01EniNewzGv_YF0cNQXFUueHDSpie2_0ew7MEzmoHtt3_LmRw5wUZqU4lIz9TQ_bll9dscm4IkQwefBPr11ZfVRF3k=w400-h400-c" alt="Mumbi Hinga" loading="lazy" decoding="async" onerror="this.style.display='none'" class="absolute inset-0 w-full h-full object-cover">
                             </div>
-                                    <h4 class="text-head font-semibold text-sm sm:text-base">Mumbi Hinga</h4>
-                                    <p class="text-muted text-xs mt-0.5">girlfriend</p>
+                                    <h4 class="text-memorial-gold font-semibold text-sm sm:text-base">Mumbi Hinga</h4>
+                                    <p class="text-gray-400 text-xs mt-0.5">Girlfriend</p>
                                 </div>
                             </div>
                         </div>
@@ -564,165 +321,164 @@
             </div>
         </section>
         <!-- FAVORITES SECTION -->
-        <section id="favorites" class="band band-favorites zone-light scroll-mt-20">
-            <div class="max-w-5xl mx-auto">
-                <h2 class="font-serif text-3xl font-bold text-head mb-6 border-b border-line pb-3">Kinuthia's Favorites & Memories</h2>
-
-                <div class="purple-frame">
+        <section id="favorites" class="scroll-mt-28">
+            <div class="bg-purple-950/40 border border-purple-900/50 rounded-2xl p-6 sm:p-10 shadow-xl backdrop-blur-sm">
+                <h2 class="font-serif text-3xl font-bold text-memorial-gold mb-6 border-b border-purple-900 pb-3">Kinuthia's Favorites & Memories</h2>
+                
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-card border border-line p-5 rounded-xl">
-                        <h4 class="text-head font-semibold text-lg mb-2"><i class="fa-solid fa-book-open mr-2"></i> Favorite Books & Movies</h4>
-                        <p class="text-soft text-sm">Passionate reader of biographies, spiritual growth literature, action movies, anime (Japanese) and technology journals.</p>
+                    <div class="bg-purple-900/20 border border-purple-800/40 p-5 rounded-xl">
+                        <h4 class="text-memorial-gold font-semibold text-lg mb-2"><i class="fa-solid fa-book-open mr-2"></i> Favorite Books & Movies</h4>
+                        <p class="text-gray-300 text-sm">Passionate reader of biographies, spiritual growth literature, action movies, anime (Japanese) and technology journals.</p>
                     </div>
-                    <div class="bg-card border border-line p-5 rounded-xl">
-                        <h4 class="text-head font-semibold text-lg mb-2"><i class="fa-solid fa-music mr-2"></i> Favorite Music</h4>
-                        <p class="text-soft text-sm">Loved inspiring gospel hymns, Reggae, hip hop, and soul music that brought family together.</p>
+                    <div class="bg-purple-900/20 border border-purple-800/40 p-5 rounded-xl">
+                        <h4 class="text-memorial-gold font-semibold text-lg mb-2"><i class="fa-solid fa-music mr-2"></i> Favorite Music</h4>
+                        <p class="text-gray-300 text-sm">Loved inspiring gospel hymns, Reggae, hip hop, and soul music that brought family together.</p>
                     </div>
-                    <div class="bg-card border border-line p-5 rounded-xl">
-                        <h4 class="text-head font-semibold text-lg mb-2"><i class="fa-solid fa-burger mr-2"></i> Favorite Food</h4>
-                        <p class="text-soft text-sm">French fries with hamburgers.</p>
+                    <div class="bg-purple-900/20 border border-purple-800/40 p-5 rounded-xl">
+                        <h4 class="text-memorial-gold font-semibold text-lg mb-2"><i class="fa-solid fa-burger mr-2"></i> Favorite Food</h4>
+                        <p class="text-gray-300 text-sm">French fries with hamburgers.</p>
                     </div>
-                    <div class="bg-card border border-line p-5 rounded-xl">
-                        <h4 class="text-head font-semibold text-lg mb-2"><i class="fa-solid fa-ice-cream mr-2"></i>Favorite Dessert </h4>
-                        <p class="text-soft text-sm"> Red velvet/chocolate cake, cookies & brownies</p>
+                    <div class="bg-purple-900/20 border border-purple-800/40 p-5 rounded-xl">
+                        <h4 class="text-memorial-gold font-semibold text-lg mb-2"><i class="fa-solid fa-ice-cream mr-2"></i>Favorite Dessert </h4>
+                        <p class="text-gray-300 text-sm"> Red velvet/chocolate cake, cookies & brownies</p>
                     </div>
-                    <div class="bg-card border border-line p-5 rounded-xl">
-                        <h4 class="text-head font-semibold text-lg mb-2"><i class="fa-solid fa-person-swimming mr-2"></i> Outdoor & Sports</h4>
-                        <p class="text-soft text-sm">Swimming, hiking, football, and running. Certified lifeguard and professional swimming instructor.</p>
+                    <div class="bg-purple-900/20 border border-purple-800/40 p-5 rounded-xl">
+                        <h4 class="text-memorial-gold font-semibold text-lg mb-2"><i class="fa-solid fa-person-swimming mr-2"></i> Outdoor & Sports</h4>
+                        <p class="text-gray-300 text-sm">Swimming, hiking, football, and running. Certified lifeguard and professional swimming instructor.</p>
                     </div>
-                    <div class="bg-card border border-line p-5 rounded-xl">
-                        <h4 class="text-head font-semibold text-lg mb-2"><i class="fa-solid fa-quote-left mr-2"></i> Favorite Quote</h4>
-                        <p class="text-soft text-sm">Don't say what I wouldn't say.</p>
+                    <div class="bg-purple-900/20 border border-purple-800/40 p-5 rounded-xl">
+                        <h4 class="text-memorial-gold font-semibold text-lg mb-2"><i class="fa-solid fa-quote-left mr-2"></i> Favorite Quote</h4>
+                        <p class="text-gray-300 text-sm">Don't say what I wouldn't say.</p>
                     </div>                                                            
-                    <div class="bg-card border border-line p-5 rounded-xl">
-                        <h4 class="text-head font-semibold text-lg mb-2"><i class="fa-solid fa-car mr-2"></i> Fun Fact</h4>
-                        <p class="text-soft text-sm">Demonstrated astounding independence and capability by learning to drive smoothly at the tender age of 13.</p>
+                    <div class="bg-purple-900/20 border border-purple-800/40 p-5 rounded-xl">
+                        <h4 class="text-memorial-gold font-semibold text-lg mb-2"><i class="fa-solid fa-car mr-2"></i> Fun Fact</h4>
+                        <p class="text-gray-300 text-sm">Demonstrated astounding independence and capability by learning to drive smoothly at the tender age of 13.</p>
                     </div>
-
+                        <!-- Video Games (chat-slide) -->
+                    <div class="bg-purple-900/20 border border-purple-800/40 p-5 rounded-xl">
+                        <h4 class="text-memorial-gold font-semibold text-lg mb-2"><i class="fa-solid fa-gamepad mr-2"></i> Video Games</h4>
+                        <p class="text-soft text-sm">FIFA</p>
+                        <p class="text-soft text-sm">GTA (Grand Theft Auto)</p>
+                    </div>
                     <!-- Quirky Traits (chat-slide: eases up into view as the page scrolls) -->
-                    <div class="chat-slide bg-card border border-line p-5 rounded-xl md:col-span-2">
-                        <h4 class="text-head font-semibold text-lg mb-3"><i class="fa-solid fa-face-grin-squint-tears mr-2"></i> Quirky Traits</h4>
+                    <div class="bg-purple-900/20 border border-purple-800/40 p-5 rounded-xl">
+                        <h4 class="text-memorial-gold font-semibold text-lg mb-3"><i class="fa-solid fa-face-grin-squint-tears mr-2"></i> Quirky Traits</h4>
                         <ul class="text-soft text-sm space-y-2 list-disc list-inside">
-                            <li>When he was upset with someone, you'd notice it — he'd suddenly switch to speaking fluent, formal English.</li>
-                            <li>When he started humming while smiling and giggling, you just knew a funny story was about to follow.</li>
+                            <p>When he started humming while smiling and giggling, you just knew a funny story was about to follow.</p>
                         </ul>
                     </div>
 
-                    <!-- Video Games (chat-slide) -->
-                    <div class="chat-slide bg-card border border-line p-5 rounded-xl">
-                        <h4 class="text-head font-semibold text-lg mb-2"><i class="fa-solid fa-gamepad mr-2"></i> Video Games</h4>
-                        <p class="text-soft text-sm">FIFA</p>
-                    </div>
+
 
                     <!-- Favorite Video Game (floating card, chat-slide) -->
-                    <div class="chat-slide floaty-card bg-card-strong border-2 border-memorial-gold/50 p-5 rounded-xl">
+                <!--   <div class="chat-slide floaty-card bg-card-strong border-2 border-memorial-gold/50 p-5 rounded-xl">
                         <h4 class="text-head font-semibold text-lg mb-2"><i class="fa-solid fa-city mr-2"></i> Favorite Video Game</h4>
                         <p class="text-soft text-sm">GTA (Grand Theft Auto)</p>
-                    </div>
+                    </div> --> 
                 </div>
                 </div>
             </div>
         </section>
 
         <!-- TIMELINE SECTION -->
-        <section id="timeline" class="band band-timeline zone-light scroll-mt-20">
-            <div class="max-w-5xl mx-auto">
-                <h2 class="font-serif text-3xl font-bold text-head mb-8 border-b border-line pb-3">Life Timeline</h2>
+        <section id="timeline" class="scroll-mt-28">
+            <div class="bg-purple-950/40 border border-purple-900/50 rounded-2xl p-6 sm:p-10 shadow-xl backdrop-blur-sm">
+                <h2 class="font-serif text-3xl font-bold text-memorial-gold mb-8 border-b border-purple-900 pb-3">Life Timeline</h2>
                 
                 <div class="relative border-l-2 border-memorial-gold/50 ml-4 sm:ml-8 space-y-8">
                     <div class="relative pl-6 sm:pl-8">
-                        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-memorial-gold border-4 border-halo"></div>
-                        <span class="text-xs font-semibold text-accent uppercase tracking-wider">January 29, 1998</span>
-                        <h3 class="text-xl font-bold text-head font-serif mt-1">Birth in Parklands, Nairobi</h3>
-                        <p class="text-soft text-sm mt-1">Brought immense joy to his devoted parents Peter and Njeri Ndekei.</p>
+                        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-memorial-gold border-4 border-memorial-darkBg"></div>
+                        <span class="text-xs font-semibold text-memorial-gold uppercase tracking-wider">January 29, 1998</span>
+                        <h3 class="text-xl font-bold text-white font-serif mt-1">Birth in Parklands, Nairobi</h3>
+                        <p class="text-gray-300 text-sm mt-1">Brought immense joy to his devoted parents Peter and Njeri Ndekei.</p>
                     </div>
 
                     <div class="relative pl-6 sm:pl-8">
-                        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-memorial-gold border-4 border-halo"></div>
-                        <span class="text-xs font-semibold text-accent uppercase tracking-wider">December 3, 2006</span>
-                        <h3 class="text-xl font-bold text-head font-serif mt-1">Public Baptism</h3>
-                        <p class="text-soft text-sm mt-1">Confessed faith in Jesus Christ and baptized by immersion at CITAM Parklands.</p>
+                        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-memorial-gold border-4 border-memorial-darkBg"></div>
+                        <span class="text-xs font-semibold text-memorial-gold uppercase tracking-wider">December 3, 2006</span>
+                        <h3 class="text-xl font-bold text-white font-serif mt-1">Public Baptism</h3>
+                        <p class="text-gray-300 text-sm mt-1">Confessed faith in Jesus Christ and baptized by immersion at CITAM Parklands.</p>
                     </div>
 
                     <div class="relative pl-6 sm:pl-8">
-                        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-memorial-gold border-4 border-halo"></div>
-                        <span class="text-xs font-semibold text-accent uppercase tracking-wider">2012 – 2015</span>
-                        <h3 class="text-xl font-bold text-head font-serif mt-1">High School & Sports Excellence</h3>
-                        <p class="text-soft text-sm mt-1">Consolata School and Likii Hill School; earned medals in swimming, football, and athletics.</p>
+                        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-memorial-gold border-4 border-memorial-darkBg"></div>
+                        <span class="text-xs font-semibold text-memorial-gold uppercase tracking-wider">2012 – 2015</span>
+                        <h3 class="text-xl font-bold text-white font-serif mt-1">High School & Sports Excellence</h3>
+                        <p class="text-gray-300 text-sm mt-1">Consolata School and Likii Hill School; earned medals in swimming, football, and athletics.</p>
                     </div>
 
                     <div class="relative pl-6 sm:pl-8">
-                        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-memorial-gold border-4 border-halo"></div>
-                        <span class="text-xs font-semibold text-accent uppercase tracking-wider">2018 – 2020</span>
-                        <h3 class="text-xl font-bold text-head font-serif mt-1">Professional Certifications & Training</h3>
-                        <p class="text-soft text-sm mt-1">Earned YMCA Lifeguard accreditation and completed web development training in Nairobi.</p>
+                        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-memorial-gold border-4 border-memorial-darkBg"></div>
+                        <span class="text-xs font-semibold text-memorial-gold uppercase tracking-wider">2018 – 2020</span>
+                        <h3 class="text-xl font-bold text-white font-serif mt-1">Professional Certifications & Training</h3>
+                        <p class="text-gray-300 text-sm mt-1">Earned YMCA Lifeguard accreditation and completed web development training in Nairobi.</p>
                     </div>
 
                     <div class="relative pl-6 sm:pl-8">
-                        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-memorial-gold border-4 border-halo"></div>
-                        <span class="text-xs font-semibold text-accent uppercase tracking-wider">December 2021</span>
-                        <h3 class="text-xl font-bold text-head font-serif mt-1">Relocation to the Seattle,US</h3>
-                        <p class="text-soft text-sm mt-1">Advanced his education, successfully graduating from Sumner College in 2025.</p>
+                        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-memorial-gold border-4 border-memorial-darkBg"></div>
+                        <span class="text-xs font-semibold text-memorial-gold uppercase tracking-wider">December 2021</span>
+                        <h3 class="text-xl font-bold text-white font-serif mt-1">Relocation to the Seattle,US</h3>
+                        <p class="text-gray-300 text-sm mt-1">Advanced his education, successfully graduating from Sumner College in 2025.</p>
                     </div>
 
                     <div class="relative pl-6 sm:pl-8">
-                        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-memorial-gold border-4 border-halo"></div>
-                        <span class="text-xs font-semibold text-accent uppercase tracking-wider">September 5, 2026</span>
-                        <h3 class="text-xl font-bold text-head font-serif mt-1">Resting in Peace</h3>
-                        <p class="text-soft text-sm mt-1">Peacefully rested in his sleep after a vibrant life well-lived.</p>
+                        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-memorial-gold border-4 border-memorial-darkBg"></div>
+                        <span class="text-xs font-semibold text-memorial-gold uppercase tracking-wider">September 5, 2026</span>
+                        <h3 class="text-xl font-bold text-white font-serif mt-1">Resting in Peace</h3>
+                        <p class="text-gray-300 text-sm mt-1">Peacefully rested in his sleep after a vibrant life well-lived.</p>
                     </div>
 
                     <div class="relative pl-6 sm:pl-8">
-                        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-ok border-4 border-halo"></div>
-                        <span class="text-xs font-semibold text-ok uppercase tracking-wider">September 23, 2026 · Upcoming</span>
-                        <h3 class="text-xl font-bold text-head font-serif mt-1"><a href="#program-us" class="hover:text-accent underline decoration-dotted underline-offset-4">Seattle,US Memorial Service</a></h3>
-                        <p class="text-soft text-sm mt-1">Memorial service at Valor Memorial, Lakewood, WA, from 11:00 AM to 2:00 PM.</p>
+                        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-emerald-400 border-4 border-memorial-darkBg"></div>
+                        <span class="text-xs font-semibold text-emerald-400 uppercase tracking-wider">September 23, 2026 · Upcoming</span>
+                        <h3 class="text-xl font-bold text-white font-serif mt-1"><a href="#program-us" class="hover:text-memorial-gold underline decoration-dotted underline-offset-4">Seattle,US Memorial Service</a></h3>
+                        <p class="text-gray-300 text-sm mt-1">Memorial service at Valor Memorial, Lakewood, WA, from 11:00 AM to 2:00 PM.</p>
                     </div>
 
                     <div class="relative pl-6 sm:pl-8">
-                        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-ok border-4 border-halo"></div>
-                        <span class="text-xs font-semibold text-ok uppercase tracking-wider">September 24, 2026 · Upcoming</span>
-                        <h3 class="text-xl font-bold text-head font-serif mt-1">Journey Home to Kenya</h3>
-                        <p class="text-soft text-sm mt-1">Kinuthia will be transported back to Kenya.</p>
+                        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-emerald-400 border-4 border-memorial-darkBg"></div>
+                        <span class="text-xs font-semibold text-emerald-400 uppercase tracking-wider">September 24, 2026 · Upcoming</span>
+                        <h3 class="text-xl font-bold text-white font-serif mt-1">Journey Home to Kenya</h3>
+                        <p class="text-gray-300 text-sm mt-1">Kinuthia will be transported back to Kenya.</p>
                     </div>
 
                     <div class="relative pl-6 sm:pl-8">
-                        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-memorial-gold border-4 border-halo animate-pulse"></div>
-                        <span class="text-xs font-semibold text-accent uppercase tracking-wider">September 30, 2026 · Upcoming</span>
-                        <h3 class="text-xl font-bold text-head font-serif mt-1"><a href="#program-kenya" class="hover:text-accent underline decoration-dotted underline-offset-4">Kenya Homegoing Funeral Service</a></h3>
-                        <p class="text-soft text-sm mt-1">Final funeral service and burial at the family home in Lower Kabete, next to Mary Leakey Girls School.</p>
+                        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-memorial-gold border-4 border-memorial-darkBg animate-pulse"></div>
+                        <span class="text-xs font-semibold text-memorial-gold uppercase tracking-wider">September 30, 2026 · Upcoming</span>
+                        <h3 class="text-xl font-bold text-white font-serif mt-1"><a href="#program-kenya" class="hover:text-memorial-gold underline decoration-dotted underline-offset-4">Lower Kabete, KE service</a></h3>
+                        <p class="text-gray-300 text-sm mt-1">Final funeral service and burial at the family home in Lower Kabete, next to Mary Leakey Girls School.</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- PHOTO GALLERY SECTION -->
-        <section id="gallery" class="band band-gallery zone-mid scroll-mt-20">
-            <div class="max-w-5xl mx-auto">
+        <section id="gallery" class="scroll-mt-28">
+            <div class="bg-purple-950/40 border border-purple-900/50 rounded-2xl p-6 sm:p-10 shadow-xl backdrop-blur-sm">
 
                 <!-- SHARE A MEMORY (upload) -->
-                <div class="mb-8 rounded-xl border border-memorial-gold/40 bg-card-strong p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div class="mb-8 rounded-xl border border-memorial-gold/40 bg-gradient-to-r from-purple-900/40 to-indigo-900/30 p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <div>
-                        <h3 class="font-serif text-lg font-bold text-head"><i class="fa-solid fa-camera-retro mr-2"></i>Share a memory with Kinuthia</h3>
-                        <p class="text-sm text-soft mt-1">Have a photo of you and Kinuthia? Upload it here and it will appear in the gallery below for everyone to see.</p>
+                        <h3 class="font-serif text-lg font-bold text-memorial-gold"><i class="fa-solid fa-camera-retro mr-2"></i>Share a memory with Kinuthia</h3>
+                        <p class="text-sm text-gray-300 mt-1">Have a photo of you and Kinuthia? Add it straight to our shared Google Photos album — everyone can see it there, and the family can feature it here on the site.</p>
                     </div>
-                    <button onclick="openUploadPhotoModal()" class="flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 bg-memorial-gold text-black rounded-xl text-sm font-bold hover:bg-yellow-500 transition shadow-md">
-                        <i class="fa-solid fa-cloud-arrow-up"></i> Upload a Photo
-                    </button>
+                    <a href="https://photos.google.com/share/AF1QipM9u5r7AU6I4PVdb9n7lEQB_LdbRpzepLw-4Ws2Amv-F_hIpIHmYqGWo0LASr_xaQ?key=cUxQNmNsV1FUMDd5QV9rQTF5VThKT0lKWmJzUVJR" target="_blank" rel="noopener noreferrer" class="flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 bg-memorial-gold text-black rounded-xl text-sm font-bold hover:bg-yellow-500 transition shadow-md">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Add Your Photo <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                    </a>
                 </div>
 
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b border-line pb-4 gap-4">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b border-purple-900 pb-4 gap-4">
                     <div>
-                        <h2 class="font-serif text-3xl font-bold text-head">Photo Gallery</h2>
-                        <p class="text-soft text-sm mt-1">A few cherished memories of Kinuthia. Tap any photo to view it larger.</p>
-                        <p id="shared-count" class="text-xs text-accent mt-1"></p>
+                        <h2 class="font-serif text-3xl font-bold text-memorial-gold">Photo Gallery</h2>
+                        <p class="text-gray-300 text-sm mt-1">A few cherished memories of Kinuthia. Tap any photo to view it larger.</p>
+                        <p id="shared-count" class="text-xs text-memorial-gold mt-1"></p>
                     </div>
                 </div>
 
                 <div id="gallery-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4"></div>
 
                 <div id="gallery-more" class="text-center mt-6 hidden">
-                    <button onclick="showMorePhotos()" class="px-5 py-2 rounded-xl border border-line-strong text-ink/90 text-sm hover:border-memorial-gold hover:text-accent transition">Show more shared photos</button>
+                    <button onclick="showMorePhotos()" class="px-5 py-2 rounded-xl border border-purple-700 text-gray-200 text-sm hover:border-memorial-gold hover:text-memorial-gold transition">Show more shared photos</button>
                 </div>
 
                 <div class="text-center mt-8">
@@ -734,12 +490,12 @@
         </section>
 
         <!-- MEMORY WALL SECTION -->
-        <section id="memory" class="band band-memory zone-mid scroll-mt-20">
-            <div class="max-w-5xl mx-auto">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b border-line pb-4 gap-4">
+        <section id="memory" class="scroll-mt-28">
+            <div class="bg-purple-950/40 border border-purple-900/50 rounded-2xl p-6 sm:p-10 shadow-xl backdrop-blur-sm">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b border-purple-900 pb-4 gap-4">
                     <div>
-                        <h2 class="font-serif text-3xl font-bold text-head">Memory Wall & Tributes</h2>
-                        <p class="text-soft text-sm mt-1">"Forever in our hearts until we meet again."</p>
+                        <h2 class="font-serif text-3xl font-bold text-memorial-gold">Memory Wall & Tributes</h2>
+                        <p class="text-gray-300 text-sm mt-1">"Forever in our hearts until we meet again."</p>
                     </div>
                     <button onclick="openAddTributeModal()" class="px-4 py-2 bg-memorial-royal hover:bg-purple-800 text-memorial-gold border border-memorial-gold/40 rounded-xl text-sm font-semibold transition flex items-center gap-2 shadow-md">
                         <i class="fa-solid fa-pen-nib"></i> Add Tribute
@@ -752,12 +508,12 @@
         </section>
 
         <!-- VIRTUAL CANDLES SECTION -->
-        <section id="candles" class="band band-candles zone-dark scroll-mt-20">
-            <div class="max-w-5xl mx-auto">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b border-line pb-4 gap-4">
+        <section id="candles" class="scroll-mt-28">
+            <div class="bg-purple-950/40 border border-purple-900/50 rounded-2xl p-6 sm:p-10 shadow-xl backdrop-blur-sm">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b border-purple-900 pb-4 gap-4">
                     <div>
-                        <h2 class="font-serif text-3xl font-bold text-head">Light a Virtual Candle</h2>
-                        <p class="text-soft text-sm mt-1">Light a candle in honor of Kinuthia.</p>
+                        <h2 class="font-serif text-3xl font-bold text-memorial-gold">Light a Virtual Candle</h2>
+                        <p class="text-gray-300 text-sm mt-1">Light a candle in honor of Kinuthia.</p>
                     </div>
                     <button onclick="openLightCandleModal()" class="px-4 py-2 bg-memorial-royal hover:bg-purple-800 text-memorial-gold border border-memorial-gold/40 rounded-xl text-sm font-semibold transition flex items-center gap-2 shadow-md">
                         <i class="fa-solid fa-fire-flame-curved"></i> Light a Candle
@@ -770,45 +526,45 @@
         </section>
 
         <!-- BUS TRANSPORT SECTION -->
-        <section id="buses" class="band band-buses zone-dark scroll-mt-20">
-            <div class="max-w-5xl mx-auto">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b border-line pb-4 gap-4">
+        <section id="buses" class="scroll-mt-28">
+            <div class="bg-purple-950/40 border border-purple-900/50 rounded-2xl p-6 sm:p-10 shadow-xl backdrop-blur-sm">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b border-purple-900 pb-4 gap-4">
                     <div>
-                        <h2 class="font-serif text-3xl font-bold text-head">Funeral Home Transport Bus Slots</h2>
-                        <p class="text-soft text-sm mt-1">For the Kenya Funeral Service on September 30, 2026. Register for a seat on the transport buses picking up family and guests from the Funeral home.</p>
+                        <h2 class="font-serif text-3xl font-bold text-memorial-gold">Funeral Home Transport Bus Slots</h2>
+                        <p class="text-gray-300 text-sm mt-1">For the Kenya Funeral Service on September 30, 2026. Register for a seat on the transport buses picking up family and guests from the Funeral home.</p>
                     </div>
-                    <div class="bg-card-strong border border-memorial-gold/40 px-4 py-2 rounded-xl text-center">
-                        <span class="text-xs text-soft block">Available Slots</span>
-                        <span id="bus-slots-count" class="text-2xl font-bold text-accent">44</span> <span class="text-xs text-soft">/ 50</span>
+                    <div class="bg-purple-900/60 border border-memorial-gold/40 px-4 py-2 rounded-xl text-center">
+                        <span class="text-xs text-gray-300 block">Available Slots</span>
+                        <span id="bus-slots-count" class="text-2xl font-bold text-memorial-gold">44</span> <span class="text-xs text-gray-300">/ 50</span>
                     </div>
                 </div>
 
-                <form id="bus-form" onsubmit="registerBus(event)" class="max-w-xl mx-auto space-y-4 bg-card p-6 rounded-xl border border-line">
+                <form id="bus-form" onsubmit="registerBus(event)" class="max-w-xl mx-auto space-y-4 bg-purple-900/20 p-6 rounded-xl border border-purple-800/40">
                     <div>
-                        <label class="block text-xs font-semibold text-accent mb-1">Full Name</label>
-                        <input type="text" id="bus-name" required class="w-full bg-field border border-line-strong rounded-lg px-3 py-2 text-sm text-ink focus:outline-none focus:border-accent">
+                        <label class="block text-xs font-semibold text-memorial-gold mb-1">Full Name</label>
+                        <input type="text" id="bus-name" required class="w-full bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-memorial-gold">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-accent mb-1">Phone Number</label>
-                        <input type="text" id="bus-phone" required class="w-full bg-field border border-line-strong rounded-lg px-3 py-2 text-sm text-ink focus:outline-none focus:border-accent">
+                        <label class="block text-xs font-semibold text-memorial-gold mb-1">Phone Number</label>
+                        <input type="text" id="bus-phone" required class="w-full bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-memorial-gold">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-accent mb-1">Pickup Location Preference</label>
-                        <select id="bus-location" class="w-full bg-field border border-line-strong rounded-lg px-3 py-2 text-sm text-ink focus:outline-none focus:border-accent">
+                        <label class="block text-xs font-semibold text-memorial-gold mb-1">Pickup Location Preference</label>
+                        <select id="bus-location" class="w-full bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-memorial-gold">
                             <option>Lower Kabete La Paz Pickup</option>
                             <option>Montezuma funeral home</option>
                         </select>
                     </div>
                     <button type="submit" class="w-full py-2.5 bg-memorial-gold text-black font-bold rounded-lg hover:bg-yellow-500 transition text-sm shadow-md">Register Bus Slot</button>
-                    <p class="text-[11px] text-muted text-center">Note: Registered passenger lists are strictly confidential and viewable by authorized admins only.</p>
+                    <p class="text-[11px] text-gray-400 text-center">Note: Registered passenger lists are strictly confidential and viewable by authorized admins only.</p>
                 </form>
             </div>
         </section>
 
         <!-- SERVICE & RSVP SECTION -->
-        <section id="service" class="band band-service zone-dark scroll-mt-20">
-            <div class="max-w-5xl mx-auto">
-                <h2 class="font-serif text-3xl font-bold text-head mb-6 border-b border-line pb-3">Funeral Service Details & Venue</h2>
+        <section id="service" class="scroll-mt-28">
+            <div class="bg-purple-950/40 border border-purple-900/50 rounded-2xl p-6 sm:p-10 shadow-xl backdrop-blur-sm">
+                <h2 class="font-serif text-3xl font-bold text-memorial-gold mb-6 border-b border-purple-900 pb-3">Funeral Service Details & Venue</h2>
 
                 <!-- Family update (editable in Admin) -->
                 <div id="family-update" class="mb-6"></div>
@@ -817,39 +573,39 @@
                 <div id="service-cards" class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8"></div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                    <div class="space-y-4 text-sm text-ink/90">
+                    <div class="space-y-4 text-sm text-gray-200">
                         <div class="flex items-start gap-3">
-                            <i class="fa-solid fa-fire text-accent mt-1"></i>
+                            <i class="fa-solid fa-fire text-memorial-gold mt-1"></i>
                             <div>
-                                <strong class="block text-ink">Physical Candle Lighting Moment</strong>
+                                <strong class="block text-white">Physical Candle Lighting Moment</strong>
                                 <span>Wednesday, September 30, 2026 — 2:00 PM at Ndekei's Residence, Nairobi</span>
                             </div>
                         </div>
                         <div class="flex items-start gap-3">
-                            <i class="fa-solid fa-video text-accent mt-1"></i>
+                            <i class="fa-solid fa-video text-memorial-gold mt-1"></i>
                             <div>
-                                <strong class="block text-ink">Virtual Livestream Link (Kenya Service)</strong>
-                                <a id="live-link" href="https://zoom.us/#" target="_blank" rel="noopener noreferrer" class="text-accent underline hover:text-head">Click here to join the live stream event →</a>
-                                <p class="text-[11px] text-muted mt-1">For those unable to travel, including family and friends joining from the Seattle,US.</p>
+                                <strong class="block text-white">Virtual Livestream Link (Kenya Service)</strong>
+                                <a id="live-link" href="https://zoom.us/#" target="_blank" rel="noopener noreferrer" class="text-memorial-gold underline hover:text-yellow-400">Click here to join the live stream event →</a>
+                                <p class="text-[11px] text-gray-400 mt-1">For those unable to travel, including family and friends joining from the Seattle,US.</p>
                             </div>
                         </div>
                     </div>
 
                     <!-- RSVP Form -->
-                    <form onsubmit="submitRSVP(event)" class="bg-card p-6 rounded-xl border border-line space-y-4">
-                        <h3 class="font-serif text-xl font-bold text-head mb-2">Event Attendance RSVP</h3>
-                        <p class="text-xs text-soft italic mb-3">This RSVP is for the Kenya Funeral Service on September 30, 2026 at Ndekei's Residence, Nairobi.</p>
+                    <form onsubmit="submitRSVP(event)" class="bg-purple-900/20 p-6 rounded-xl border border-purple-800/40 space-y-4">
+                        <h3 class="font-serif text-xl font-bold text-memorial-gold mb-2">Event Attendance RSVP</h3>
+                        <p class="text-xs text-gray-300 italic mb-3">This RSVP is for the Kenya Funeral Service on September 30, 2026 at Ndekei's Residence, Nairobi.</p>
                         
                         <div class="grid grid-cols-2 gap-3">
-                            <input type="text" id="rsvp-fname" placeholder="First Name" required class="bg-field border border-line-strong rounded-lg px-3 py-2 text-sm text-ink focus:outline-none focus:border-accent">
-                            <input type="text" id="rsvp-lname" placeholder="Last Name" required class="bg-field border border-line-strong rounded-lg px-3 py-2 text-sm text-ink focus:outline-none focus:border-accent">
+                            <input type="text" id="rsvp-fname" placeholder="First Name" required class="bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-memorial-gold">
+                            <input type="text" id="rsvp-lname" placeholder="Last Name" required class="bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-memorial-gold">
                         </div>
-                        <input type="email" id="rsvp-email" placeholder="Email Address" required class="w-full bg-field border border-line-strong rounded-lg px-3 py-2 text-sm text-ink focus:outline-none focus:border-accent">
-                        <input type="tel" id="rsvp-phone" placeholder="Mobile Phone" required class="w-full bg-field border border-line-strong rounded-lg px-3 py-2 text-sm text-ink focus:outline-none focus:border-accent">
+                        <input type="email" id="rsvp-email" placeholder="Email Address" required class="w-full bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-memorial-gold">
+                        <input type="tel" id="rsvp-phone" placeholder="Mobile Phone" required class="w-full bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-memorial-gold">
                         
                         <div>
-                            <label class="block text-xs font-semibold text-accent mb-1">Number Attending</label>
-                            <select id="rsvp-count" class="w-full bg-field border border-line-strong rounded-lg px-3 py-2 text-sm text-ink focus:outline-none focus:border-accent">
+                            <label class="block text-xs font-semibold text-memorial-gold mb-1">Number Attending</label>
+                            <select id="rsvp-count" class="w-full bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-memorial-gold">
                                 <option value="1">1 Person</option>
                                 <option value="2">2 People</option>
                                 <option value="3">3 People</option>
@@ -862,29 +618,28 @@
                 </div>
 
                 <!-- Comprehensive Order of Service / Funeral Program -->
-                <div class="border-t border-line pt-6">
-                    <h3 class="font-serif text-2xl font-bold text-head mb-4">Complete Order of Service & Funeral Program <span class="block sm:inline text-sm font-normal text-muted">— Kenya Service, September 30, 2026</span></h3>
-                    <div id="order-of-service-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-soft"></div>
+                <div class="border-t border-purple-900 pt-6">
+                    <h3 class="font-serif text-2xl font-bold text-memorial-gold mb-4">Complete Order of Service & Funeral Program <span class="block sm:inline text-sm font-normal text-gray-400">— Kenya Service, September 30, 2026</span></h3>
+                    <div id="order-of-service-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-gray-300"></div>
                     <a href="#program-kenya" class="inline-flex items-center gap-2 mt-5 px-4 py-2 rounded-xl bg-memorial-royal border border-memorial-gold/40 text-memorial-gold text-sm font-semibold hover:bg-purple-800 transition"><i class="fa-solid fa-up-right-from-square text-xs"></i> Open the full program page →</a>
                 </div>
             </div>
         </section>
 
     </main>
-    </div>
     </div><!-- /site-content -->
 
     <!-- FULL-DAY PROGRAM PAGE (shown for #program-us and #program-kenya) -->
-    <div id="program-view" class="hidden zone-light program-band">
-        <div id="program-view-body" class="max-w-3xl mx-auto px-4 pt-10 pb-28"></div>
+    <div id="program-view" class="hidden">
+        <div id="program-view-body" class="max-w-3xl mx-auto px-4 py-10"></div>
     </div>
 
     <!-- FOOTER WITH GALLERY RETURN LINK -->
-    <footer class="zone-dark relative footer-bg py-16 overflow-hidden text-center">
-        <div class="absolute bottom-0 left-0 right-0 flex justify-between pointer-events-none opacity-20 px-4">
-            <div class="palm-branch text-7xl text-accent"><i class="fa-solid fa-leaf"></i></div>
-            <div class="palm-branch text-8xl text-accent" style="animation-delay: -2s;"><i class="fa-solid fa-seedling"></i></div>
-            <div class="palm-branch text-7xl text-accent" style="animation-delay: -4s;"><i class="fa-solid fa-leaf"></i></div>
+    <footer class="relative footer-bg border-t border-purple-900/50 py-16 overflow-hidden mt-16 text-center shadow-inner">
+        <div class="absolute bottom-0 left-0 right-0 flex justify-between pointer-events-none opacity-40 px-4">
+            <div class="palm-branch text-7xl text-emerald-400"><i class="fa-solid fa-leaf"></i></div>
+            <div class="palm-branch text-8xl text-emerald-400" style="animation-delay: -2s;"><i class="fa-solid fa-seedling"></i></div>
+            <div class="palm-branch text-7xl text-emerald-400" style="animation-delay: -4s;"><i class="fa-solid fa-leaf"></i></div>
         </div>
 
         <div class="max-w-4xl mx-auto px-4 relative z-10 space-y-4">
@@ -893,7 +648,7 @@
             </a>
             <div class="max-w-2xl mx-auto pt-6 pb-2 border-t border-line">
                 <h3 class="font-serif text-lg font-bold text-head mb-2">Acknowledgement</h3>
-                <p class="text-sm leading-relaxed text-soft">The parents and family of the late John Kinuthia Ndekei sincerely appreciate your prayers, presence, messages of condolence, encouragement, support and every act of kindness shown during this difficult time. Your love and support have been a source of great comfort. May God bless you abundantly.</p>
+                <p class="text-sm leading-relaxed text-soft">The parents and family of the late Kinuthia Ndekei sincerely appreciate your prayers, presence, messages of condolence, encouragement, support and every act of kindness shown during this difficult time. Your love and support have been a source of great comfort. May God bless you abundantly.</p>
             </div>
             <h3 class="font-serif text-2xl font-bold text-head">Rest in Eternal Peace</h3>
             <p class="text-sm font-medium text-ink/90">John Kinuthia Ndekei (1998 – 2026)</p>
@@ -903,24 +658,24 @@
 
     <!-- ADMIN MODAL -->
     <div id="admin-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="zone-modal bg-modal border border-line-strong rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto p-6 shadow-2xl relative text-ink">
-            <button onclick="closeAdminModal()" class="absolute top-4 right-4 text-muted hover:text-ink text-xl"><i class="fa-solid fa-xmark"></i></button>
+        <div class="bg-purple-950 border border-purple-800 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto p-6 shadow-2xl relative text-gray-100">
+            <button onclick="closeAdminModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
             
             <div id="admin-login-view">
-                <h2 class="font-serif text-2xl font-bold text-head mb-4">Admin Portal Login</h2>
-                <p class="text-xs text-soft mb-4">Enter admin credentials to have full server rights to delete or edit anything on the site.</p>
+                <h2 class="font-serif text-2xl font-bold text-memorial-gold mb-4">Admin Portal Login</h2>
+                <p class="text-xs text-gray-300 mb-4">Enter admin credentials to have full server rights to delete or edit anything on the site.</p>
                 <div class="space-y-4 max-w-md">
-                    <input type="text" id="admin-user" placeholder="Username" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false" class="w-full bg-field border border-line-strong rounded-lg px-3 py-2 text-sm text-ink">
-                    <input type="password" id="admin-pass" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter'){loginAdmin()}" class="w-full bg-field border border-line-strong rounded-lg px-3 py-2 text-sm text-ink">
-                    <div id="admin-login-error" class="hidden text-xs rounded-lg px-3 py-2 border bg-bad/10 border-bad/40 text-bad" role="alert"></div>
+                    <input type="text" id="admin-user" placeholder="Username" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false" class="w-full bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white">
+                    <input type="password" id="admin-pass" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter'){loginAdmin()}" class="w-full bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white">
+                    <div id="admin-login-error" class="hidden text-xs rounded-lg px-3 py-2 border bg-red-900/30 border-red-700/60 text-red-200" role="alert"></div>
                     <button id="admin-login-btn" onclick="loginAdmin()" class="w-full py-2.5 bg-memorial-gold text-black font-bold rounded-lg text-sm disabled:opacity-60">Login to Dashboard</button>
-                    <button type="button" id="admin-forgot" onclick="resetAdminPassword()" class="hidden text-xs text-accent underline">Forgot password?</button>
+                    <button type="button" id="admin-forgot" onclick="resetAdminPassword()" class="hidden text-xs text-memorial-gold underline">Forgot password?</button>
                 </div>
             </div>
 
             <div id="admin-dashboard-view" class="hidden space-y-6">
-                <div class="flex justify-between items-center border-b border-line pb-3">
-                    <h2 class="font-serif text-2xl font-bold text-head">Admin Full Control Panel</h2>
+                <div class="flex justify-between items-center border-b border-purple-900 pb-3">
+                    <h2 class="font-serif text-2xl font-bold text-memorial-gold">Admin Full Control Panel</h2>
                     <div class="flex gap-2">
                         <button onclick="loadAdmin()" class="px-3 py-1 bg-purple-800 text-white rounded text-xs"><i class="fa-solid fa-rotate mr-1"></i>Refresh</button>
                         <button onclick="logoutAdmin()" class="px-3 py-1 bg-red-900 text-white rounded text-xs">Logout</button>
@@ -930,35 +685,35 @@
 
                 <div class="space-y-6">
                     <div>
-                        <h3 class="font-serif text-lg font-bold text-head mb-2">Edit Service Programs & Family Update</h3>
-                        <div id="admin-programs-editor" class="bg-card p-4 rounded-xl border border-line text-sm text-soft"></div>
+                        <h3 class="font-serif text-lg font-bold text-memorial-gold mb-2">Edit Service Programs & Family Update</h3>
+                        <div id="admin-programs-editor" class="bg-purple-900/20 p-4 rounded-xl border border-purple-800 text-sm text-gray-300"></div>
                     </div>
 
                     <div>
-                        <h3 class="font-serif text-lg font-bold text-head mb-2">Pending Tribute Approvals</h3>
-                        <div id="admin-pending-tributes" class="bg-card p-4 rounded-xl border border-line text-sm text-soft space-y-2"></div>
+                        <h3 class="font-serif text-lg font-bold text-memorial-gold mb-2">Pending Tribute Approvals</h3>
+                        <div id="admin-pending-tributes" class="bg-purple-900/20 p-4 rounded-xl border border-purple-800 text-sm text-gray-300 space-y-2"></div>
                     </div>
 
                     <div>
-                        <h3 class="font-serif text-lg font-bold text-head mb-2">Manage Published Tributes (Full Server Rights)</h3>
-                        <div id="admin-published-tributes" class="bg-card p-4 rounded-xl border border-line text-sm text-soft space-y-2"></div>
+                        <h3 class="font-serif text-lg font-bold text-memorial-gold mb-2">Manage Published Tributes (Full Server Rights)</h3>
+                        <div id="admin-published-tributes" class="bg-purple-900/20 p-4 rounded-xl border border-purple-800 text-sm text-gray-300 space-y-2"></div>
                     </div>
 
                     <div>
-                        <h3 class="font-serif text-lg font-bold text-head mb-2">Manage Shared Gallery Photos</h3>
-                        <div id="admin-photos-manager" class="bg-card p-4 rounded-xl border border-line text-sm text-soft space-y-2"></div>
+                        <h3 class="font-serif text-lg font-bold text-memorial-gold mb-2">Manage Shared Gallery Photos</h3>
+                        <div id="admin-photos-manager" class="bg-purple-900/20 p-4 rounded-xl border border-purple-800 text-sm text-gray-300 space-y-2"></div>
                     </div>
 
                     <div>
-                        <h3 class="font-serif text-lg font-bold text-head mb-2">Manage Virtual Candles (Full Server Rights)</h3>
-                        <div id="admin-candles-manager" class="bg-card p-4 rounded-xl border border-line text-sm text-soft space-y-2"></div>
+                        <h3 class="font-serif text-lg font-bold text-memorial-gold mb-2">Manage Virtual Candles (Full Server Rights)</h3>
+                        <div id="admin-candles-manager" class="bg-purple-900/20 p-4 rounded-xl border border-purple-800 text-sm text-gray-300 space-y-2"></div>
                     </div>
 
                     <div>
-                        <h3 class="font-serif text-lg font-bold text-head mb-2">Registered Bus Passengers & RSVPs (Confidential)</h3>
+                        <h3 class="font-serif text-lg font-bold text-memorial-gold mb-2">Registered Bus Passengers & RSVPs (Confidential)</h3>
                         <div class="overflow-x-auto">
-                            <table class="w-full text-left text-xs text-soft bg-card rounded-xl border border-line">
-                                <thead class="bg-card-strong text-accent uppercase">
+                            <table class="w-full text-left text-xs text-gray-300 bg-purple-900/10 rounded-xl border border-purple-800">
+                                <thead class="bg-purple-900/50 text-memorial-gold uppercase">
                                     <tr>
                                         <th class="p-3">Name</th>
                                         <th class="p-3">Phone</th>
@@ -977,10 +732,10 @@
     </div>
 
     <!-- PHOTO LIGHTBOX MODAL -->
-    <div id="photo-lightbox" class="zone-dark fixed inset-0 bg-black/90 backdrop-blur-sm z-[60] hidden flex-col items-center justify-center p-4 gap-3" onclick="closePhotoLightbox(event)">
+    <div id="photo-lightbox" class="fixed inset-0 bg-black/90 backdrop-blur-sm z-[60] hidden flex-col items-center justify-center p-4 gap-3" onclick="closePhotoLightbox(event)">
         <button onclick="closePhotoLightbox(event)" class="absolute top-4 right-4 sm:top-6 sm:right-6 text-white/80 hover:text-white text-2xl z-10"><i class="fa-solid fa-xmark"></i></button>
-        <img id="photo-lightbox-img" src="" alt="Kinuthia Ndekei memory" class="max-w-full max-h-[80vh] rounded-xl shadow-2xl border border-white/20">
-        <p id="photo-lightbox-caption" class="hidden text-sm text-ink/90 text-center max-w-xl"></p>
+        <img id="photo-lightbox-img" src="" alt="Kinuthia Ndekei memory" class="max-w-full max-h-[80vh] rounded-xl shadow-2xl border border-purple-800/50">
+        <p id="photo-lightbox-caption" class="hidden text-sm text-gray-200 text-center max-w-xl"></p>
     </div>
 
     <!-- TOAST -->
@@ -988,8 +743,8 @@
 
     <!-- GENERIC MODAL -->
     <div id="generic-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div id="generic-modal-card" class="zone-modal bg-modal border border-line-strong rounded-2xl w-full max-w-lg max-h-[92vh] overflow-y-auto p-5 sm:p-6 shadow-2xl relative text-ink">
-            <button onclick="closeGenericModal()" class="absolute top-4 right-4 text-muted hover:text-ink text-xl"><i class="fa-solid fa-xmark"></i></button>
+        <div id="generic-modal-card" class="bg-purple-950 border border-purple-800 rounded-2xl w-full max-w-lg max-h-[92vh] overflow-y-auto p-5 sm:p-6 shadow-2xl relative text-gray-100">
+            <button onclick="closeGenericModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
             <div id="generic-modal-body"></div>
         </div>
     </div>
@@ -1036,6 +791,7 @@ const FEATURED_PHOTOS = [
         { url: "https://lh3.googleusercontent.com/pw/AP1GczMZxrFFIvHWSaH35noBcSjDHV5ObjSxBw6qljZicAKxEG6XiyE2stKMLUfSiTslrqxgoGFUNj508d_lKYbn0BCWP4TG9R5OgF38xr_FfC6U3qcJ284", caption: "" },
         { url: "https://lh3.googleusercontent.com/pw/AP1GczPmeTmAnA6q1CvJQ15PSFvFOPQL8Ah0Rpjn5fI0v3Dwo35SqIO2dwwpB9mH2eMpwT8qx9n7u0P76FftbY1NbrxzGxlBYo4JqJwClxsJHeqC__4MlUxD", caption: "" },
         { url: "https://lh3.googleusercontent.com/pw/AP1GczO-mJH3KX9glSmSJZic5WjcyNWft0juKMCK58x3enH_Y8PTBVbbGv6vZdrsQQ78VP2V4p1_PfztyC6gWGE_nnyiTcrFwbsL4mY0-kfP4u8QDVSbLrI", caption: "" },
+        // ↓ these 5 are the ones I just added
         { url: "https://lh3.googleusercontent.com/pw/AP1GczNq5cnbYh_jlUcJEHmTYiKAUcPcfusAz4Dr6PELB04NSO3HHXYaz-rozhY_NKuaJr3om2961Je_pVm9i0uYqdAaq3bLVkQwBFPcCK46aT1-mCXJpkca", caption: "" },
         { url: "https://lh3.googleusercontent.com/pw/AP1GczMBUZT5hYjxVRmTEveyEJ-I1WbH-qKIjdPhvKtTGhVwaHDJ-9G1Byk58Qri1V-ymquzly6hv7EA0CqlDnrgciJ2GwAXaItkH9L37WX06lbhuPaPy7dQ", caption: "" },
         { url: "https://lh3.googleusercontent.com/pw/AP1GczPeT9Zlf8Urv6Dbxuf11WJp-T13niQoRp1GdqNTR42x_OHG1HTveJsNAxI0er-h1A5UoKrg88BJe8mw7mT7TuhkQCMabGjGAPeEAKXg_zEFVum7sDQ", caption: "" },
@@ -1068,34 +824,25 @@ const PROGRAMS_DEFAULT = {
     kenya: {
         icon: 'fa-cross',
         status: 'Upcoming',
-        title: 'Kenya Homegoing Funeral Service',
+        title: 'Lower Kabete, KE service',
         date: 'Wednesday, September 30, 2026',
         time: '10:00 AM',
         venue: "Ndekei family home, Lower Kabete, next to Mary Leakey Girls School, Nairobi, Kenya",
         mapUrl: "https://www.google.com/maps/dir//Ndekei's+Residence,+QP5G%2BGPW/@-1.2423454,36.7280684,15z/data=!4m8!4m7!1m0!1m5!1m1!1s0x182f190021a79151:0xb1dc495fc0eaa354!2m2!1d36.7268258!2d-1.2410638?entry=ttu&g_ep=EgoyMDI2MDkxNi4wIKXMDSoASAFQAw%3D%3D",
         livestream: 'https://zoom.us/#',
         items: [
-            ['', "Arrival of family members at the mortuary"],
-            ['', "Viewing of the body"],
-            ['', "Prayer at the mortuary"],
-            ['', "Departure from the mortuary"],
-            ['', "Arrival of the cortege at the funeral venue"],
-            ['', "Arrival and settling of family and guests"],
-            ['', "Opening prayer"],
-            ['', "Opening hymn"],
-            ['', "Welcome and introductions"],
-            ['', "Biography / Eulogy of John Kinuthia Ndekei"],
-            ['', "Tribute from Dad"],
-            ['', "Tribute from Mum"],
-            ['', "Special song / hymn"],
-            ['', "Sermon / message"],
-            ['', "Family acknowledgement"],
-            ['', "Closing prayer"],
-            ['', "Procession to the graveside"],
-            ['', "Graveside service"],
-            ['', "Lowering of the casket"],
-            ['', "Laying of wreaths / flowers"],
-            ['', "Final prayers and benediction"]
+            ['08:30 AM', 'Arrival of family members at Montezuma funeral home'],
+            ['09:00 AM', 'Private viewing of the body & short family prayer'],
+            ['10:00 AM', "Departure of cortege to Ndekei's Residence"],
+            ['10:30 AM', "Arrival & Seating of guests at Ndekei's Residence"],
+            ['10:45 AM', 'Opening Prayer & Processional Hymn'],
+            ['11:15 AM', 'Scripture Reading & Worship Songs'],
+            ['11:45 AM', 'Reading of Biography / Eulogy (by Family Representative)'],
+            ['12:15 PM', 'Tributes from Parents, Family, and Mumbi Hinga'],
+            ['01:00 PM', 'Memorial Sermon & Message of Hope (SRPC Wangige church)'],
+            ['02:00 PM', 'Physical Candle Lighting Moment & Final Viewing'],
+            ['02:45 PM', 'Recessional Hymn & Movement to Graveside'],
+            ['03:30 PM', 'Graveside Committal Service & Lowering of Casket']
         ],
         notes: [
             'Kinuthia will be transported back to Kenya on Thursday, September 24, 2026.'
@@ -1139,53 +886,6 @@ async function copySiteLink() {
     }
 }
 
-/* Scroll-reveal: fades/slides each section's panel in as it enters the
-   viewport. Runs once per element (unobserve after revealing) and skips
-   entirely under prefers-reduced-motion, where CSS already keeps everything
-   visible. Applied to the static section panels present at first paint;
-   dynamically-rendered cards (tributes/candles/photos) already get their own
-   entrance via the browser's normal paint of new content, so this stays
-   cheap and doesn't need to re-run on every re-render. */
-function setupScrollReveal() {
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const targets = document.querySelectorAll('#site-content main section > div, #site-content main section > form');
-    if (!targets.length || !('IntersectionObserver' in window)) return;
-    const io = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) { entry.target.classList.add('in'); io.unobserve(entry.target); }
-        });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-    targets.forEach((el, i) => { el.classList.add('reveal'); el.style.transitionDelay = `${Math.min(i % 3, 2) * 60}ms`; io.observe(el); });
-}
-
-/* Chat-style cards (.chat-slide): slide up from below the moment they enter
-   the viewport as the person scrolls, then stay put (fires once each). */
-function setupChatSlideReveal() {
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const targets = document.querySelectorAll('.chat-slide');
-    if (!targets.length || !('IntersectionObserver' in window)) return;
-    const io = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) { entry.target.classList.add('in'); io.unobserve(entry.target); }
-        });
-    }, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
-    targets.forEach((el, i) => { el.style.transitionDelay = `${(i % 4) * 90}ms`; io.observe(el); });
-}
-
-/* Button "busy" state: shows a spinning icon + label so a tap on Submit/etc.
-   gives instant visual assurance while the network request is in flight. */
-function setBtnBusy(btn, busy, busyLabel = 'Submitting…') {
-    if (!btn) return;
-    if (busy) {
-        if (btn.dataset.origHtml === undefined) btn.dataset.origHtml = btn.innerHTML;
-        btn.disabled = true;
-        btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin mr-1.5"></i>${esc(busyLabel)}`;
-    } else {
-        btn.disabled = false;
-        if (btn.dataset.origHtml !== undefined) { btn.innerHTML = btn.dataset.origHtml; delete btn.dataset.origHtml; }
-    }
-}
-
 let toastTimer;
 function toast(msg, kind = 'info', ms = 5000) {
     const el = $('toast');
@@ -1203,8 +903,6 @@ const localStore = {
     _read(col) { try { return JSON.parse(localStorage.getItem(col)) || []; } catch { return []; } },
     _write(col, arr) { localStorage.setItem(col, JSON.stringify(arr)); },
     async list(col) { return this._read(col); },
-    async more() { return []; }, // single-browser fallback already returns everything in one go
-    hasMore() { return false; },
     async get(col, id) { return this._read(col).find(x => x.id === id) || null; },
     async add(col, data, id) { const arr = this._read(col); const item = { ...data, id: id || uid() }; arr.unshift(item); this._write(col, arr); return item.id; },
     async update(col, id, patch) { const arr = this._read(col); const i = arr.findIndex(x => x.id === id); if (i > -1) { arr[i] = { ...arr[i], ...patch }; this._write(col, arr); } },
@@ -1252,26 +950,11 @@ async function makeCloudStore() {
     const fapp = appMod.initializeApp(FIREBASE_CONFIG);
     const db = fs.getFirestore(fapp);
     const auth = au.getAuth(fapp);
-    // Pagination cursors, one per collection, so "Load More" can ask Firestore
-    // for the NEXT page (using startAfter + a small limit) instead of every
-    // visitor downloading the entire collection — this is what was making
-    // first paint slow: tributes/photos have no cap that scales with growth,
-    // and photo thumbnails in particular are large (base64 images).
-    const cursors = {};
     return {
         async list(col, { max = 500 } = {}) {
             const snap = await fs.getDocs(fs.query(fs.collection(db, col), fs.orderBy('createdAt', 'desc'), fs.limit(max)));
-            cursors[col] = { lastDoc: snap.docs[snap.docs.length - 1] || null, exhausted: snap.docs.length < max };
             return snap.docs.map(d => ({ ...d.data(), id: d.id }));
         },
-        async more(col, max = 500) {
-            const c = cursors[col];
-            if (!c || !c.lastDoc || c.exhausted) return [];
-            const snap = await fs.getDocs(fs.query(fs.collection(db, col), fs.orderBy('createdAt', 'desc'), fs.startAfter(c.lastDoc), fs.limit(max)));
-            cursors[col] = { lastDoc: snap.docs[snap.docs.length - 1] || c.lastDoc, exhausted: snap.docs.length < max };
-            return snap.docs.map(d => ({ ...d.data(), id: d.id }));
-        },
-        hasMore(col) { const c = cursors[col]; return !c || !c.exhausted; },
         async get(col, id) { const s = await fs.getDoc(fs.doc(db, col, id)); return s.exists() ? { ...s.data(), id: s.id } : null; },
         async add(col, data, id) {
             if (id) { await fs.setDoc(fs.doc(db, col, id), data); return id; }
@@ -1298,16 +981,9 @@ const state = { tributes: [], pending: [], candles: [], photos: [], registrants:
 let sharedShown = SHARED_PAGE_SIZE;
 let isAdmin = false;
 
-/* Public visitors get small, fast first pages (with a "Load More" button);
-   the admin panel asks for a much bigger cap so moderation still sees
-   everything without needing to click through pages. */
-const PAGE_TRIBUTES = 12, PAGE_CANDLES = 30, PAGE_PHOTOS = 18, ADMIN_MAX = 500;
-async function loadTributes(max = PAGE_TRIBUTES) { state.tributes = await Store.list('tributes', { max }); renderTributes(); renderAdminPublishedTributes(); }
-async function loadCandles(max = PAGE_CANDLES) { state.candles = await Store.list('candles', { max }); renderCandles(); renderAdminCandlesManager(); }
-async function loadPhotos(max = PAGE_PHOTOS) { state.photos = await Store.list('photos', { max }); renderGallery(); renderAdminPhotos(); }
-async function loadMoreTributes() { const btn = $('tributes-load-more'); setBtnBusy(btn, true, 'Loading…'); try { state.tributes = state.tributes.concat(await Store.more('tributes', PAGE_TRIBUTES)); renderTributes(); } catch (e) { console.error(e); toast('Could not load more tributes.', 'error'); } }
-async function loadMoreCandles() { const btn = $('candles-load-more'); setBtnBusy(btn, true, 'Loading…'); try { state.candles = state.candles.concat(await Store.more('candles', PAGE_CANDLES)); renderCandles(); } catch (e) { console.error(e); toast('Could not load more candles.', 'error'); } }
-async function loadMorePhotos() { state.photos = state.photos.concat(await Store.more('photos', PAGE_PHOTOS)); renderGallery(); }
+async function loadTributes() { state.tributes = await Store.list('tributes'); renderTributes(); renderAdminPublishedTributes(); }
+async function loadCandles() { state.candles = await Store.list('candles'); renderCandles(); renderAdminCandlesManager(); }
+async function loadPhotos() { state.photos = await Store.list('photos', { max: 300 }); renderGallery(); renderAdminPhotos(); }
 async function loadSeats() { state.seats = await Store.list('busSeats'); renderSeats(); }
 async function loadPending() { state.pending = await Store.list('pendingTributes'); renderPendingTributes(); }
 async function loadRegistrants() { state.registrants = await Store.list('registrants'); renderRegistrants(); }
@@ -1328,10 +1004,10 @@ function _syncBanner() {
     const el = $('admin-sync-status');
     if (!el) return;
     if (CLOUD) {
-        el.className = 'text-xs rounded-lg px-3 py-2 border bg-ok/10 border-ok/40 text-ok';
+        el.className = 'text-xs rounded-lg px-3 py-2 border bg-emerald-900/30 border-emerald-700/50 text-emerald-200';
         el.innerHTML = '<i class="fa-solid fa-cloud mr-1"></i> Shared cloud database is ON — you see tributes, candles, RSVPs and photos submitted from every device.';
     } else {
-        el.className = 'text-xs rounded-lg px-3 py-2 border bg-warn/10 border-warn/40 text-warn';
+        el.className = 'text-xs rounded-lg px-3 py-2 border bg-amber-900/30 border-amber-600/50 text-amber-200';
         el.innerHTML = '<i class="fa-solid fa-triangle-exclamation mr-1"></i> <strong>Local-only mode.</strong> Submissions are saved only in the browser they were made in, so tributes sent from other people\'s phones or computers will NOT appear here. Connect Firebase (see FIREBASE-SETUP.md) to fix this.';
     }
 }
@@ -1405,8 +1081,8 @@ function editorMarkup(placeholder) {
         </div>
         <div id="rte-editor" class="rte-editor rich" contenteditable="true" role="textbox" aria-multiline="true" data-placeholder="${esc(placeholder)}" oninput="rteOnInput()" onpaste="rtePaste(event)"></div>
         <div class="flex justify-between text-[11px] mt-1">
-            <span class="text-muted">Press Enter to start a new paragraph</span>
-            <span id="rte-count" class="text-muted">0 / ${RICH_MAX_TEXT}</span>
+            <span class="text-gray-400">Press Enter to start a new paragraph</span>
+            <span id="rte-count" class="text-gray-400">0 / ${RICH_MAX_TEXT}</span>
         </div>
     </div>`;
 }
@@ -1449,7 +1125,7 @@ function rteCount() {
     const ed = rteEditor(), c = $('rte-count'); if (!ed || !c) return;
     const n = ed.textContent.trim().length;
     c.textContent = `${n} / ${RICH_MAX_TEXT}`;
-    c.className = n > RICH_MAX_TEXT ? 'text-bad font-semibold' : 'text-muted';
+    c.className = n > RICH_MAX_TEXT ? 'text-red-400 font-semibold' : 'text-gray-400';
 }
 function rteOnInput() {
     const ed = rteEditor();
@@ -1476,22 +1152,19 @@ function openGenericModal(html, wide = false) {
 /* ---------- Tributes ---------- */
 function renderTributes() {
     const c = $('tributes-container');
-    if (!state.tributes.length) { c.innerHTML = '<p class="text-sm text-muted italic text-center py-4">Be the first to share a tribute for Kinuthia.</p>'; return; }
+    if (!state.tributes.length) { c.innerHTML = '<p class="text-sm text-gray-400 italic text-center py-4">Be the first to share a tribute for Kinuthia.</p>'; return; }
     c.innerHTML = state.tributes.map(t => {
         const long = richPlainLen(t.text) > 700;
         return `
-        <div class="bg-card border border-line p-5 sm:p-6 rounded-xl">
-            <div class="rich font-serif text-ink/90 text-base mb-3 ${long ? 'tribute-clamped' : ''}">${richBody(t.text)}</div>
-            ${long ? '<button type="button" onclick="toggleTribute(this)" class="text-xs text-accent underline mb-3">Read full tribute</button>' : ''}
-            <div class="flex justify-between items-center gap-3 text-xs text-accent font-semibold pt-1">
+        <div class="bg-purple-900/20 border border-purple-800/40 p-5 sm:p-6 rounded-xl">
+            <div class="rich font-serif text-gray-200 text-base mb-3 ${long ? 'tribute-clamped' : ''}">${richBody(t.text)}</div>
+            ${long ? '<button type="button" onclick="toggleTribute(this)" class="text-xs text-memorial-gold underline mb-3">Read full tribute</button>' : ''}
+            <div class="flex justify-between items-center gap-3 text-xs text-memorial-gold font-semibold pt-1">
                 <span>— ${esc(t.name)}</span>
-                <span class="text-muted text-right">${esc(fmtDate(t))}</span>
+                <span class="text-gray-400 text-right">${esc(fmtDate(t))}</span>
             </div>
         </div>`;
-    }).join('') + (Store.hasMore('tributes') ? `
-        <div class="text-center pt-2">
-            <button id="tributes-load-more" type="button" onclick="loadMoreTributes()" class="px-5 py-2 rounded-lg bg-card-strong border border-line-strong text-sm text-ink/90 hover:border-memorial-gold/60 hover:text-accent transition"><i class="fa-solid fa-chevron-down mr-1.5"></i>Load More Tributes</button>
-        </div>` : '');
+    }).join('');
 }
 function toggleTribute(btn) {
     const box = btn.previousElementSibling;
@@ -1501,12 +1174,12 @@ function toggleTribute(btn) {
 
 function renderPendingTributes() {
     const c = $('admin-pending-tributes');
-    if (!state.pending.length) { c.innerHTML = '<p class="text-xs text-muted italic">No pending tributes at the moment.</p>'; return; }
+    if (!state.pending.length) { c.innerHTML = '<p class="text-xs text-gray-400 italic">No pending tributes at the moment.</p>'; return; }
     c.innerHTML = state.pending.map((p, i) => `
-        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 bg-card-strong p-3 rounded border border-line">
+        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 bg-purple-950 p-3 rounded border border-purple-900">
             <div class="min-w-0">
-                <p class="text-xs text-accent font-bold mb-1">${esc(p.name)} <span class="text-[10px] text-muted font-normal">(${esc(fmtDate(p))})</span></p>
-                <div class="rich text-xs text-ink/90 break-words max-h-48 overflow-y-auto">${richBody(p.text)}</div>
+                <p class="text-xs text-memorial-gold font-bold mb-1">${esc(p.name)} <span class="text-[10px] text-gray-400 font-normal">(${esc(fmtDate(p))})</span></p>
+                <div class="rich text-xs text-gray-200 break-words max-h-48 overflow-y-auto">${richBody(p.text)}</div>
             </div>
             <div class="flex gap-2 flex-shrink-0">
                 <button onclick="approveTribute(${i})" class="px-2.5 py-1 bg-emerald-700 text-white rounded text-xs">Approve</button>
@@ -1517,12 +1190,12 @@ function renderPendingTributes() {
 
 function renderAdminPublishedTributes() {
     const c = $('admin-published-tributes');
-    if (!state.tributes.length) { c.innerHTML = '<p class="text-xs text-muted italic">No published tributes.</p>'; return; }
+    if (!state.tributes.length) { c.innerHTML = '<p class="text-xs text-gray-400 italic">No published tributes.</p>'; return; }
     c.innerHTML = state.tributes.map((t, i) => `
-        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 bg-card-strong p-3 rounded border border-line">
+        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 bg-purple-950 p-3 rounded border border-purple-900">
             <div class="min-w-0">
-                <p class="text-xs text-accent font-bold mb-1">${esc(t.name)} <span class="text-[10px] text-muted font-normal">(${esc(fmtDate(t))})</span></p>
-                <div class="rich text-xs text-ink/90 break-words max-h-48 overflow-y-auto">${richBody(t.text)}</div>
+                <p class="text-xs text-memorial-gold font-bold mb-1">${esc(t.name)} <span class="text-[10px] text-gray-400 font-normal">(${esc(fmtDate(t))})</span></p>
+                <div class="rich text-xs text-gray-200 break-words max-h-48 overflow-y-auto">${richBody(t.text)}</div>
             </div>
             <div class="flex gap-2 flex-shrink-0">
                 <button onclick="adminEditTribute(${i})" class="px-2.5 py-1 bg-blue-800 text-white rounded text-xs">Edit</button>
@@ -1534,9 +1207,9 @@ function renderAdminPublishedTributes() {
 function adminEditTribute(i) {
     const t = state.tributes[i]; if (!t) return;
     openGenericModal(`
-        <h3 class="font-serif text-xl font-bold text-head mb-4">Edit Tribute</h3>
+        <h3 class="font-serif text-xl font-bold text-memorial-gold mb-4">Edit Tribute</h3>
         <form onsubmit="saveTributeEdit(event, ${i})" class="space-y-4">
-            <input type="text" id="edit-tribute-name" value="${esc(t.name)}" required maxlength="100" class="w-full bg-field border border-line-strong rounded-lg px-3 py-2 text-sm text-ink">
+            <input type="text" id="edit-tribute-name" value="${esc(t.name)}" required maxlength="100" class="w-full bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white">
             ${editorMarkup('')}
             <button type="submit" class="w-full py-2 bg-memorial-gold text-black font-bold rounded-lg text-sm">Save changes</button>
         </form>`, true);
@@ -1555,11 +1228,11 @@ async function saveTributeEdit(e, i) {
 
 function openAddTributeModal() {
     openGenericModal(`
-        <h3 class="font-serif text-xl font-bold text-head mb-4">Add Tribute Message</h3>
+        <h3 class="font-serif text-xl font-bold text-memorial-gold mb-4">Add Tribute Message</h3>
         <form onsubmit="submitTributeMsg(event)" class="space-y-4">
-            <input type="text" id="new-tribute-name" placeholder="Your Full Name" required maxlength="100" class="w-full bg-field border border-line-strong rounded-lg px-3 py-2 text-sm text-ink">
+            <input type="text" id="new-tribute-name" placeholder="Your Full Name" required maxlength="100" class="w-full bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white">
             ${editorMarkup('Write your tribute or memory here…')}
-            <p class="text-[11px] text-accent">Tributes require admin approval before appearing on the public wall.</p>
+            <p class="text-[11px] text-memorial-gold">Tributes require admin approval before appearing on the public wall.</p>
             <button type="submit" class="w-full py-2 bg-memorial-gold text-black font-bold rounded-lg text-sm">Submit Tribute</button>
         </form>`, true);
     try { document.execCommand('defaultParagraphSeparator', false, 'p'); } catch (e) { }
@@ -1567,14 +1240,14 @@ function openAddTributeModal() {
 async function submitTributeMsg(e) {
     e.preventDefault();
     const val = rteValue(); if (!rteCheck(val)) return;
-    const btn = e.target.querySelector('button[type=submit]'); setBtnBusy(btn, true, 'Submitting…');
+    const btn = e.target.querySelector('button[type=submit]'); btn.disabled = true;
     try {
         await Store.add('pendingTributes', { name: $('new-tribute-name').value.trim(), text: val.html, createdAt: Date.now() });
         if (isAdmin) await loadPending();
         closeGenericModal();
         toast('Thank you. Your tribute was submitted and is awaiting admin approval.', 'success', 7000);
     } catch (err) {
-        console.error(err); setBtnBusy(btn, false);
+        console.error(err); btn.disabled = false;
         toast(errCode(err) === 'permission-denied'
             ? 'Your tribute could not be saved because the database rules need updating (permission-denied).'
             : `Could not submit your tribute (${errCode(err)}). Please try again.`, 'error', 8000);
@@ -1588,11 +1261,11 @@ function candleCount() {
 }
 function openLightCandleModal() {
     openGenericModal(`
-        <h3 class="font-serif text-xl font-bold text-head mb-4">Light a Virtual Candle</h3>
+        <h3 class="font-serif text-xl font-bold text-memorial-gold mb-4">Light a Virtual Candle</h3>
         <form onsubmit="submitCandle(event)" class="space-y-3">
-            <input type="text" id="candle-name" placeholder="Your Full Name" required maxlength="100" class="w-full bg-field border border-line-strong rounded-lg px-3 py-2 text-sm text-ink">
-            <textarea id="candle-msg" placeholder="A short message: one or two sentences" rows="3" required maxlength="${CANDLE_MAX}" oninput="candleCount()" class="w-full bg-field border border-line-strong rounded-lg px-3 py-2 text-sm text-ink"></textarea>
-            <p class="text-[11px] text-muted flex justify-between"><span>Keep it short. For a longer message, please use the Memory Wall.</span><span id="candle-count" class="flex-shrink-0 ml-2">0 / ${CANDLE_MAX}</span></p>
+            <input type="text" id="candle-name" placeholder="Your Full Name" required maxlength="100" class="w-full bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white">
+            <textarea id="candle-msg" placeholder="A short message: one or two sentences" rows="3" required maxlength="${CANDLE_MAX}" oninput="candleCount()" class="w-full bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white"></textarea>
+            <p class="text-[11px] text-gray-400 flex justify-between"><span>Keep it short. For a longer message, please use the Memory Wall.</span><span id="candle-count" class="flex-shrink-0 ml-2">0 / ${CANDLE_MAX}</span></p>
             <button type="submit" class="w-full py-2 bg-memorial-gold text-black font-bold rounded-lg text-sm">Light Candle</button>
         </form>`);
 }
@@ -1601,19 +1274,14 @@ async function submitCandle(e) {
     const text = $('candle-msg').value.trim();
     if (!text) { toast('Please write a short message.', 'error'); return; }
     if (text.length > CANDLE_MAX) { toast(`Please keep your message under ${CANDLE_MAX} characters.`, 'error'); return; }
-    const name = $('candle-name').value.trim();
-    const btn = e.target.querySelector('button[type=submit]'); setBtnBusy(btn, true, 'Lighting…');
+    const btn = e.target.querySelector('button[type=submit]'); btn.disabled = true;
     try {
-        const createdAt = Date.now();
-        const id = await Store.add('candles', { name, text, createdAt });
-        // Optimistic local update: skip the extra round-trip of re-fetching the
-        // whole collection — we already know exactly what we just added.
-        state.candles.unshift({ id, name, text, createdAt });
-        renderCandles(); if (isAdmin) renderAdminCandlesManager();
+        await Store.add('candles', { name: $('candle-name').value.trim(), text, createdAt: Date.now() });
+        await loadCandles();
         closeGenericModal();
         toast('Your virtual candle has been lit.', 'success');
     } catch (err) {
-        console.error(err); setBtnBusy(btn, false);
+        console.error(err); btn.disabled = false;
         toast(errCode(err) === 'permission-denied'
             ? 'Your candle could not be saved because the database rules need updating (permission-denied).'
             : `Could not light your candle (${errCode(err)}). Please try again.`, 'error', 8000);
@@ -1670,7 +1338,7 @@ async function resetAdminPassword() {
 }
 
 async function loadAdmin() {
-    const results = await Promise.allSettled([loadPending(), loadRegistrants(), loadTributes(ADMIN_MAX), loadCandles(ADMIN_MAX), loadPhotos(ADMIN_MAX), loadSettings()]);
+    const results = await Promise.allSettled([loadPending(), loadRegistrants(), loadTributes(), loadCandles(), loadPhotos(), loadSettings()]);
     const denied = results.find(r => r.status === 'rejected');
     if (denied) {
         console.error(denied.reason);
@@ -1709,26 +1377,23 @@ async function adminDeleteTribute(i) {
 /* ---------- Candles ---------- */
 function renderCandles() {
     const g = $('candles-grid');
-    if (!state.candles.length) { g.innerHTML = '<p class="text-sm text-muted italic sm:col-span-2 md:col-span-3 text-center">No candles lit yet. Be the first.</p>'; return; }
+    if (!state.candles.length) { g.innerHTML = '<p class="text-sm text-gray-400 italic sm:col-span-2 md:col-span-3 text-center">No candles lit yet. Be the first.</p>'; return; }
     g.innerHTML = state.candles.map(c => `
-        <div class="bg-card border border-line p-5 rounded-xl text-center relative">
-            <div class="text-accent text-3xl mb-3 animate-pulse"><i class="fa-solid fa-candle-holder"></i></div>
-            <p class="text-sm font-serif italic text-ink/90 mb-3 whitespace-pre-line">"${esc(c.text)}"</p>
-            <p class="text-xs font-bold text-accent">${esc(c.name)}</p>
-            <span class="text-[10px] text-muted block mt-1">${esc(fmtDate(c))}</span>
-        </div>`).join('') + (Store.hasMore('candles') ? `
-        <div class="sm:col-span-2 md:col-span-3 text-center pt-2">
-            <button id="candles-load-more" type="button" onclick="loadMoreCandles()" class="px-5 py-2 rounded-lg bg-card-strong border border-line-strong text-sm text-ink/90 hover:border-memorial-gold/60 hover:text-accent transition"><i class="fa-solid fa-chevron-down mr-1.5"></i>Load More Candles</button>
-        </div>` : '');
+        <div class="bg-purple-900/30 border border-purple-800/50 p-5 rounded-xl text-center relative">
+            <div class="text-memorial-gold text-3xl mb-3 animate-pulse"><i class="fa-solid fa-candle-holder"></i></div>
+            <p class="text-sm font-serif italic text-gray-200 mb-3 whitespace-pre-line">"${esc(c.text)}"</p>
+            <p class="text-xs font-bold text-memorial-gold">${esc(c.name)}</p>
+            <span class="text-[10px] text-gray-400 block mt-1">${esc(fmtDate(c))}</span>
+        </div>`).join('');
 }
 function renderAdminCandlesManager() {
     const c = $('admin-candles-manager');
-    if (!state.candles.length) { c.innerHTML = '<p class="text-xs text-muted italic">No virtual candles lit.</p>'; return; }
+    if (!state.candles.length) { c.innerHTML = '<p class="text-xs text-gray-400 italic">No virtual candles lit.</p>'; return; }
     c.innerHTML = state.candles.map((x, i) => `
-        <div class="flex justify-between items-center gap-3 bg-card-strong p-3 rounded border border-line">
+        <div class="flex justify-between items-center gap-3 bg-purple-950 p-3 rounded border border-purple-900">
             <div class="min-w-0">
-                <p class="text-xs text-accent font-bold">${esc(x.name)} <span class="text-[10px] text-muted font-normal">(${esc(fmtDate(x))})</span></p>
-                <p class="text-xs text-ink/90 break-words">"${esc(x.text)}"</p>
+                <p class="text-xs text-memorial-gold font-bold">${esc(x.name)} <span class="text-[10px] text-gray-400 font-normal">(${esc(fmtDate(x))})</span></p>
+                <p class="text-xs text-gray-200 break-words">"${esc(x.text)}"</p>
             </div>
             <div class="flex gap-2 flex-shrink-0">
                 <button onclick="adminEditCandle(${i})" class="px-2.5 py-1 bg-blue-800 text-white rounded text-xs">Edit</button>
@@ -1752,12 +1417,12 @@ function renderSeats() { $('bus-slots-count').textContent = Math.max(0, BUS_BASE
 
 function renderRegistrants() {
     const t = $('admin-registrants-table');
-    if (!state.registrants.length) { t.innerHTML = '<tr><td colspan="5" class="p-3 text-muted italic">No registrations yet.</td></tr>'; return; }
+    if (!state.registrants.length) { t.innerHTML = '<tr><td colspan="5" class="p-3 text-gray-400 italic">No registrations yet.</td></tr>'; return; }
     t.innerHTML = state.registrants.map((r, i) => `
-        <tr class="border-t border-line">
+        <tr class="border-t border-purple-900/40">
             <td class="p-3">${esc(r.name)}</td>
             <td class="p-3">${esc(r.phone)}</td>
-            <td class="p-3 text-accent font-bold">${esc(r.type)}</td>
+            <td class="p-3 text-memorial-gold font-bold">${esc(r.type)}</td>
             <td class="p-3">${esc(r.details)}</td>
             <td class="p-3 text-center"><button onclick="removeRegistrant(${i})" class="px-2 py-0.5 bg-red-800 text-white rounded text-[10px]">Delete</button></td>
         </tr>`).join('');
@@ -1765,42 +1430,39 @@ function renderRegistrants() {
 
 async function registerBus(e) {
     e.preventDefault();
-    const btn = e.target.querySelector('button[type=submit]'); setBtnBusy(btn, true, 'Registering…');
+    const btn = e.target.querySelector('button[type=submit]'); btn.disabled = true;
     try {
-        // Use the seat count already loaded at page load / by the realtime badge
-        // instead of re-fetching the whole collection here — one less network
-        // round-trip before the person even finds out if a slot is free.
-        if (BUS_BASE_AVAILABLE - state.seats.length <= 0) { setBtnBusy(btn, false); alert('All bus slots are currently fully booked.'); return; }
-        const name = $('bus-name').value.trim(), phone = $('bus-phone').value.trim(), location = $('bus-location').value;
-        const createdAt = Date.now();
-        const seatId = await Store.add('busSeats', { createdAt });
-        await Store.add('registrants', { name, phone, type: 'Bus Slot', details: location, seatId, createdAt });
-        // Optimistic local update, no re-fetch needed.
-        state.seats.push({ id: seatId, createdAt });
-        renderSeats();
-        if (isAdmin) { state.registrants.unshift({ id: seatId, name, phone, type: 'Bus Slot', details: location, seatId, createdAt }); renderRegistrants(); }
+        await loadSeats();
+        if (BUS_BASE_AVAILABLE - state.seats.length <= 0) { alert('All bus slots are currently fully booked.'); return; }
+        const seatId = await Store.add('busSeats', { createdAt: Date.now() });
+        await Store.add('registrants', {
+            name: $('bus-name').value.trim(), phone: $('bus-phone').value.trim(),
+            type: 'Bus Slot', details: $('bus-location').value, seatId, createdAt: Date.now()
+        });
+        await loadSeats();
+        if (isAdmin) await loadRegistrants();
         alert(`Successfully registered for bus transport! Slots remaining: ${Math.max(0, BUS_BASE_AVAILABLE - state.seats.length)}`);
         e.target.reset();
     } catch (err) { console.error(err); toast(`Could not complete your registration (${errCode(err)}). Please try again.`, 'error', 8000); }
-    finally { setBtnBusy(btn, false); }
+    finally { btn.disabled = false; }
 }
 
 async function submitRSVP(e) {
     e.preventDefault();
     const form = e.target;
-    const btn = form.querySelector('button[type=submit]'); setBtnBusy(btn, true, 'Submitting…');
+    const btn = form.querySelector('button[type=submit]'); btn.disabled = true;
     try {
         const name = `${$('rsvp-fname').value.trim()} ${$('rsvp-lname').value.trim()}`;
         const email = $('rsvp-email').value.trim();
-        const details = `Attending: ${$('rsvp-count').value} Person(s) · ${email}`;
-        const phone = $('rsvp-phone').value.trim();
-        const createdAt = Date.now();
-        const id = await Store.add('registrants', { name, phone, type: 'RSVP', details, createdAt });
-        if (isAdmin) { state.registrants.unshift({ id, name, phone, type: 'RSVP', details, createdAt }); renderRegistrants(); }
+        await Store.add('registrants', {
+            name, phone: $('rsvp-phone').value.trim(), type: 'RSVP',
+            details: `Attending: ${$('rsvp-count').value} Person(s) · ${email}`, createdAt: Date.now()
+        });
+        if (isAdmin) await loadRegistrants();
         alert('Thank you for confirming your attendance. Your RSVP has been recorded.');
         form.reset();
     } catch (err) { console.error(err); toast(`Could not record your RSVP (${errCode(err)}). Please try again.`, 'error', 8000); }
-    finally { setBtnBusy(btn, false); }
+    finally { btn.disabled = false; }
 }
 
 async function removeRegistrant(i) {
@@ -1815,33 +1477,21 @@ async function removeRegistrant(i) {
 /* ---------- Photo gallery ---------- */
 function renderGallery() {
     const featured = FEATURED_PHOTOS.map((p, i) => `
-        <button type="button" onclick="openFeaturedPhoto(${i})" class="group relative aspect-square overflow-hidden rounded-xl border border-line bg-card">
+        <button type="button" onclick="openFeaturedPhoto(${i})" class="group relative aspect-square overflow-hidden rounded-xl border border-purple-800/50 bg-purple-900/30">
             <img src="${esc(p.url)}=w400-h400-c" alt="Kinuthia Ndekei memory" loading="lazy" decoding="async" onerror="this.closest('button').style.display='none'" class="w-full h-full object-cover group-hover:scale-110 transition duration-300">
             ${p.caption ? `<span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-2 pt-6 pb-1.5 text-[11px] text-white text-left truncate">${esc(p.caption)}</span>` : ''}
         </button>`);
     const shared = state.photos.slice(0, sharedShown).map((p, i) => isJpegData(p.thumb) ? `
-        <button type="button" onclick="openSharedPhoto(${i})" class="group relative aspect-square overflow-hidden rounded-xl border border-line bg-card">
+        <button type="button" onclick="openSharedPhoto(${i})" class="group relative aspect-square overflow-hidden rounded-xl border border-purple-800/50 bg-purple-900/30">
             <img src="${esc(p.thumb)}" alt="Memory shared by ${esc(p.name)}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-110 transition duration-300">
-            <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-2 pt-6 pb-1.5 text-[11px] text-white text-left truncate"><i class="fa-solid fa-heart text-accent mr-1"></i>${esc(p.name)}</span>
+            <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-2 pt-6 pb-1.5 text-[11px] text-white text-left truncate"><i class="fa-solid fa-heart text-memorial-gold mr-1"></i>${esc(p.name)}</span>
         </button>` : '');
     $('gallery-grid').innerHTML = featured.concat(shared).join('');
-    $('gallery-more').classList.toggle('hidden', state.photos.length <= sharedShown && !Store.hasMore('photos'));
+    $('gallery-more').classList.toggle('hidden', state.photos.length <= sharedShown);
     const n = state.photos.length;
     $('shared-count').textContent = n ? `${n} shared photo${n === 1 ? '' : 's'} from family & friends` : '';
 }
-async function showMorePhotos() {
-    const btn = document.querySelector('#gallery-more button');
-    sharedShown += SHARED_PAGE_SIZE;
-    // Reveal what's already loaded first; only hit the network for more once
-    // the visitor has actually scrolled past everything we already fetched.
-    if (sharedShown > state.photos.length && Store.hasMore('photos')) {
-        setBtnBusy(btn, true, 'Loading…');
-        try { await loadMorePhotos(); } catch (e) { console.error(e); toast('Could not load more photos.', 'error'); }
-        finally { setBtnBusy(btn, false); }
-    } else {
-        renderGallery();
-    }
-}
+function showMorePhotos() { sharedShown += SHARED_PAGE_SIZE; renderGallery(); }
 
 let lbToken = 0;
 function showLightbox(src, caption) {
@@ -1872,19 +1522,19 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') { closePhoto
 /* Photo upload */
 function openUploadPhotoModal() {
     $('generic-modal-body').innerHTML = `
-        <h3 class="font-serif text-xl font-bold text-head mb-1">Share a Memory with Kinuthia</h3>
-        <p class="text-xs text-soft mb-4">Upload a photo of you and Kinuthia. It will appear in the gallery for everyone to see.</p>
+        <h3 class="font-serif text-xl font-bold text-memorial-gold mb-1">Share a Memory with Kinuthia</h3>
+        <p class="text-xs text-gray-300 mb-4">Upload a photo of you and Kinuthia. It will appear in the gallery for everyone to see.</p>
         <form onsubmit="submitPhotos(event)" class="space-y-4">
-            <input type="text" id="photo-name" placeholder="Your Full Name" required maxlength="100" class="w-full bg-field border border-line-strong rounded-lg px-3 py-2 text-sm text-ink">
-            <textarea id="photo-caption" placeholder="A short note about this memory (optional)" rows="2" maxlength="300" class="w-full bg-field border border-line-strong rounded-lg px-3 py-2 text-sm text-ink"></textarea>
-            <label for="photo-files" class="flex flex-col items-center justify-center gap-1 cursor-pointer border-2 border-dashed border-line-strong hover:border-memorial-gold rounded-xl py-5 text-center transition">
-                <i class="fa-solid fa-cloud-arrow-up text-2xl text-accent"></i>
-                <span class="text-sm text-ink/90">Tap to choose photo(s)</span>
-                <span class="text-[11px] text-muted">Up to ${MAX_UPLOAD_FILES} photos at a time · JPG or PNG</span>
+            <input type="text" id="photo-name" placeholder="Your Full Name" required maxlength="100" class="w-full bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white">
+            <textarea id="photo-caption" placeholder="A short note about this memory (optional)" rows="2" maxlength="300" class="w-full bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white"></textarea>
+            <label for="photo-files" class="flex flex-col items-center justify-center gap-1 cursor-pointer border-2 border-dashed border-purple-700 hover:border-memorial-gold rounded-xl py-5 text-center transition">
+                <i class="fa-solid fa-cloud-arrow-up text-2xl text-memorial-gold"></i>
+                <span class="text-sm text-gray-200">Tap to choose photo(s)</span>
+                <span class="text-[11px] text-gray-400">Up to ${MAX_UPLOAD_FILES} photos at a time · JPG or PNG</span>
             </label>
             <input type="file" id="photo-files" accept="image/*" multiple class="hidden" onchange="previewPhotos()">
             <div id="photo-previews" class="grid grid-cols-5 gap-2"></div>
-            <p id="photo-status" class="text-xs text-accent min-h-[1rem]"></p>
+            <p id="photo-status" class="text-xs text-memorial-gold min-h-[1rem]"></p>
             <button id="photo-submit" type="submit" class="w-full py-2 bg-memorial-gold text-black font-bold rounded-lg text-sm disabled:opacity-60">Upload to Gallery</button>
         </form>`;
     $('generic-modal').classList.remove('hidden');
@@ -1896,7 +1546,7 @@ function previewPhotos() {
         const url = URL.createObjectURL(f);
         const im = document.createElement('img');
         im.src = url; im.onload = () => URL.revokeObjectURL(url);
-        im.className = 'aspect-square object-cover rounded-lg border border-line-strong';
+        im.className = 'aspect-square object-cover rounded-lg border border-purple-800';
         box.appendChild(im);
     });
     $('photo-status').textContent = files.length > MAX_UPLOAD_FILES ? `Please choose up to ${MAX_UPLOAD_FILES} photos at a time.` : `${files.length} photo${files.length === 1 ? '' : 's'} selected.`;
@@ -1938,8 +1588,8 @@ async function submitPhotos(e) {
     const files = [...$('photo-files').files];
     if (!files.length) { status.textContent = 'Please choose at least one photo.'; return; }
     if (files.length > MAX_UPLOAD_FILES) { status.textContent = `Please choose up to ${MAX_UPLOAD_FILES} photos at a time.`; return; }
-    setBtnBusy(btn, true, 'Uploading…');
-    let ok = 0; const failed = []; const added = [];
+    btn.disabled = true;
+    let ok = 0; const failed = [];
     for (let i = 0; i < files.length; i++) {
         status.textContent = `Uploading photo ${i + 1} of ${files.length}…`;
         try {
@@ -1947,26 +1597,18 @@ async function submitPhotos(e) {
             const img = await loadImage(files[i]);
             const thumb = makeThumb(img), full = makeFull(img);
             const id = uid(), createdAt = Date.now();
-            // The full-size and thumbnail copies don't depend on each other,
-            // so write them in parallel instead of one after another —
-            // roughly halves the network time per photo.
-            await Promise.all([
-                Store.add('photoFull', { data: full, createdAt }, id),
-                Store.add('photos', { name, caption, thumb, createdAt }, id)
-            ]);
-            added.push({ id, name, caption, thumb, createdAt });
+            await Store.add('photoFull', { data: full, createdAt }, id);
+            await Store.add('photos', { name, caption, thumb, createdAt }, id);
             ok++;
         } catch (err) { console.error(err); failed.push(files[i].name); }
     }
-    // Optimistic local update: the gallery updates instantly without waiting
-    // on a full re-fetch of the photos collection.
-    if (added.length) { state.photos.unshift(...added); renderGallery(); if (isAdmin) renderAdminPhotos(); }
+    if (ok) { try { await loadPhotos(); } catch (err) { console.error(err); } }
     if (failed.length === 0) {
         closeGenericModal();
         toast(`Thank you! ${ok === 1 ? 'Your photo has' : 'Your photos have'} been added to the gallery.`, 'success');
         document.getElementById('gallery-grid').lastElementChild?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     } else {
-        setBtnBusy(btn, false);
+        btn.disabled = false;
         status.textContent = `${ok ? ok + ' uploaded. ' : ''}Could not upload: ${failed.join(', ')}. Try a JPG or PNG, or check your connection.`;
     }
 }
@@ -1974,13 +1616,13 @@ async function submitPhotos(e) {
 function renderAdminPhotos() {
     const c = $('admin-photos-manager');
     if (!c) return;
-    if (!state.photos.length) { c.innerHTML = '<p class="text-xs text-muted italic">No photos have been shared yet.</p>'; return; }
+    if (!state.photos.length) { c.innerHTML = '<p class="text-xs text-gray-400 italic">No photos have been shared yet.</p>'; return; }
     c.innerHTML = state.photos.map((p, i) => `
-        <div class="flex items-center gap-3 bg-card-strong p-2 rounded border border-line">
+        <div class="flex items-center gap-3 bg-purple-950 p-2 rounded border border-purple-900">
             ${isJpegData(p.thumb) ? `<img src="${esc(p.thumb)}" alt="" class="w-14 h-14 rounded object-cover flex-shrink-0">` : ''}
             <div class="min-w-0 flex-1">
-                <p class="text-xs text-accent font-bold">${esc(p.name)} <span class="text-[10px] text-muted font-normal">(${esc(fmtDate(p))})</span></p>
-                <p class="text-xs text-soft truncate">${esc(p.caption || '')}</p>
+                <p class="text-xs text-memorial-gold font-bold">${esc(p.name)} <span class="text-[10px] text-gray-400 font-normal">(${esc(fmtDate(p))})</span></p>
+                <p class="text-xs text-gray-300 truncate">${esc(p.caption || '')}</p>
             </div>
             <button onclick="adminDeletePhoto(${i})" class="px-2.5 py-1 bg-red-800 text-white rounded text-xs flex-shrink-0">Delete</button>
         </div>`).join('');
@@ -1994,49 +1636,49 @@ async function adminDeletePhoto(i) {
 /* ---------- Program pages ---------- */
 function renderProgramGrid() {
     $('order-of-service-grid').innerHTML = PROGRAMS.kenya.items.map((it, i) =>
-        `<div class="bg-card p-3 rounded-lg border border-line"><strong>${String(i + 1).padStart(2, '0')}${it[0] ? '. ' + esc(it[0]) : ''}</strong> ${it[0] ? '-' : '&nbsp;'} ${esc(it[1])}</div>`).join('');
+        `<div class="bg-purple-900/10 p-3 rounded-lg border border-purple-900/30"><strong>${String(i + 1).padStart(2, '0')}. ${esc(it[0])}</strong> - ${esc(it[1])}</div>`).join('');
 }
 
 function renderProgramPage(key) {
     const p = PROGRAMS[key], otherKey = key === 'kenya' ? 'us' : 'kenya', o = PROGRAMS[otherKey];
-    const row = (icon, html) => `<p class="flex items-start gap-3"><i class="fa-solid ${icon} text-accent mt-1 w-4 text-center"></i><span>${html}</span></p>`;
+    const row = (icon, html) => `<p class="flex items-start gap-3"><i class="fa-solid ${icon} text-memorial-gold mt-1 w-4 text-center"></i><span>${html}</span></p>`;
     const details = [
         row('fa-calendar-check', `${esc(p.date)}${p.time ? ' at ' + esc(p.time) : ''}`),
         row('fa-location-dot', esc(p.venue)),
-        safeUrl(p.mapUrl) ? row('fa-map-location-dot', `<a href="${esc(safeUrl(p.mapUrl))}" target="_blank" rel="noopener noreferrer" class="text-accent underline hover:text-head">Google Map directions →</a>`) : '',
-        safeUrl(p.livestream) ? row('fa-video', `<a href="${esc(safeUrl(p.livestream))}" target="_blank" rel="noopener noreferrer" class="text-accent underline hover:text-head">Join the virtual livestream →</a>`) : '',
-        p.busLink ? row('fa-bus', `<a href="#buses" class="text-accent underline hover:text-head">Reserve a seat on the transport bus →</a>`) : ''
+        safeUrl(p.mapUrl) ? row('fa-map-location-dot', `<a href="${esc(safeUrl(p.mapUrl))}" target="_blank" rel="noopener noreferrer" class="text-memorial-gold underline hover:text-yellow-400">Google Map directions →</a>`) : '',
+        safeUrl(p.livestream) ? row('fa-video', `<a href="${esc(safeUrl(p.livestream))}" target="_blank" rel="noopener noreferrer" class="text-memorial-gold underline hover:text-yellow-400">Join the virtual livestream →</a>`) : '',
+        p.busLink ? row('fa-bus', `<a href="#buses" class="text-memorial-gold underline hover:text-yellow-400">Reserve a seat on the transport bus →</a>`) : ''
     ].join('');
     const program = p.items.length ? `
         <ol class="relative border-l-2 border-memorial-gold/40 ml-2 sm:ml-4 space-y-5">
-            ${p.items.map((it, idx) => `
+            ${p.items.map(it => `
             <li class="relative pl-6">
-                <span class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-memorial-gold border-4 border-halo"></span>
-                <span class="block text-xs font-semibold text-accent uppercase tracking-wider">${esc(it[0] || String(idx + 1).padStart(2, '0'))}</span>
-                <span class="block text-ink text-base">${esc(it[1])}</span>
+                <span class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-memorial-gold border-4 border-memorial-darkBg"></span>
+                <span class="block text-xs font-semibold text-memorial-gold uppercase tracking-wider">${esc(it[0])}</span>
+                <span class="block text-gray-100 text-base">${esc(it[1])}</span>
             </li>`).join('')}
         </ol>` : `
-        <div class="bg-card border border-line rounded-xl p-6 text-center text-soft text-sm">
-            <i class="fa-solid fa-hourglass-half text-accent text-2xl mb-2"></i>
+        <div class="bg-purple-900/20 border border-purple-800/40 rounded-xl p-6 text-center text-gray-300 text-sm">
+            <i class="fa-solid fa-hourglass-half text-memorial-gold text-2xl mb-2"></i>
             <p>The full order of service for this day will be published here soon. Please check back closer to the date.</p>
         </div>`;
     $('program-view-body').innerHTML = `
         <div class="no-print flex flex-wrap items-center justify-between gap-3 mb-6">
-            <a href="#service" class="inline-flex items-center gap-2 text-sm text-accent hover:text-head"><i class="fa-solid fa-arrow-left"></i> Back to Service & RSVP</a>
+            <a href="#service" class="inline-flex items-center gap-2 text-sm text-memorial-gold hover:text-yellow-400"><i class="fa-solid fa-arrow-left"></i> Back to Service & RSVP</a>
             <button onclick="window.print()" class="px-3 py-1.5 rounded-lg bg-memorial-royal border border-memorial-gold/40 text-memorial-gold text-xs font-semibold hover:bg-purple-800 transition"><i class="fa-solid fa-print mr-1"></i> Print program</button>
         </div>
-        <div class="print-area bg-card-strong border border-line rounded-2xl p-6 sm:p-10 shadow-xl">
-            <div class="text-center mb-8 border-b border-line pb-6">
-                <div class="w-14 h-14 mx-auto rounded-full bg-card-strong border border-memorial-gold/50 flex items-center justify-center text-accent text-2xl mb-3"><i class="fa-solid ${p.icon}"></i></div>
-                <p class="text-xs uppercase tracking-widest text-muted mb-1">In Loving Memory of Kinuthia Ndekei · 1998 – 2026</p>
-                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-head">${esc(p.title)}</h2>
-                <p class="text-ink/90 mt-2">${esc(p.date)}</p>
+        <div class="print-area bg-purple-950/40 border border-purple-900/50 rounded-2xl p-6 sm:p-10 shadow-xl">
+            <div class="text-center mb-8 border-b border-purple-900 pb-6">
+                <div class="w-14 h-14 mx-auto rounded-full bg-purple-900/60 border border-memorial-gold/50 flex items-center justify-center text-memorial-gold text-2xl mb-3"><i class="fa-solid ${p.icon}"></i></div>
+                <p class="text-xs uppercase tracking-widest text-gray-400 mb-1">In Loving Memory of Kinuthia Ndekei · 1998 – 2026</p>
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-memorial-gold">${esc(p.title)}</h2>
+                <p class="text-gray-200 mt-2">${esc(p.date)}</p>
                 <span class="inline-block mt-3 text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full border ${statusStyle(p.status).badge}">${esc(p.status)}</span>
             </div>
-            <div class="space-y-3 text-sm text-ink/90 mb-8 max-w-xl mx-auto">${details}</div>
-            <h3 class="font-serif text-2xl font-bold text-head mb-5">Order of Service — Full Day Program</h3>
+            <div class="space-y-3 text-sm text-gray-200 mb-8 max-w-xl mx-auto">${details}</div>
+            <h3 class="font-serif text-2xl font-bold text-memorial-gold mb-5">Order of Service — Full Day Program</h3>
             ${program}
-            ${p.notes.length ? `<div class="mt-8 rounded-xl border border-memorial-gold/40 bg-memorial-gold/10 p-4 text-sm text-ink/90 space-y-2"><p class="font-semibold text-accent"><i class="fa-solid fa-circle-info mr-1"></i> Please note</p>${p.notes.map(n => `<p>${esc(n)}</p>`).join('')}</div>` : ''}
+            ${p.notes.length ? `<div class="mt-8 rounded-xl border border-memorial-gold/40 bg-memorial-gold/10 p-4 text-sm text-gray-200 space-y-2"><p class="font-semibold text-memorial-gold"><i class="fa-solid fa-circle-info mr-1"></i> Please note</p>${p.notes.map(n => `<p>${esc(n)}</p>`).join('')}</div>` : ''}
         </div>
         <div class="no-print text-center mt-8">
             <a href="#program-${otherKey}" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-memorial-royal border border-memorial-gold/40 text-memorial-gold text-sm font-semibold hover:bg-purple-800 transition">
@@ -2084,13 +1726,11 @@ We really appreciate all the efforts made by everyone, and we pray and hope that
 let NOTICE = clone(NOTICE_DEFAULT);
 
 function statusStyle(s) {
-    // Colours come from the zone tokens (ok / warn / accent / muted), so badges stay readable
-    // on the light lavender bands AND on the deep purple ones.
     const map = {
-        Upcoming: { badge: 'bg-ok/15 text-ok border-ok/40', text: 'text-ok', dot: 'bg-ok' },
-        Today: { badge: 'bg-memorial-gold/20 text-accent border-memorial-gold/60', text: 'text-accent', dot: 'bg-memorial-gold animate-pulse' },
-        Completed: { badge: 'bg-muted/15 text-muted border-muted/40', text: 'text-muted', dot: 'bg-muted' },
-        Postponed: { badge: 'bg-warn/15 text-warn border-warn/40', text: 'text-warn', dot: 'bg-warn' }
+        Upcoming: { badge: 'bg-emerald-900/60 text-emerald-300 border-emerald-700/50', text: 'text-emerald-400', dot: 'bg-emerald-400' },
+        Today: { badge: 'bg-memorial-gold/20 text-memorial-gold border-memorial-gold/50', text: 'text-memorial-gold', dot: 'bg-memorial-gold animate-pulse' },
+        Completed: { badge: 'bg-gray-800 text-gray-300 border-gray-600', text: 'text-gray-400', dot: 'bg-gray-400' },
+        Postponed: { badge: 'bg-amber-900/50 text-amber-300 border-amber-600/50', text: 'text-amber-400', dot: 'bg-amber-400' }
     };
     return map[s] || map.Upcoming;
 }
@@ -2107,7 +1747,7 @@ function noticeBodyHtml(text) {
             flushPara();
             const item = t.replace(/^[-•*]\s+/, '');
             const m = item.match(/^([^:]{2,40}):\s+(.*)$/);
-            list.push(`<li class="flex items-start gap-2"><i class="fa-solid fa-circle text-[6px] text-accent mt-2"></i><span>${m ? `<strong class="text-ink">${esc(m[1])}:</strong> ${esc(m[2])}` : esc(item)}</span></li>`);
+            list.push(`<li class="flex items-start gap-2"><i class="fa-solid fa-circle text-[6px] text-memorial-gold mt-2"></i><span>${m ? `<strong class="text-white">${esc(m[1])}:</strong> ${esc(m[2])}` : esc(item)}</span></li>`);
         } else { flushList(); para.push(t); }
     });
     flushList(); flushPara();
@@ -2118,8 +1758,8 @@ function renderNotice() {
     const box = $('family-update'); if (!box) return;
     if (!NOTICE.title.trim() && !NOTICE.body.trim()) { box.innerHTML = ''; return; }
     box.innerHTML = `
-        <div class="rounded-xl border border-memorial-gold/40 bg-memorial-gold/10 p-5 text-sm text-ink/90 space-y-3">
-            ${NOTICE.title.trim() ? `<h3 class="font-serif text-lg font-bold text-head"><i class="fa-solid fa-bullhorn mr-2"></i>${esc(NOTICE.title)}</h3>` : ''}
+        <div class="rounded-xl border border-memorial-gold/40 bg-memorial-gold/10 p-5 text-sm text-gray-200 space-y-3">
+            ${NOTICE.title.trim() ? `<h3 class="font-serif text-lg font-bold text-memorial-gold"><i class="fa-solid fa-bullhorn mr-2"></i>${esc(NOTICE.title)}</h3>` : ''}
             ${noticeBodyHtml(NOTICE.body)}
         </div>`;
 }
@@ -2129,18 +1769,18 @@ function renderServiceCards() {
     box.innerHTML = ['us', 'kenya'].map(k => {
         const p = PROGRAMS[k], st = statusStyle(p.status), map = safeUrl(p.mapUrl);
         return `
-        <div class="bg-card ${k === 'kenya' ? 'border-2 border-memorial-gold/50' : 'border border-line'} rounded-xl p-5 relative">
+        <div class="bg-purple-900/20 ${k === 'kenya' ? 'border-2 border-memorial-gold/50' : 'border border-purple-800/40'} rounded-xl p-5 relative">
             <span class="absolute top-4 right-4 text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full border ${st.badge}">${esc(p.status)}</span>
-            <h3 class="font-serif text-lg font-bold text-head mb-3 pr-24 flex items-center gap-2"><i class="fa-solid ${p.icon} text-accent"></i> ${esc(p.title)}</h3>
-            <div class="space-y-2 text-sm text-ink/90">
-                <p class="flex items-start gap-2"><i class="fa-solid fa-calendar-check text-accent mt-1"></i> <span>${esc(p.date)}${p.time ? ' · ' + esc(p.time) : ''}</span></p>
-                <p class="flex items-start gap-2"><i class="fa-solid fa-location-dot text-accent mt-1"></i> <span>${esc(p.venue)}</span></p>
+            <h3 class="font-serif text-lg font-bold text-white mb-3 pr-24 flex items-center gap-2"><i class="fa-solid ${p.icon} text-memorial-gold"></i> ${esc(p.title)}</h3>
+            <div class="space-y-2 text-sm text-gray-200">
+                <p class="flex items-start gap-2"><i class="fa-solid fa-calendar-check text-memorial-gold mt-1"></i> <span>${esc(p.date)}${p.time ? ' · ' + esc(p.time) : ''}</span></p>
+                <p class="flex items-start gap-2"><i class="fa-solid fa-location-dot text-memorial-gold mt-1"></i> <span>${esc(p.venue)}</span></p>
             </div>
             <div class="mt-3 flex flex-wrap gap-x-4 gap-y-2">
-                <a href="#program-${k}" class="inline-flex items-center gap-1 text-accent underline text-xs font-semibold"><i class="fa-solid fa-list-ol"></i> View full day program →</a>
-                ${map ? `<a href="${esc(map)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-accent underline text-xs font-semibold hover:text-head"><i class="fa-solid fa-map-location-dot"></i> Google Map Directions →</a>` : ''}
+                <a href="#program-${k}" class="inline-flex items-center gap-1 text-memorial-gold underline text-xs font-semibold"><i class="fa-solid fa-list-ol"></i> View full day program →</a>
+                ${map ? `<a href="${esc(map)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-memorial-gold underline text-xs font-semibold hover:text-yellow-400"><i class="fa-solid fa-map-location-dot"></i> Google Map Directions →</a>` : ''}
             </div>
-            ${p.notes.map(n => `<p class="text-xs text-muted italic mt-3">${esc(n)}</p>`).join('')}
+            ${p.notes.map(n => `<p class="text-xs text-gray-400 italic mt-3">${esc(n)}</p>`).join('')}
         </div>`;
     }).join('');
 }
@@ -2150,7 +1790,7 @@ function renderChips() {
         const el = $('chip-' + k); if (!el) return;
         const p = PROGRAMS[k], st = statusStyle(p.status);
         el.innerHTML = `<span class="w-2 h-2 rounded-full ${st.dot} flex-shrink-0"></span>
-            <span><span class="font-semibold text-ink">${label}</span> — ${esc(p.date.replace(/^[A-Za-z]+day,?\s*/i, ''))} <span class="${st.text} font-semibold">(${esc(p.status)})</span></span>`;
+            <span><span class="font-semibold text-white">${label}</span> — ${esc(p.date.replace(/^[A-Za-z]+day,?\s*/i, ''))} <span class="${st.text} font-semibold">(${esc(p.status)})</span></span>`;
     };
     chip('us', 'Seattle,US Service');
     chip('kenya', 'Kenya Funeral Service');
@@ -2194,7 +1834,7 @@ async function loadSettings() {
 
 /* ---------- Admin: program editor ---------- */
 let progDraft = null, progDirty = false;
-const inputBase = 'bg-field border border-line-strong rounded-lg px-3 py-2 text-sm text-ink focus:outline-none focus:border-accent';
+const inputBase = 'bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-memorial-gold';
 
 function markProgDirty() { progDirty = true; const el = $('prog-dirty'); if (el) el.classList.remove('hidden'); }
 function progField(k, f, v) { progDraft[k][f] = v; markProgDirty(); }
@@ -2211,8 +1851,8 @@ function progMoveItem(k, i, dir) {
 
 function progItemsMarkup(k) {
     const items = progDraft[k].items;
-    if (!items.length) return '<p class="text-xs text-muted italic">No items yet. Tap "Add item".</p>';
-    const btn = 'w-8 h-9 rounded bg-card-strong text-ink hover:bg-line-strong text-xs';
+    if (!items.length) return '<p class="text-xs text-gray-400 italic">No items yet. Tap "Add item".</p>';
+    const btn = 'w-8 h-9 rounded bg-purple-900 text-gray-200 hover:bg-purple-700 text-xs';
     return items.map((it, i) => `
         <div class="flex items-start gap-1.5">
             <input type="text" value="${esc(it[0])}" maxlength="20" placeholder="10:00 AM" aria-label="Time" oninput="progItem('${k}',${i},0,this.value)" class="${inputBase} w-24 flex-shrink-0">
@@ -2228,13 +1868,13 @@ function progItemsMarkup(k) {
 function programFormMarkup(k) {
     const p = progDraft[k];
     const f = (label, field, ph, max) => `
-        <label class="block"><span class="block text-[11px] font-semibold text-accent mb-1">${label}</span>
+        <label class="block"><span class="block text-[11px] font-semibold text-memorial-gold mb-1">${label}</span>
         <input type="text" value="${esc(p[field])}" maxlength="${max}" placeholder="${esc(ph)}" oninput="progField('${k}','${field}',this.value)" class="${inputBase} w-full"></label>`;
     return `
-    <details class="bg-card-strong border border-line rounded-xl" ${k === 'kenya' ? 'open' : ''}>
-        <summary class="cursor-pointer select-none px-4 py-3 font-semibold text-ink flex items-center gap-2"><i class="fa-solid ${PROGRAMS_DEFAULT[k].icon} text-accent"></i> ${k === 'us' ? 'Seattle,US Memorial Service' : 'Kenya Homegoing Funeral Service'}</summary>
+    <details class="bg-purple-950 border border-purple-800 rounded-xl" ${k === 'kenya' ? 'open' : ''}>
+        <summary class="cursor-pointer select-none px-4 py-3 font-semibold text-white flex items-center gap-2"><i class="fa-solid ${PROGRAMS_DEFAULT[k].icon} text-memorial-gold"></i> ${k === 'us' ? 'Seattle,US Service' : 'Lower Kabete, KE Funeral Service'}</summary>
         <div class="px-4 pb-4 space-y-3">
-            <label class="block"><span class="block text-[11px] font-semibold text-accent mb-1">Status (shown as a badge)</span>
+            <label class="block"><span class="block text-[11px] font-semibold text-memorial-gold mb-1">Status (shown as a badge)</span>
                 <select onchange="progField('${k}','status',this.value)" class="${inputBase} w-full">${STATUSES.map(s => `<option ${p.status === s ? 'selected' : ''}>${s}</option>`).join('')}</select></label>
             ${f('Title', 'title', 'Service name', 120)}
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -2244,10 +1884,10 @@ function programFormMarkup(k) {
             ${f('Venue / address', 'venue', 'Venue name and address', 200)}
             ${f('Google Maps link (optional)', 'mapUrl', 'https://maps.google.com/...', 600)}
             ${k === 'kenya' ? f('Livestream link (optional)', 'livestream', 'https://zoom.us/j/...', 600) : ''}
-            <label class="block"><span class="block text-[11px] font-semibold text-accent mb-1">Notes shown under the program (one per line)</span>
+            <label class="block"><span class="block text-[11px] font-semibold text-memorial-gold mb-1">Notes shown under the program (one per line)</span>
                 <textarea rows="3" oninput="progNotes('${k}',this.value)" class="${inputBase} w-full">${esc(p.notes.join('\n'))}</textarea></label>
             <div>
-                <p class="text-[11px] font-semibold text-accent mb-1">Order of service (time + what happens)</p>
+                <p class="text-[11px] font-semibold text-memorial-gold mb-1">Order of service (time + what happens)</p>
                 <div id="prog-items-${k}" class="space-y-2">${progItemsMarkup(k)}</div>
                 <button type="button" onclick="progAddItem('${k}')" class="mt-2 px-3 py-1.5 rounded-lg bg-memorial-royal border border-memorial-gold/40 text-memorial-gold text-xs font-semibold hover:bg-purple-800"><i class="fa-solid fa-plus mr-1"></i> Add item</button>
             </div>
@@ -2259,16 +1899,16 @@ function renderProgramEditor() {
     const box = $('admin-programs-editor'); if (!box || progDirty) return;
     progDraft = { us: clone(PROGRAMS.us), kenya: clone(PROGRAMS.kenya), notice: clone(NOTICE) };
     box.innerHTML = `
-        <p class="text-xs text-soft mb-3">Change anything here and press <strong>Save</strong>. The Service section, the service cards, the top-of-page banners and the full program pages all update for everyone straight away.</p>
+        <p class="text-xs text-gray-300 mb-3">Change anything here and press <strong>Save</strong>. The Service section, the service cards, the top-of-page banners and the full program pages all update for everyone straight away.</p>
         <div class="space-y-3">
             ${programFormMarkup('us')}
             ${programFormMarkup('kenya')}
-            <details class="bg-card-strong border border-line rounded-xl">
-                <summary class="cursor-pointer select-none px-4 py-3 font-semibold text-ink flex items-center gap-2"><i class="fa-solid fa-bullhorn text-accent"></i> Family update box (top of Service section)</summary>
+            <details class="bg-purple-950 border border-purple-800 rounded-xl">
+                <summary class="cursor-pointer select-none px-4 py-3 font-semibold text-white flex items-center gap-2"><i class="fa-solid fa-bullhorn text-memorial-gold"></i> Family update box (top of Service section)</summary>
                 <div class="px-4 pb-4 space-y-3">
-                    <label class="block"><span class="block text-[11px] font-semibold text-accent mb-1">Heading</span>
+                    <label class="block"><span class="block text-[11px] font-semibold text-memorial-gold mb-1">Heading</span>
                         <input type="text" value="${esc(progDraft.notice.title)}" maxlength="120" oninput="noticeField('title',this.value)" class="${inputBase} w-full"></label>
-                    <label class="block"><span class="block text-[11px] font-semibold text-accent mb-1">Message (blank line = new paragraph · start a line with "- " for a bullet · leave both boxes empty to hide it)</span>
+                    <label class="block"><span class="block text-[11px] font-semibold text-memorial-gold mb-1">Message (blank line = new paragraph · start a line with "- " for a bullet · leave both boxes empty to hide it)</span>
                         <textarea rows="10" maxlength="3000" oninput="noticeField('body',this.value)" class="${inputBase} w-full">${esc(progDraft.notice.body)}</textarea></label>
                 </div>
             </details>
@@ -2276,7 +1916,7 @@ function renderProgramEditor() {
         <div class="flex flex-wrap items-center gap-3 mt-4">
             <button type="button" id="prog-save" onclick="saveProgramSettings()" class="px-4 py-2 bg-memorial-gold text-black font-bold rounded-lg text-sm disabled:opacity-60"><i class="fa-solid fa-floppy-disk mr-1"></i> Save changes</button>
             <button type="button" onclick="resetProgramSettings()" class="px-3 py-2 bg-red-900 text-white rounded-lg text-xs">Restore original</button>
-            <span id="prog-dirty" class="hidden text-xs text-warn"><i class="fa-solid fa-circle-exclamation mr-1"></i> You have unsaved changes</span>
+            <span id="prog-dirty" class="hidden text-xs text-amber-300"><i class="fa-solid fa-circle-exclamation mr-1"></i> You have unsaved changes</span>
         </div>`;
 }
 
@@ -2376,12 +2016,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     setupShareLinks();
-    setupScrollReveal();
-    setupChatSlideReveal();
-    // Keep the bus-seat count reasonably fresh in the background (e.g. after
-    // the person switches back to this tab) without slowing down the actual
-    // registration submit, which now trusts the locally-held count for speed.
-    document.addEventListener('visibilitychange', () => { if (!document.hidden) loadSeats().catch(console.error); });
     renderProgramsEverywhere();
     renderGallery();
     updateSyncBanner();

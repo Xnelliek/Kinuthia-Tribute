@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Tributes — In Loving Memory of Kinuthia Ndekei</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { memorial: {
+            royal: '#3b145a', purple: '#4c1d76', lightPurple: '#f3e8ff',
+            gold: '#d4af37', lightGold: '#fef3c7', darkBg: '#1f1035'
+        } }, fontFamily: {
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif']
+        } } } }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body.bg-memorial-darkBg {
+            background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(76,29,118,.35), transparent),
+                        linear-gradient(180deg, #2a1450 0%, #1f1035 22%, #190c2c 55%, #140823 100%);
+        }
+        a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+            outline: 2px solid #d4af37; outline-offset: 2px; border-radius: 4px;
+        }
+        .rich p { margin: 0 0 .8em; }
+        .rich p:last-child { margin-bottom: 0; }
+        .rich ul { list-style: disc; margin: 0 0 .8em 1.4em; }
+        .rich ol { list-style: decimal; margin: 0 0 .8em 1.4em; }
+        .rich blockquote { border-left: 3px solid #d4af37; padding-left: .8em; margin: 0 0 .8em; font-style: italic; color: #fef3c7; }
+        .rich a { color: #d4af37; text-decoration: underline; word-break: break-all; }
+        [class*="bg-purple-900/20"][class*="rounded-xl"] { transition: transform .3s ease, border-color .3s ease; }
+        [class*="bg-purple-900/20"][class*="rounded-xl"]:hover { transform: translateY(-3px); border-color: rgba(212,175,55,.4); }
+        @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+    </style>
+</head>
+<body class="bg-memorial-darkBg text-gray-100 font-sans antialiased min-h-screen">
+
+    <header class="sticky top-0 z-40 bg-[#1f1035]/95 backdrop-blur-md border-b border-purple-900/40 shadow-xl">
+        <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+            <a href="index.html#memory" class="inline-flex items-center gap-2 text-sm text-memorial-gold hover:text-yellow-400 font-semibold">
+                <i class="fa-solid fa-arrow-left"></i> Back to Memory Wall
+            </a>
+            <a href="index.html" class="text-xs text-gray-400 hover:text-white">Kinuthia Ndekei · 1998–2026</a>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-10">
+        <div class="mb-8">
+            <h1 class="font-serif text-3xl sm:text-4xl font-bold text-memorial-gold mb-1">All Tributes</h1>
+            <p id="tribute-count-line" class="text-gray-300 text-sm">"Forever in our hearts until we meet again." · Loading…</p>
+        </div>
+
+        <!-- Add a tribute -->
+        <div class="bg-purple-950/40 border border-purple-900/50 rounded-2xl p-6 sm:p-8 shadow-xl mb-10">
+            <h2 class="font-serif text-xl font-bold text-memorial-gold mb-1"><i class="fa-solid fa-pen-nib mr-2"></i>Add a Tribute</h2>
+            <p class="text-[11px] text-memorial-gold mb-4">Tributes require admin approval before appearing on the public wall.</p>
+            <form id="tribute-form" class="space-y-3 max-w-2xl">
+                <input type="text" id="tribute-name" placeholder="Your Full Name" required maxlength="100" class="w-full bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-memorial-gold">
+                <textarea id="tribute-text" placeholder="Write your tribute or memory here…" rows="5" required maxlength="2500" class="w-full bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-memorial-gold"></textarea>
+                <button id="tribute-submit" type="submit" class="px-6 py-2.5 bg-memorial-gold text-black font-bold rounded-lg text-sm hover:bg-yellow-500 transition disabled:opacity-60">Submit Tribute</button>
+                <p id="tribute-status" class="text-xs min-h-[1rem]"></p>
+            </form>
+        </div>
+
+        <div id="tributes-list" class="space-y-6">
+            <p class="text-sm text-gray-400 italic text-center py-4">Loading tributes…</p>
+        </div>
+    </main>
+
+    <script>
+        /* ---- Firebase config (public by design; Firestore rules protect the data) ---- */
+        const FIREBASE_CONFIG = {
+            apiKey: "AIzaSyBoFUrJCRPXTVw36qUVqJnMMzocracB9Io",
+            authDomain: "kinuthia-memorial.firebaseapp.com",
+            projectId: "kinuthia-memorial",
+            storageBucket: "kinuthia-memorial.firebasestorage.app",
+            messagingSenderId: "274368039276",
+            appId: "1:274368039276:web:c9f86e12eac56b138dcb49"
+        };
+        const CLOUD = Boolean(FIREBASE_CONFIG.apiKey && FIREBASE_CONFIG.projectId);
+        const $ = id => document.getElementById(id);
+        const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+        const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+        const fmtDate = it => it.date || (it.createdAt ? new Date(it.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : '');
+        const errCode = e => (e && (e.code || e.message)) || 'unknown error';
+
+        /* Same allow-list sanitizer as the main site: strips anything except a
+           short list of harmless formatting tags, so tributes saved with the
+           rich-text editor on the main site render safely here too. */
+        const RICH_TAGS = new Set(['B','STRONG','I','EM','U','S','STRIKE','DEL','BR','P','UL','OL','LI','BLOCKQUOTE','H3','A']);
+        const RICH_DROP = new Set(['SCRIPT','STYLE','IFRAME','OBJECT','EMBED','SVG','MATH','TEMPLATE','NOSCRIPT','FORM','INPUT','BUTTON','TEXTAREA','SELECT','IMG','VIDEO','AUDIO','LINK','META','BASE']);
+        function sanitizeHtml(html) {
+            const doc = new DOMParser().parseFromString('<body>' + (html || '') + '</body>', 'text/html');
+            const walk = node => {
+                Array.from(node.childNodes).forEach(ch => {
+                    if (ch.nodeType === 3) return;
+                    if (ch.nodeType !== 1) { ch.remove(); return; }
+                    const tag = ch.tagName;
+                    if (RICH_DROP.has(tag)) { ch.remove(); return; }
+                    walk(ch);
+                    if (tag === 'DIV') { const p = doc.createElement('p'); while (ch.firstChild) p.appendChild(ch.firstChild); ch.replaceWith(p); return; }
+                    if (!RICH_TAGS.has(tag)) { while (ch.firstChild) ch.parentNode.insertBefore(ch.firstChild, ch); ch.remove(); return; }
+                    Array.from(ch.attributes).forEach(a => { if (!(tag === 'A' && a.name === 'href')) ch.removeAttribute(a.name); });
+                    if (tag === 'A') {
+                        const h = (ch.getAttribute('href') || '').trim();
+                        if (/^(https?:\/\/|mailto:)/i.test(h)) { ch.setAttribute('href', h); ch.setAttribute('target', '_blank'); ch.setAttribute('rel', 'noopener noreferrer nofollow'); }
+                        else { while (ch.firstChild) ch.parentNode.insertBefore(ch.firstChild, ch); ch.remove(); }
+                    }
+                });
+            };
+            walk(doc.body);
+            return doc.body.innerHTML.trim();
+        }
+        const looksLikeHtml = s => /<\/?(p|div|br|b|strong|i|em|u|s|strike|del|ul|ol|li|blockquote|h3|a)\b/i.test(s || '');
+        const richBody = s => looksLikeHtml(s) ? sanitizeHtml(s) : esc(s).replace(/\r?\n/g, '<br>');
+
+        const localStore = {
+            _read(col) { try { return JSON.parse(localStorage.getItem(col)) || []; } catch { return []; } },
+            _write(col, arr) { localStorage.setItem(col, JSON.stringify(arr)); },
+            async list(col) { return this._read(col); },
+            async add(col, data, id) { const arr = this._read(col); const item = { ...data, id: id || uid() }; arr.unshift(item); this._write(col, arr); return item.id; }
+        };
+        async function makeCloudStore() {
+            const base = 'https://www.gstatic.com/firebasejs/10.14.1/';
+            const [appMod, fs] = await Promise.all([import(base + 'firebase-app.js'), import(base + 'firebase-firestore.js')]);
+            const fapp = appMod.initializeApp(FIREBASE_CONFIG);
+            const db = fs.getFirestore(fapp);
+            return {
+                async list(col, { max = 500 } = {}) {
+                    const snap = await fs.getDocs(fs.query(fs.collection(db, col), fs.orderBy('createdAt', 'desc'), fs.limit(max)));
+                    return snap.docs.map(d => ({ ...d.data(), id: d.id }));
+                },
+                async add(col, data) { return (await fs.addDoc(fs.collection(db, col), data)).id; }
+            };
+        }
+        let Store = localStore;
+
+        function tributeCardHtml(t) {
+            return `
+            <div class="bg-purple-900/20 border border-purple-800/40 p-5 sm:p-6 rounded-xl">
+                <div class="rich font-serif text-gray-200 text-base mb-3">${richBody(t.text)}</div>
+                <div class="flex justify-between items-center gap-3 text-xs text-memorial-gold font-semibold pt-1">
+                    <span>— ${esc(t.name)}</span>
+                    <span class="text-gray-400 text-right">${esc(fmtDate(t))}</span>
+                </div>
+            </div>`;
+        }
+
+        async function loadTributes() {
+            const list = $('tributes-list');
+            try {
+                const tributes = await Store.list('tributes');
+                $('tribute-count-line').textContent = `"Forever in our hearts until we meet again." · ${tributes.length} tribute${tributes.length === 1 ? '' : 's'} shared so far.`;
+                list.innerHTML = tributes.length
+                    ? tributes.map(tributeCardHtml).join('')
+                    : '<p class="text-sm text-gray-400 italic text-center py-4">Be the first to share a tribute for Kinuthia.</p>';
+            } catch (e) {
+                console.error(e);
+                $('tribute-count-line').textContent = '';
+                list.innerHTML = '<p class="text-sm text-red-300 text-center py-4">Could not load tributes. Please check your connection and refresh.</p>';
+            }
+        }
+
+        $('tribute-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = $('tribute-submit'), status = $('tribute-status');
+            if (btn.disabled) return;
+            const name = $('tribute-name').value.trim(), text = $('tribute-text').value.trim();
+            if (!name) { status.textContent = 'Please enter your name.'; status.className = 'text-xs text-red-300'; return; }
+            if (!text) { status.textContent = 'Please write your tribute.'; status.className = 'text-xs text-red-300'; return; }
+            if (text.length > 2500) { status.textContent = 'Please keep your tribute under 2500 characters.'; status.className = 'text-xs text-red-300'; return; }
+            btn.disabled = true; status.textContent = '';
+            try {
+                await Store.add('pendingTributes', { name, text: esc(text).replace(/\r?\n/g, '<br>'), createdAt: Date.now() });
+                status.textContent = 'Thank you. Your tribute was submitted and is awaiting admin approval.';
+                status.className = 'text-xs text-emerald-300';
+                e.target.reset();
+            } catch (err) {
+                console.error(err);
+                status.textContent = errCode(err) === 'permission-denied'
+                    ? 'Could not save (database rules need updating).'
+                    : `Could not submit your tribute (${errCode(err)}). Please try again.`;
+                status.className = 'text-xs text-red-300';
+            } finally { btn.disabled = false; }
+        });
+
+        (async () => {
+            if (CLOUD) {
+                try { Store = await makeCloudStore(); }
+                catch (e) { console.error(e); $('tribute-count-line').textContent = 'Could not connect to the shared database.'; }
+            }
+            await loadTributes();
+        })();
+    </script>
+</body>
+</html>

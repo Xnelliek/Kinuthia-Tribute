@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lower Kabete, KE Service — In Loving Memory of Kinuthia Ndekei</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { memorial: {
+            royal: '#3b145a', purple: '#4c1d76', lightPurple: '#f3e8ff',
+            gold: '#d4af37', lightGold: '#fef3c7', darkBg: '#1f1035'
+        } }, fontFamily: {
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif']
+        } } } }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body.bg-memorial-darkBg {
+            background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(76,29,118,.35), transparent),
+                        linear-gradient(180deg, #2a1450 0%, #1f1035 22%, #190c2c 55%, #140823 100%);
+        }
+        a:focus-visible, button:focus-visible { outline: 2px solid #d4af37; outline-offset: 2px; border-radius: 4px; }
+        @media print {
+            header, .no-print { display: none !important; }
+            body { background: #fff !important; color: #000 !important; }
+            .print-area, .print-area * { color: #000 !important; background: transparent !important; border-color: #999 !important; box-shadow: none !important; }
+        }
+        @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+    </style>
+</head>
+<body class="bg-memorial-darkBg text-gray-100 font-sans antialiased min-h-screen">
+
+    <header class="sticky top-0 z-40 bg-[#1f1035]/95 backdrop-blur-md border-b border-purple-900/40 shadow-xl no-print">
+        <div class="max-w-3xl mx-auto px-4 h-16 flex items-center justify-between">
+            <a href="index.html#service" class="inline-flex items-center gap-2 text-sm text-memorial-gold hover:text-yellow-400 font-semibold">
+                <i class="fa-solid fa-arrow-left"></i> Back to Service & RSVP
+            </a>
+            <a href="index.html" class="text-xs text-gray-400 hover:text-white">Kinuthia Ndekei · 1998–2026</a>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-4 py-10">
+        <div class="no-print flex flex-wrap items-center justify-end gap-3 mb-4">
+            <button onclick="window.print()" class="px-3 py-1.5 rounded-lg bg-memorial-royal border border-memorial-gold/40 text-memorial-gold text-xs font-semibold hover:bg-purple-800 transition"><i class="fa-solid fa-print mr-1"></i> Print program</button>
+        </div>
+        <div id="program-body" class="print-area bg-purple-950/40 border border-purple-900/50 rounded-2xl p-6 sm:p-10 shadow-xl">
+            <p class="text-center text-gray-400 text-sm py-10">Loading program…</p>
+        </div>
+        <div class="no-print text-center mt-8">
+            <a href="service-us.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-memorial-royal border border-memorial-gold/40 text-memorial-gold text-sm font-semibold hover:bg-purple-800 transition">
+                <i class="fa-solid fa-flag-usa"></i> View the Seattle,US Memorial Service program →
+            </a>
+        </div>
+    </main>
+
+    <script>
+        const KEY = 'kenya';
+        const DEFAULTS = {
+            icon: 'fa-cross', status: 'Upcoming', title: 'Lower Kabete, KE service',
+            date: 'Wednesday, September 30, 2026', time: '10:00 AM',
+            venue: "Ndekei family home, Lower Kabete, next to Mary Leakey Girls School, Nairobi, Kenya",
+            mapUrl: "https://www.google.com/maps/dir//Ndekei's+Residence,+QP5G%2BGPW/@-1.2423454,36.7280684,15z/data=!4m8!4m7!1m0!1m5!1m1!1s0x182f190021a79151:0xb1dc495fc0eaa354!2m2!1d36.7268258!2d-1.2410638?entry=ttu&g_ep=EgoyMDI2MDkxNi4wIKXMDSoASAFQAw%3D%3D",
+            livestream: 'https://zoom.us/#',
+            items: [
+                ['08:30 AM', 'Arrival of family members at Montezuma funeral home'],
+                ['09:00 AM', 'Private viewing of the body & short family prayer'],
+                ['10:00 AM', "Departure of cortege to Ndekei's Residence"],
+                ['10:30 AM', "Arrival & Seating of guests at Ndekei's Residence"],
+                ['10:45 AM', 'Opening Prayer & Processional Hymn'],
+                ['11:15 AM', 'Scripture Reading & Worship Songs'],
+                ['11:45 AM', 'Reading of Biography / Eulogy (by Family Representative)'],
+                ['12:15 PM', 'Tributes from Parents, Family, and Mumbi Hinga'],
+                ['01:00 PM', 'Memorial Sermon & Message of Hope (SRPC Wangige church)'],
+                ['02:00 PM', 'Physical Candle Lighting Moment & Final Viewing'],
+                ['02:45 PM', 'Recessional Hymn & Movement to Graveside'],
+                ['03:30 PM', 'Graveside Committal Service & Lowering of Casket']
+            ],
+            notes: ['Kinuthia will be transported back to Kenya on Thursday, September 24, 2026.'],
+            busLink: true
+        };
+
+        const FIREBASE_CONFIG = {
+            apiKey: "AIzaSyBoFUrJCRPXTVw36qUVqJnMMzocracB9Io",
+            authDomain: "kinuthia-memorial.firebaseapp.com",
+            projectId: "kinuthia-memorial",
+            storageBucket: "kinuthia-memorial.firebasestorage.app",
+            messagingSenderId: "274368039276",
+            appId: "1:274368039276:web:c9f86e12eac56b138dcb49"
+        };
+        const CLOUD = Boolean(FIREBASE_CONFIG.apiKey && FIREBASE_CONFIG.projectId);
+        const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+        const safeUrl = u => /^https?:\/\/\S+$/i.test((u || '').trim()) ? u.trim() : '';
+        const STATUSES = ['Upcoming', 'Today', 'Completed', 'Postponed'];
+        function statusStyle(s) {
+            switch (s) {
+                case 'Today': return 'bg-emerald-900/40 border-emerald-500 text-emerald-300';
+                case 'Completed': return 'bg-gray-800 border-gray-600 text-gray-300';
+                case 'Postponed': return 'bg-amber-900/40 border-amber-500 text-amber-300';
+                default: return 'bg-purple-900/40 border-memorial-gold/50 text-memorial-gold';
+            }
+        }
+
+        async function fetchProgram() {
+            const p = { ...DEFAULTS, items: DEFAULTS.items.slice(), notes: DEFAULTS.notes.slice() };
+            if (!CLOUD) return p;
+            try {
+                const base = 'https://www.gstatic.com/firebasejs/10.14.1/';
+                const [appMod, fs] = await Promise.all([import(base + 'firebase-app.js'), import(base + 'firebase-firestore.js')]);
+                const fapp = appMod.initializeApp(FIREBASE_CONFIG);
+                const db = fs.getFirestore(fapp);
+                const snap = await fs.getDoc(fs.doc(db, 'settings', 'programs'));
+                if (snap.exists()) {
+                    const v = snap.data()[KEY];
+                    if (v) {
+                        if (STATUSES.includes(v.status)) p.status = v.status;
+                        if (typeof v.title === 'string' && v.title.trim()) p.title = v.title;
+                        if (typeof v.date === 'string') p.date = v.date;
+                        if (typeof v.time === 'string') p.time = v.time;
+                        if (typeof v.venue === 'string') p.venue = v.venue;
+                        if (typeof v.mapUrl === 'string') p.mapUrl = v.mapUrl;
+                        if (typeof v.livestream === 'string') p.livestream = v.livestream;
+                        if (Array.isArray(v.items)) p.items = v.items.map(x => [String((x && x.t) || ''), String((x && x.d) || '')]);
+                        if (Array.isArray(v.notes)) p.notes = v.notes.map(String);
+                    }
+                }
+            } catch (e) { console.warn('Using the built-in program (could not reach the shared database):', e); }
+            return p;
+        }
+
+        function renderProgram(p) {
+            const row = (icon, html) => `<p class="flex items-start gap-3"><i class="fa-solid ${icon} text-memorial-gold mt-1 w-4 text-center"></i><span>${html}</span></p>`;
+            const details = [
+                row('fa-calendar-check', `${esc(p.date)}${p.time ? ' at ' + esc(p.time) : ''}`),
+                row('fa-location-dot', esc(p.venue)),
+                safeUrl(p.mapUrl) ? row('fa-map-location-dot', `<a href="${esc(safeUrl(p.mapUrl))}" target="_blank" rel="noopener noreferrer" class="text-memorial-gold underline hover:text-yellow-400">Google Map directions →</a>`) : '',
+                safeUrl(p.livestream) ? row('fa-video', `<a href="${esc(safeUrl(p.livestream))}" target="_blank" rel="noopener noreferrer" class="text-memorial-gold underline hover:text-yellow-400">Join the virtual livestream →</a>`) : '',
+                p.busLink ? row('fa-bus', `<a href="index.html#buses" class="text-memorial-gold underline hover:text-yellow-400">Reserve a seat on the transport bus →</a>`) : ''
+            ].join('');
+            const program = p.items.length ? `
+                <ol class="relative border-l-2 border-memorial-gold/40 ml-2 sm:ml-4 space-y-5">
+                    ${p.items.map(it => `
+                    <li class="relative pl-6">
+                        <span class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-memorial-gold border-4 border-memorial-darkBg"></span>
+                        <span class="block text-xs font-semibold text-memorial-gold uppercase tracking-wider">${esc(it[0])}</span>
+                        <span class="block text-gray-100 text-base">${esc(it[1])}</span>
+                    </li>`).join('')}
+                </ol>` : `
+                <div class="bg-purple-900/20 border border-purple-800/40 rounded-xl p-6 text-center text-gray-300 text-sm">
+                    <i class="fa-solid fa-hourglass-half text-memorial-gold text-2xl mb-2"></i>
+                    <p>The full order of service for this day will be published here soon. Please check back closer to the date.</p>
+                </div>`;
+            document.getElementById('program-body').innerHTML = `
+                <div class="text-center mb-8 border-b border-purple-900 pb-6">
+                    <div class="w-14 h-14 mx-auto rounded-full bg-purple-900/60 border border-memorial-gold/50 flex items-center justify-center text-memorial-gold text-2xl mb-3"><i class="fa-solid ${p.icon}"></i></div>
+                    <p class="text-xs uppercase tracking-widest text-gray-400 mb-1">In Loving Memory of Kinuthia Ndekei · 1998 – 2026</p>
+                    <h1 class="font-serif text-3xl sm:text-4xl font-bold text-memorial-gold">${esc(p.title)}</h1>
+                    <p class="text-gray-200 mt-2">${esc(p.date)}</p>
+                    <span class="inline-block mt-3 text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full border ${statusStyle(p.status)}">${esc(p.status)}</span>
+                </div>
+                <div class="space-y-3 text-sm text-gray-200 mb-8 max-w-xl mx-auto">${details}</div>
+                <h2 class="font-serif text-2xl font-bold text-memorial-gold mb-5">Order of Service — Full Day Program</h2>
+                ${program}
+                ${p.notes.length ? `<div class="mt-8 rounded-xl border border-memorial-gold/40 bg-memorial-gold/10 p-4 text-sm text-gray-200 space-y-2"><p class="font-semibold text-memorial-gold"><i class="fa-solid fa-circle-info mr-1"></i> Please note</p>${p.notes.map(n => `<p>${esc(n)}</p>`).join('')}</div>` : ''}
+            `;
+            document.title = `${p.title} — In Loving Memory of Kinuthia Ndekei`;
+        }
+
+        (async () => { renderProgram(await fetchProgram()); })();
+    </script>
+</body>
+</html>
