@@ -802,14 +802,6 @@
                             </div>
                         </div>
                         <div class="flex items-start gap-3">
-                            <i class="fa-solid fa-fire text-memorial-gold mt-1"></i>
-                            <div>
-                                <strong class="block text-white">Candle Lighting Memorial Service</strong>
-                                <span id="cl-service-line">Monday, September 28, 2026 · 6:30 PM at Ndekei's Residence</span>
-                                <a href="candle-lighting.html" class="block text-memorial-gold underline hover:text-yellow-400 mt-0.5">View full programme →</a>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3">
                             <i class="fa-solid fa-video text-memorial-gold mt-1"></i>
                             <div>
                                 <strong class="block text-white">Virtual Livestream Link (Kenya Service)</strong>
@@ -1673,8 +1665,18 @@ function candleCount() {
     $('candle-count').textContent = `${n} / ${CANDLE_MAX}`;
 }
 function openLightCandleModal() {
+    const cl = PROGRAMS.candlelighting;
     openGenericModal(`
         <h3 class="font-serif text-xl font-bold text-memorial-gold mb-4">Light a Virtual Candle</h3>
+        ${cl ? `
+        <div class="mb-4 rounded-xl border border-memorial-gold/40 bg-memorial-gold/10 p-3 flex items-start gap-3">
+            <i class="fa-solid fa-fire text-memorial-gold mt-1 flex-shrink-0"></i>
+            <div class="min-w-0">
+                <strong class="block text-white text-sm">Candle Lighting Memorial Service</strong>
+                <span class="block text-xs text-gray-200">${esc(cl.date)} · ${esc(cl.time)} at ${esc((cl.venue || '').split(',')[0])}</span>
+                <a href="candle-lighting.html" class="block text-memorial-gold underline hover:text-yellow-400 mt-0.5 text-xs">View full programme →</a>
+            </div>
+        </div>` : ''}
         <form onsubmit="submitCandle(event)" class="space-y-3">
             <input type="text" id="candle-name" placeholder="Your Full Name" required maxlength="100" class="w-full bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white">
             <textarea id="candle-msg" placeholder="A short message: one or two sentences" rows="3" required maxlength="${CANDLE_MAX}" oninput="candleCount()" class="w-full bg-memorial-darkBg border border-purple-800 rounded-lg px-3 py-2 text-sm text-white"></textarea>
@@ -2372,7 +2374,6 @@ function renderCandleLightingInfo() {
     const cl = PROGRAMS.candlelighting; if (!cl) return;
     const badge = $('cl-timeline-date'); if (badge) badge.textContent = `${esc(cl.date)} · Upcoming`;
     const desc = $('cl-timeline-desc'); if (desc) desc.textContent = `A Celebration of Life & Light at ${cl.venue.split(',')[0]}, from ${cl.time}.`;
-    const line = $('cl-service-line'); if (line) line.textContent = `${cl.date} · ${cl.time} at ${cl.venue.split(',')[0]}`;
 }
 function renderProgramsEverywhere() {
     renderProgramGrid(); renderServiceCards(); renderChips(); renderNotice(); renderLiveLink(); renderCandleLightingInfo(); checkServiceAlerts();
