@@ -223,6 +223,24 @@
             .hero-in { animation: none; opacity: 1; transform: none; }
         }
 
+        /* ============ SERVICE STARTING-SOON REMINDER ============ */
+        @keyframes serviceAlertGlow {
+            0%, 100% { box-shadow: 0 0 8px 0 rgba(212, 175, 55, 0.35), 0 10px 30px -10px rgba(0,0,0,0.6); }
+            50% { box-shadow: 0 0 28px 6px rgba(212, 175, 55, 0.75), 0 10px 30px -10px rgba(0,0,0,0.6); }
+        }
+        .service-alert-glow { animation: serviceAlertGlow 2.6s ease-in-out infinite; }
+        @keyframes serviceAlertIn {
+            from { opacity: 0; transform: translateY(-16px); }
+            to { opacity: 1; transform: none; }
+        }
+        #service-alert:not(.hidden) #service-alert-inner { animation: serviceAlertIn .5s cubic-bezier(0.22,1,0.36,1) both, serviceAlertGlow 2.6s ease-in-out .5s infinite; }
+        @media (prefers-reduced-motion: reduce) {
+            .service-alert-glow, #service-alert:not(.hidden) #service-alert-inner {
+                animation: none !important;
+                box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.6), 0 10px 30px -10px rgba(0,0,0,0.6) !important;
+            }
+        }
+
         /* ============ SCROLL-REVEAL ANIMATIONS ============ */
         .reveal, .reveal-up, .reveal-left, .reveal-scale {
             opacity: 0;
@@ -269,6 +287,19 @@
         }
     })();
     </script>
+
+    <!-- SERVICE STARTING-SOON REMINDER (hidden until a service is within its reminder window) -->
+    <div id="service-alert" class="hidden fixed top-0 inset-x-0 z-[70] px-3 pt-3 pointer-events-none">
+        <div id="service-alert-inner" class="pointer-events-auto max-w-xl mx-auto bg-memorial-royal border border-memorial-gold rounded-2xl shadow-2xl px-4 py-3 sm:px-5 sm:py-4 flex items-start gap-3 service-alert-glow">
+            <i class="fa-solid fa-fire-flame-curved text-memorial-gold text-xl mt-0.5 flex-shrink-0"></i>
+            <div class="min-w-0 flex-1">
+                <p id="service-alert-title" class="text-white font-semibold text-sm sm:text-base"></p>
+                <p id="service-alert-sub" class="text-gray-200 text-xs sm:text-sm mt-0.5"></p>
+                <a id="service-alert-link" href="#" class="inline-block mt-2 text-xs sm:text-sm font-semibold text-memorial-gold underline hover:text-yellow-400"></a>
+            </div>
+            <button type="button" onclick="dismissServiceAlert()" aria-label="Dismiss" class="flex-shrink-0 text-gray-300 hover:text-white text-lg leading-none px-1">&times;</button>
+        </div>
+    </div>
 
     <!-- FLOATING BACKGROUND PARTICLES -->
     <div id="particles-container" class="absolute inset-0 overflow-hidden pointer-events-none"></div>
@@ -1031,7 +1062,12 @@ const PROGRAMS_DEFAULT = {
         time: '11:00 AM – 2:00 PM',
         venue: 'Valor Memorial, 4606 108th St SW, Lakewood, WA 98499',
         mapUrl: 'https://www.google.com/maps/search/?api=1&query=Valor+Memorial+4606+108th+St+SW+Lakewood+WA+98499',
-        livestream: '',
+        livestream: 'https://www.youtube.com/live/_CoMV83h0yc',
+        /* Exact real-world start instant (with timezone), used ONLY to trigger
+           the "starting soon" reminder pop-up correctly for every visitor
+           regardless of which country/timezone they're browsing from. This
+           is separate from the display-only "date"/"time" text above. */
+        startAt: '2026-09-23T11:00:00-07:00',
         items: [
             ['11:00 AM', 'Memorial service begins'],
             /* Add more of the US order of service here, for example:
@@ -1052,6 +1088,9 @@ const PROGRAMS_DEFAULT = {
         venue: "Ndekei family home, Lower Kabete, next to Mary Leakey Girls School, Nairobi, Kenya",
         mapUrl: "https://www.google.com/maps/dir//Ndekei's+Residence,+QP5G%2BGPW/@-1.2423454,36.7280684,15z/data=!4m8!4m7!1m0!1m5!1m1!1s0x182f190021a79151:0xb1dc495fc0eaa354!2m2!1d36.7268258!2d-1.2410638?entry=ttu&g_ep=EgoyMDI2MDkxNi4wIKXMDSoASAFQAw%3D%3D",
         livestream: 'https://zoom.us/#',
+        /* Exact real-world start instant (East Africa Time, UTC+3, no DST),
+           used only to trigger the "starting soon" reminder correctly. */
+        startAt: '2026-09-30T11:00:00+03:00',
         items: [
             ['7:00 AM', 'Assembly at Lower Kabete'],
             ['7:30 AM', 'Departure from Lower Kabete'],
@@ -1092,10 +1131,36 @@ const PROGRAMS_DEFAULT = {
         time: '6:30 PM',
         venue: "Ndekei's Residence, Lower Kabete, next to Mary Leakey Girls School, Nairobi, Kenya",
         mapUrl: "https://www.google.com/maps/dir//Ndekei's+Residence,+QP5G%2BGPW/@-1.2423454,36.7280684,15z/data=!4m8!4m7!1m0!1m5!1m1!1s0x182f190021a79151:0xb1dc495fc0eaa354!2m2!1d36.7268258!2d-1.2410638?entry=ttu&g_ep=EgoyMDI2MDkxNi4wIKXMDSoASAFQAw%3D%3D",
-        motherName: 'Njeri Ndekei',
-        partnerName: 'Mumbi Hinga',
-        familyLabel: 'Aunts, Uncles & Cousins',
-        friendsName: 'Representative to be confirmed'
+        order: [
+            { title: 'Processional', desc: 'Soft opening music as guests take their seats', role: 'Instrumental' },
+            { title: 'Welcome Remarks', desc: 'Opening words & purpose of the gathering', role: 'Service Leader / Host' },
+            { title: 'Thematic Lighting', desc: 'Dedication of the three memorial candles', role: 'Family & Loved Ones' },
+            { title: 'Main Lighting', desc: 'Passing the flame & lighting the central Master Candle', role: 'All Guests' },
+            { title: 'Musical Reflection', desc: 'Memorial hymn: "Abide With Me"', role: 'Musician / Vocalist' },
+            { title: 'Silent Moment', desc: 'One minute of quiet reflection & prayer', role: 'All Attendees' },
+            { title: 'Personal Tributes', desc: 'Shared memories from Mum, Mumbi, family & friends', role: 'Designated Speakers' },
+            { title: 'Closing Blessing', desc: 'Final words & invitation to the balloon release', role: 'Service Leader' }
+        ],
+        candles: [
+            { label: '1st Candle · Love', litBy: 'Mum, Njeri Ndekei', quote: 'We light this candle to represent love, warmth, and the everlasting bonds we share with family and friends. Your love as a son will remain in our hearts forever.' },
+            { label: '2nd Candle · Hope', litBy: 'Mumbi Hinga', quote: 'We light this candle for hope, looking forward to the future with optimism and light, holding tightly to the precious moments and dreams we shared.' },
+            { label: '3rd Candle · Memory & Community', litBy: 'Family & Friends', quote: 'We light this candle to honor those who came before us and the strong community that surrounds and supports us today in your memory.' }
+        ],
+        speakers: [
+            { role: "Mother's Tribute", name: 'Njeri Ndekei', desc: "A mother's reflection on raising a beloved son and carrying his legacy forward." },
+            { role: "Partner's Tribute", name: 'Mumbi Hinga', desc: 'Reflections on love, partnership, laughter, and cherished memories together.' },
+            { role: 'Family Reflection', name: 'Aunts, Uncles & Cousins', desc: 'Shared family stories, milestones, and unforgettable moments together.' },
+            { role: "Friends' Tribute", name: 'Representative to be confirmed', desc: 'Tributes on loyalty, camaraderie, and friendship that lasts a lifetime.' }
+        ],
+        hymnTitle: 'Abide With Me',
+        hymnVerses: [
+            "Abide with me; fast falls the eventide;\nThe darkness deepens; Lord, with me abide.\nWhen other helpers fail and comforts flee,\nHelp of the helpless, O abide with me.",
+            "I fear no foe, with Thee at hand to bless;\nIlls have no weight, and tears no bitterness.\nWhere is death's sting? Where, grave, thy victory?\nI triumph still, if Thou abide with me."
+        ],
+        balloonText: [
+            "Following the closing remarks, guests are warmly invited to gather outside at the residence. We will release purple balloons into the sky as a symbol of sending our love, prayers, and light upward in memory of Kinuthia.",
+            "Please join us for light refreshments at the residence following the balloon release."
+        ]
     }
 };
 /* What the site shows right now (built-in defaults, overridden by anything an admin saved). */
@@ -2251,6 +2316,58 @@ function renderLiveLink() {
     }
 }
 
+/* ---------- Service starting-soon reminder banner ---------- */
+const SERVICE_ALERT_LEAD_MS = 10 * 60 * 1000;   // starts showing 10 minutes before
+const SERVICE_ALERT_TAIL_MS = 60 * 60 * 1000;   // keeps showing until 60 minutes after start (then auto-hides)
+function serviceAlertKey(k, startAt) { return 'dismissed-alert-' + k + '-' + startAt; }
+function syncHeaderOffsetForAlert() {
+    const banner = $('service-alert'); const header = document.querySelector('header.sticky');
+    if (!banner || !header) return;
+    header.style.top = banner.classList.contains('hidden') ? '0px' : banner.offsetHeight + 'px';
+}
+window.addEventListener('resize', syncHeaderOffsetForAlert);
+
+function dismissServiceAlert() {
+    const el = $('service-alert'); if (!el) return;
+    if (el.dataset.key) { try { sessionStorage.setItem(el.dataset.key, '1'); } catch (e) { /* private browsing, ignore */ } }
+    el.classList.add('hidden');
+    syncHeaderOffsetForAlert();
+}
+function checkServiceAlerts() {
+    const el = $('service-alert'); if (!el) return;
+    const now = Date.now();
+    let best = null;
+    ['us', 'kenya'].forEach(k => {
+        const p = PROGRAMS[k]; if (!p || !p.startAt) return;
+        const t = Date.parse(p.startAt); if (isNaN(t)) return;
+        const diff = t - now; // positive = starts in the future, negative = already started
+        if (diff > SERVICE_ALERT_LEAD_MS || diff < -SERVICE_ALERT_TAIL_MS) return;
+        const key = serviceAlertKey(k, p.startAt);
+        let dismissed = false;
+        try { dismissed = sessionStorage.getItem(key) === '1'; } catch (e) { /* ignore */ }
+        if (dismissed) return;
+        if (!best || Math.abs(diff) < Math.abs(best.diff)) best = { k, p, diff, key };
+    });
+
+    if (!best) { el.classList.add('hidden'); syncHeaderOffsetForAlert(); return; }
+
+    const name = best.k === 'us' ? 'Seattle,US Memorial Service' : 'Lower Kabete, KE Funeral Service';
+    const pageLink = best.k === 'us' ? 'service-us.html' : 'service-kenya.html';
+    const live = safeUrl(best.p.livestream);
+    const sub = best.diff > 0
+        ? `Starting in ${Math.max(1, Math.round(best.diff / 60000))} minute${Math.max(1, Math.round(best.diff / 60000)) === 1 ? '' : 's'}${live ? ' — join the livestream below.' : '.'}`
+        : `The service is underway now${live ? ' — you can still join the livestream.' : '.'}`;
+
+    $('service-alert-title').textContent = name;
+    $('service-alert-sub').textContent = sub;
+    const linkEl = $('service-alert-link');
+    if (live) { linkEl.href = live; linkEl.target = '_blank'; linkEl.rel = 'noopener noreferrer'; linkEl.textContent = 'Join the livestream →'; }
+    else { linkEl.href = pageLink; linkEl.removeAttribute('target'); linkEl.textContent = 'View the full programme →'; }
+    el.dataset.key = best.key;
+    el.classList.remove('hidden');
+    syncHeaderOffsetForAlert();
+}
+
 function renderCandleLightingInfo() {
     const cl = PROGRAMS.candlelighting; if (!cl) return;
     const badge = $('cl-timeline-date'); if (badge) badge.textContent = `${esc(cl.date)} · Upcoming`;
@@ -2258,7 +2375,7 @@ function renderCandleLightingInfo() {
     const line = $('cl-service-line'); if (line) line.textContent = `${cl.date} · ${cl.time} at ${cl.venue.split(',')[0]}`;
 }
 function renderProgramsEverywhere() {
-    renderProgramGrid(); renderServiceCards(); renderChips(); renderNotice(); renderLiveLink(); renderCandleLightingInfo();
+    renderProgramGrid(); renderServiceCards(); renderChips(); renderNotice(); renderLiveLink(); renderCandleLightingInfo(); checkServiceAlerts();
 }
 
 /* Merge what an admin saved over the built-in defaults */
@@ -2273,6 +2390,7 @@ function applySettings(s) {
             b.title = (typeof v.title === 'string' && v.title.trim()) ? v.title : b.title;
             b.date = str(v.date, b.date); b.time = str(v.time, b.time); b.venue = str(v.venue, b.venue);
             b.mapUrl = str(v.mapUrl, b.mapUrl); b.livestream = str(v.livestream, b.livestream);
+            b.startAt = str(v.startAt, b.startAt);
             if (Array.isArray(v.items)) b.items = v.items.map(x => [String((x && x.t) || ''), String((x && x.d) || '')]);
             if (Array.isArray(v.notes)) b.notes = v.notes.map(String);
         });
@@ -2280,8 +2398,18 @@ function applySettings(s) {
             const v = s.candlelighting, b = PROGRAMS.candlelighting, str = (x, fallback) => typeof x === 'string' ? x : fallback;
             b.date = str(v.date, b.date); b.time = str(v.time, b.time); b.venue = str(v.venue, b.venue);
             b.mapUrl = str(v.mapUrl, b.mapUrl);
-            b.motherName = str(v.motherName, b.motherName); b.partnerName = str(v.partnerName, b.partnerName);
-            b.familyLabel = str(v.familyLabel, b.familyLabel); b.friendsName = str(v.friendsName, b.friendsName);
+            if (Array.isArray(v.order) && v.order.length) {
+                b.order = v.order.map(x => ({ title: str(x && x.title, ''), desc: str(x && x.desc, ''), role: str(x && x.role, '') }));
+            }
+            if (Array.isArray(v.candles) && v.candles.length) {
+                b.candles = v.candles.map(x => ({ label: str(x && x.label, ''), litBy: str(x && x.litBy, ''), quote: str(x && x.quote, '') }));
+            }
+            if (Array.isArray(v.speakers) && v.speakers.length) {
+                b.speakers = v.speakers.map(x => ({ role: str(x && x.role, ''), name: str(x && x.name, ''), desc: str(x && x.desc, '') }));
+            }
+            b.hymnTitle = str(v.hymnTitle, b.hymnTitle);
+            if (Array.isArray(v.hymnVerses) && v.hymnVerses.length) b.hymnVerses = v.hymnVerses.map(String);
+            if (Array.isArray(v.balloonText) && v.balloonText.length) b.balloonText = v.balloonText.map(String);
         }
         if (s.notice && typeof s.notice.title === 'string' && typeof s.notice.body === 'string') NOTICE = { title: s.notice.title, body: s.notice.body };
     }
@@ -2308,6 +2436,74 @@ function progRemoveItem(k, i) { progDraft[k].items.splice(i, 1); refreshProgItem
 function progMoveItem(k, i, dir) {
     const a = progDraft[k].items, j = i + dir; if (j < 0 || j >= a.length) return;
     [a[i], a[j]] = [a[j], a[i]]; refreshProgItems(k);
+}
+
+/* Candle Lighting Memorial Service: three repeatable lists (order of program,
+   candle readings, speakers), each a list of small objects, edited the same
+   way as the program items above. */
+const CL_TEMPLATES = {
+    order: { title: '', desc: '', role: '' },
+    candles: { label: '', litBy: '', quote: '' },
+    speakers: { role: '', name: '', desc: '' }
+};
+const CL_MARKUP_FNS = { order: clOrderMarkup, candles: clCandlesMarkup, speakers: clSpeakersMarkup };
+function clField(list, i, field, v) { progDraft.candlelighting[list][i][field] = v; markProgDirty(); }
+function clRefresh(list) { $('cl-list-' + list).innerHTML = CL_MARKUP_FNS[list](); markProgDirty(); }
+function clAdd(list) { progDraft.candlelighting[list].push({ ...CL_TEMPLATES[list] }); clRefresh(list); }
+function clRemove(list, i) { progDraft.candlelighting[list].splice(i, 1); clRefresh(list); }
+function clMove(list, i, dir) {
+    const a = progDraft.candlelighting[list], j = i + dir; if (j < 0 || j >= a.length) return;
+    [a[i], a[j]] = [a[j], a[i]]; clRefresh(list);
+}
+function clHymnTitle(v) { progDraft.candlelighting.hymnTitle = v; markProgDirty(); }
+function clHymnVerses(v) { progDraft.candlelighting.hymnVerses = v.split(/\n\s*\n/).map(x => x.trim()).filter(Boolean); markProgDirty(); }
+function clBalloonText(v) { progDraft.candlelighting.balloonText = v.split(/\n\s*\n/).map(x => x.trim()).filter(Boolean); markProgDirty(); }
+
+function clListButtons(list, i) {
+    const btn = 'w-8 h-9 rounded bg-purple-900 text-gray-200 hover:bg-purple-700 text-xs';
+    return `
+        <button type="button" onclick="clMove('${list}',${i},-1)" class="${btn}" title="Move up" aria-label="Move up"><i class="fa-solid fa-arrow-up"></i></button>
+        <button type="button" onclick="clMove('${list}',${i},1)" class="${btn}" title="Move down" aria-label="Move down"><i class="fa-solid fa-arrow-down"></i></button>
+        <button type="button" onclick="clRemove('${list}',${i})" class="w-8 h-9 rounded bg-red-900 text-white hover:bg-red-700 text-xs" title="Remove" aria-label="Remove"><i class="fa-solid fa-xmark"></i></button>`;
+}
+function clOrderMarkup() {
+    const items = progDraft.candlelighting.order;
+    if (!items.length) return '<p class="text-xs text-gray-400 italic">No steps yet. Tap "Add step".</p>';
+    return items.map((it, i) => `
+        <div class="border border-purple-800 rounded-lg p-2.5 space-y-1.5">
+            <div class="flex items-start gap-1.5">
+                <input type="text" value="${esc(it.title)}" maxlength="40" placeholder="Step title, e.g. Processional" aria-label="Step title" oninput="clField('order',${i},'title',this.value)" class="${inputBase} flex-1">
+                <div class="flex flex-shrink-0 gap-1">${clListButtons('order', i)}</div>
+            </div>
+            <input type="text" value="${esc(it.desc)}" maxlength="200" placeholder="What happens" aria-label="What happens" oninput="clField('order',${i},'desc',this.value)" class="${inputBase} w-full">
+            <input type="text" value="${esc(it.role)}" maxlength="60" placeholder="Who (optional), e.g. Musician / Vocalist" aria-label="Who" oninput="clField('order',${i},'role',this.value)" class="${inputBase} w-full">
+        </div>`).join('');
+}
+function clCandlesMarkup() {
+    const items = progDraft.candlelighting.candles;
+    if (!items.length) return '<p class="text-xs text-gray-400 italic">No candles yet. Tap "Add candle".</p>';
+    return items.map((it, i) => `
+        <div class="border border-purple-800 rounded-lg p-2.5 space-y-1.5">
+            <div class="flex items-start gap-1.5">
+                <input type="text" value="${esc(it.label)}" maxlength="40" placeholder="e.g. 1st Candle · Love" aria-label="Candle label" oninput="clField('candles',${i},'label',this.value)" class="${inputBase} flex-1">
+                <div class="flex flex-shrink-0 gap-1">${clListButtons('candles', i)}</div>
+            </div>
+            <input type="text" value="${esc(it.litBy)}" maxlength="100" placeholder="Lit by (name or group)" aria-label="Lit by" oninput="clField('candles',${i},'litBy',this.value)" class="${inputBase} w-full">
+            <textarea rows="2" maxlength="500" placeholder="Reading text" aria-label="Reading text" oninput="clField('candles',${i},'quote',this.value)" class="${inputBase} w-full">${esc(it.quote)}</textarea>
+        </div>`).join('');
+}
+function clSpeakersMarkup() {
+    const items = progDraft.candlelighting.speakers;
+    if (!items.length) return '<p class="text-xs text-gray-400 italic">No speakers yet. Tap "Add speaker".</p>';
+    return items.map((it, i) => `
+        <div class="border border-purple-800 rounded-lg p-2.5 space-y-1.5">
+            <div class="flex items-start gap-1.5">
+                <input type="text" value="${esc(it.role)}" maxlength="60" placeholder="e.g. Mother's Tribute" aria-label="Role" oninput="clField('speakers',${i},'role',this.value)" class="${inputBase} flex-1">
+                <div class="flex flex-shrink-0 gap-1">${clListButtons('speakers', i)}</div>
+            </div>
+            <input type="text" value="${esc(it.name)}" maxlength="100" placeholder="Name (or 'To be confirmed')" aria-label="Name" oninput="clField('speakers',${i},'name',this.value)" class="${inputBase} w-full">
+            <input type="text" value="${esc(it.desc)}" maxlength="200" placeholder="Short description" aria-label="Description" oninput="clField('speakers',${i},'desc',this.value)" class="${inputBase} w-full">
+        </div>`).join('');
 }
 
 function progItemsMarkup(k) {
@@ -2345,6 +2541,8 @@ function programFormMarkup(k) {
             ${f('Venue / address', 'venue', 'Venue name and address', 200)}
             ${f('Google Maps link (optional)', 'mapUrl', 'https://maps.google.com/...', 600)}
             ${f('Livestream link (optional)', 'livestream', 'https://zoom.us/j/...', 600)}
+            ${f('Exact start time — used only for the "starting soon" reminder pop-up', 'startAt', '2026-09-23T11:00:00-07:00', 30)}
+            <p class="text-[11px] text-gray-400 -mt-2">Format: YYYY-MM-DDTHH:MM:SS±HH:MM (include the timezone offset, e.g. -07:00 for Seattle or +03:00 for Nairobi) so the reminder fires at the right moment for visitors everywhere, not just in one timezone.</p>
             <label class="block"><span class="block text-[11px] font-semibold text-memorial-gold mb-1">Notes shown under the program (one per line)</span>
                 <textarea rows="3" oninput="progNotes('${k}',this.value)" class="${inputBase} w-full">${esc(p.notes.join('\n'))}</textarea></label>
             <div>
@@ -2364,22 +2562,39 @@ function candleLightingFormMarkup() {
     return `
     <details class="bg-purple-950 border border-purple-800 rounded-xl">
         <summary class="cursor-pointer select-none px-4 py-3 font-semibold text-white flex items-center gap-2"><i class="fa-solid fa-fire text-memorial-gold"></i> Candle Lighting Memorial Service</summary>
-        <div class="px-4 pb-4 space-y-3">
+        <div class="px-4 pb-4 space-y-5">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 ${f('Date', 'date', 'Monday, September 28, 2026', 60)}
                 ${f('Time', 'time', '6:30 PM', 60)}
             </div>
             ${f('Venue / address', 'venue', 'Venue name and address', 200)}
             ${f('Google Maps link (optional)', 'mapUrl', 'https://maps.google.com/...', 600)}
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                ${f("Who lights the Love candle (Mother)", 'motherName', "Mother's name", 100)}
-                ${f("Who lights the Hope candle (Partner)", 'partnerName', "Partner's name", 100)}
+
+            <div>
+                <p class="text-[11px] font-semibold text-memorial-gold mb-1">Order of Program</p>
+                <div id="cl-list-order" class="space-y-2">${clOrderMarkup()}</div>
+                <button type="button" onclick="clAdd('order')" class="mt-2 px-3 py-1.5 rounded-lg bg-memorial-royal border border-memorial-gold/40 text-memorial-gold text-xs font-semibold hover:bg-purple-800"><i class="fa-solid fa-plus mr-1"></i> Add step</button>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                ${f('Family Reflection — who speaks', 'familyLabel', 'e.g. Aunts, Uncles & Cousins', 100)}
-                ${f("Friends' Tribute — who speaks", 'friendsName', 'Name, or "To be confirmed"', 100)}
+
+            <div>
+                <p class="text-[11px] font-semibold text-memorial-gold mb-1">Thematic Candle Readings</p>
+                <div id="cl-list-candles" class="space-y-2">${clCandlesMarkup()}</div>
+                <button type="button" onclick="clAdd('candles')" class="mt-2 px-3 py-1.5 rounded-lg bg-memorial-royal border border-memorial-gold/40 text-memorial-gold text-xs font-semibold hover:bg-purple-800"><i class="fa-solid fa-plus mr-1"></i> Add candle</button>
             </div>
-            <p class="text-[11px] text-gray-400">The Order of Program, the candle readings, the hymn and the balloon-release text are fixed on the programme page and are not edited here.</p>
+
+            <div>
+                <p class="text-[11px] font-semibold text-memorial-gold mb-1">Speakers & Personal Tributes</p>
+                <div id="cl-list-speakers" class="space-y-2">${clSpeakersMarkup()}</div>
+                <button type="button" onclick="clAdd('speakers')" class="mt-2 px-3 py-1.5 rounded-lg bg-memorial-royal border border-memorial-gold/40 text-memorial-gold text-xs font-semibold hover:bg-purple-800"><i class="fa-solid fa-plus mr-1"></i> Add speaker</button>
+            </div>
+
+            <label class="block"><span class="block text-[11px] font-semibold text-memorial-gold mb-1">Hymn title</span>
+                <input type="text" value="${esc(p.hymnTitle)}" maxlength="80" oninput="clHymnTitle(this.value)" class="${inputBase} w-full"></label>
+            <label class="block"><span class="block text-[11px] font-semibold text-memorial-gold mb-1">Hymn verses (leave a blank line between verses)</span>
+                <textarea rows="6" maxlength="2000" oninput="clHymnVerses(this.value)" class="${inputBase} w-full">${esc(p.hymnVerses.join('\n\n'))}</textarea></label>
+
+            <label class="block"><span class="block text-[11px] font-semibold text-memorial-gold mb-1">Balloon-release text (leave a blank line between paragraphs)</span>
+                <textarea rows="5" maxlength="1500" oninput="clBalloonText(this.value)" class="${inputBase} w-full">${esc(p.balloonText.join('\n\n'))}</textarea></label>
         </div>
     </details>`;
 }
@@ -2419,6 +2634,7 @@ async function saveProgramSettings() {
             title: p.title.trim() || PROGRAMS_DEFAULT[k].title,
             date: p.date.trim(), time: p.time.trim(), venue: p.venue.trim(),
             mapUrl: p.mapUrl.trim(), livestream: (p.livestream || '').trim(),
+            startAt: (p.startAt || '').trim(),
             items: p.items.map(it => ({ t: it[0].trim(), d: it[1].trim() })).filter(it => it.t || it.d),
             notes: p.notes.map(n => n.trim()).filter(Boolean).slice(0, 8)
         };
@@ -2426,10 +2642,12 @@ async function saveProgramSettings() {
     const cl = d.candlelighting;
     const packCl = () => ({
         date: cl.date.trim(), time: cl.time.trim(), venue: cl.venue.trim(), mapUrl: (cl.mapUrl || '').trim(),
-        motherName: cl.motherName.trim() || PROGRAMS_DEFAULT.candlelighting.motherName,
-        partnerName: cl.partnerName.trim() || PROGRAMS_DEFAULT.candlelighting.partnerName,
-        familyLabel: cl.familyLabel.trim() || PROGRAMS_DEFAULT.candlelighting.familyLabel,
-        friendsName: cl.friendsName.trim() || PROGRAMS_DEFAULT.candlelighting.friendsName
+        order: cl.order.map(it => ({ title: it.title.trim(), desc: it.desc.trim(), role: it.role.trim() })).filter(it => it.title || it.desc),
+        candles: cl.candles.map(it => ({ label: it.label.trim(), litBy: it.litBy.trim(), quote: it.quote.trim() })).filter(it => it.label || it.quote),
+        speakers: cl.speakers.map(it => ({ role: it.role.trim(), name: it.name.trim(), desc: it.desc.trim() })).filter(it => it.role || it.name),
+        hymnTitle: cl.hymnTitle.trim() || PROGRAMS_DEFAULT.candlelighting.hymnTitle,
+        hymnVerses: cl.hymnVerses.map(v => v.trim()).filter(Boolean),
+        balloonText: cl.balloonText.map(v => v.trim()).filter(Boolean)
     });
     const payload = { us: pack('us'), kenya: pack('kenya'), candlelighting: packCl(), notice: { title: d.notice.title.trim(), body: d.notice.body.trim() }, updatedAt: Date.now() };
     for (const k of ['us', 'kenya']) {
@@ -2439,9 +2657,13 @@ async function saveProgramSettings() {
             if (p[f] && !/^https?:\/\/\S+$/i.test(p[f])) { toast(`${name}: the ${f === 'mapUrl' ? 'map' : 'livestream'} link must start with https://`, 'error', 7000); return; }
         }
         if (p.items.some(it => !it.d)) { toast(`${name}: every program item needs a description.`, 'error'); return; }
+        if (p.startAt && isNaN(Date.parse(p.startAt))) { toast(`${name}: the exact start time isn't a valid date/time. Use the format shown under the box.`, 'error', 8000); return; }
     }
     if (!payload.candlelighting.date) { toast('Candle Lighting: please enter a date.', 'error'); return; }
     if (payload.candlelighting.mapUrl && !/^https?:\/\/\S+$/i.test(payload.candlelighting.mapUrl)) { toast('Candle Lighting: the map link must start with https://', 'error', 7000); return; }
+    if (payload.candlelighting.order.some(it => !it.title)) { toast('Candle Lighting: every order-of-program step needs a title.', 'error'); return; }
+    if (payload.candlelighting.candles.some(it => !it.label)) { toast('Candle Lighting: every candle needs a label.', 'error'); return; }
+    if (payload.candlelighting.speakers.some(it => !it.role)) { toast('Candle Lighting: every speaker needs a role/heading.', 'error'); return; }
     const btn = $('prog-save'); btn.disabled = true;
     try {
         await Store.set('settings', 'programs', payload);
@@ -2524,6 +2746,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderGallery();
     updateSyncBanner();
     route(); // re-run once PROGRAMS/gallery are populated, in case the page loaded on a service/subpage link
+    setInterval(checkServiceAlerts, 20000); // keep checking as time passes, not just when data reloads
 
     if (CLOUD) {
         $('admin-user').type = 'email'; $('admin-user').placeholder = 'Admin email'; $('admin-user').setAttribute('inputmode', 'email'); $('admin-forgot').classList.remove('hidden');
