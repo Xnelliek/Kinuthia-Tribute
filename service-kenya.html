@@ -34,18 +34,70 @@
 </head>
 <body class="bg-memorial-darkBg text-gray-100 font-sans antialiased min-h-screen">
 
-    <header class="sticky top-0 z-40 bg-[#1f1035]/95 backdrop-blur-md border-b border-purple-900/40 shadow-xl no-print">
-        <div class="max-w-3xl mx-auto px-4 h-16 flex items-center justify-between">
-            <a href="index.html#service" class="inline-flex items-center gap-2 text-sm text-memorial-gold hover:text-yellow-400 font-semibold">
-                <i class="fa-solid fa-arrow-left"></i> Back to Service & RSVP
-            </a>
-            <a href="index.html" class="text-xs text-gray-400 hover:text-white">Kinuthia Ndekei · 1998–2026</a>
+    <!-- SITE HEADER (same as the homepage, so this page never feels detached from the rest of the site) -->
+    <header class="sticky top-0 z-50 bg-[#1f1035]/95 backdrop-blur-md border-b border-purple-900/40 shadow-xl no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="index.html#home" class="flex items-center space-x-2 sm:space-x-3 cursor-pointer group min-w-0">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0 rounded-full border-2 border-memorial-gold overflow-hidden shadow-md group-hover:scale-105 transition">
+                        <img src="https://lh3.googleusercontent.com/pw/AP1GczNvS-FyPZbSsEf3YxXxNQNCCFYK1kS6a25R6GAxx3B3QynYrItbUxww7LnenZZn0fgmFvdnLrlkTPyY9kWzx-6JlxBPD5NeMPZcCUIwO0dF1wceSd4=s600-k-no" alt="Kinuthia Ndekei" class="w-full h-full object-cover">
+                    </div>
+                    <div class="min-w-0">
+                        <h1 class="font-serif text-base sm:text-xl font-bold text-white tracking-wide group-hover:text-memorial-gold transition truncate">Kinuthia Ndekei</h1>
+                        <p class="text-[10px] sm:text-xs text-memorial-gold font-medium truncate">1998 – 2026 | Online Tribute</p>
+                    </div>
+                </a>
+
+                <!-- Navigation Links (point back to the homepage's own sections) -->
+                <nav class="hidden lg:flex items-center space-x-1 xl:space-x-2 text-sm font-medium">
+                    <a href="index.html#obituary" class="px-3 py-2 rounded-lg transition text-gray-300 hover:text-white hover:bg-purple-900/20">Obituary</a>
+                    <a href="index.html#family" class="px-3 py-2 rounded-lg transition text-gray-300 hover:text-white hover:bg-purple-900/20">Family Tree</a>
+                    <a href="index.html#favorites" class="px-3 py-2 rounded-lg transition text-gray-300 hover:text-white hover:bg-purple-900/20">Favorites</a>
+                    <a href="index.html#timeline" class="px-3 py-2 rounded-lg transition text-gray-300 hover:text-white hover:bg-purple-900/20">Timeline</a>
+                    <a href="index.html#gallery" class="px-3 py-2 rounded-lg transition text-gray-300 hover:text-white hover:bg-purple-900/20">Gallery</a>
+                    <a href="index.html#memory" class="px-3 py-2 rounded-lg transition text-gray-300 hover:text-white hover:bg-purple-900/20">Memory Wall</a>
+                    <a href="index.html#candles" class="px-3 py-2 rounded-lg transition text-gray-300 hover:text-white hover:bg-purple-900/20">Virtual Candles</a>
+                    <a href="index.html#buses" class="px-3 py-2 rounded-lg transition text-gray-300 hover:text-white hover:bg-purple-900/20">Bus Transport</a>
+                    <a href="index.html#service" class="px-3 py-2 rounded-lg transition text-gray-300 hover:text-white hover:bg-purple-900/20">Service & RSVP</a>
+                    <a href="index.html?admin=1" class="px-3 py-2 rounded-lg bg-memorial-royal border border-memorial-gold/40 text-memorial-gold hover:bg-purple-800 transition text-xs font-semibold flex items-center gap-1.5"><i class="fa-solid fa-lock text-[10px]"></i> Admin</a>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <div class="flex items-center lg:hidden flex-shrink-0 pl-2">
+                    <a href="index.html?admin=1" class="mr-1 px-2.5 py-1.5 rounded bg-memorial-royal text-memorial-gold text-xs border border-memorial-gold/30"><i class="fa-solid fa-lock"></i> Admin</a>
+                    <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="text-gray-300 hover:text-white focus:outline-none p-2" aria-label="Toggle menu">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Nav Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-memorial-darkBg border-b border-purple-900 px-4 pt-2 pb-4 space-y-1">
+            <a href="index.html#obituary" class="block w-full text-left px-3 py-2 rounded text-gray-300 hover:bg-purple-900/20">Obituary</a>
+            <a href="index.html#family" class="block w-full text-left px-3 py-2 rounded text-gray-300 hover:bg-purple-900/20">Family Tree</a>
+            <a href="index.html#favorites" class="block w-full text-left px-3 py-2 rounded text-gray-300 hover:bg-purple-900/20">Favorites</a>
+            <a href="index.html#timeline" class="block w-full text-left px-3 py-2 rounded text-gray-300 hover:bg-purple-900/20">Timeline</a>
+            <a href="index.html#gallery" class="block w-full text-left px-3 py-2 rounded text-gray-300 hover:bg-purple-900/20">Gallery</a>
+            <a href="index.html#memory" class="block w-full text-left px-3 py-2 rounded text-gray-300 hover:bg-purple-900/20">Memory Wall</a>
+            <a href="index.html#candles" class="block w-full text-left px-3 py-2 rounded text-gray-300 hover:bg-purple-900/20">Virtual Candles</a>
+            <a href="index.html#buses" class="block w-full text-left px-3 py-2 rounded text-gray-300 hover:bg-purple-900/20">Bus Transport</a>
+            <a href="index.html#service" class="block w-full text-left px-3 py-2 rounded text-gray-300 hover:bg-purple-900/20">Service & RSVP</a>
         </div>
     </header>
 
+    <!-- Page breadcrumb bar (kept from before, now sits under the full site header) -->
+    <div class="bg-[#1f1035]/80 border-b border-purple-900/40 no-print">
+        <div class="max-w-3xl mx-auto px-4 h-12 flex items-center">
+            <a href="index.html#service" class="inline-flex items-center gap-2 text-sm text-memorial-gold hover:text-yellow-400 font-semibold">
+                <i class="fa-solid fa-arrow-left"></i> Back to Service & RSVP
+            </a>
+        </div>
+    </div>
+
     <main class="max-w-3xl mx-auto px-4 py-10">
         <div class="no-print flex flex-wrap items-center justify-between gap-3 mb-6">
-            <a href="Kenya_Funeral_Programme.pdf" download target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-memorial-gold text-black text-sm font-bold hover:bg-yellow-500 transition shadow-md">
+            <a href="Kenya_Funeral_Programme.pdf" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-memorial-gold text-black text-sm font-bold hover:bg-yellow-500 transition shadow-md">
                 <i class="fa-solid fa-file-pdf"></i> View Full Kenya Programme (PDF)
             </a>
             <button onclick="window.print()" class="px-3 py-1.5 rounded-lg bg-memorial-royal border border-memorial-gold/40 text-memorial-gold text-xs font-semibold hover:bg-purple-800 transition"><i class="fa-solid fa-print mr-1"></i> Print program</button>
@@ -160,7 +212,7 @@
                 safeUrl(p.mapUrl) ? row('fa-map-location-dot', `<a href="${esc(safeUrl(p.mapUrl))}" target="_blank" rel="noopener noreferrer" class="text-memorial-gold underline hover:text-yellow-400">Google Map directions →</a>`) : '',
                 safeUrl(p.livestream) ? row('fa-video', `<a href="${esc(safeUrl(p.livestream))}" target="_blank" rel="noopener noreferrer" class="text-memorial-gold underline hover:text-yellow-400">Join the virtual livestream →</a>`) : '',
                 p.busLink ? row('fa-bus', `<a href="index.html#buses" class="text-memorial-gold underline hover:text-yellow-400">Reserve a seat on the transport bus →</a>`) : '',
-                row('fa-file-pdf', `<a href="Kenya_Funeral_Programme.pdf" download target="_blank" rel="noopener noreferrer" class="text-memorial-gold underline hover:text-yellow-400">Download the full Kenya funeral programme (PDF) →</a>`)
+                row('fa-file-pdf', `<a href="Kenya_Funeral_Programme.pdf" target="_blank" rel="noopener noreferrer" class="text-memorial-gold underline hover:text-yellow-400">View the full Kenya funeral programme (PDF) →</a>`)
             ].join('');
             const program = p.items.length ? `
                 <ol class="relative border-l-2 border-memorial-gold/40 ml-2 sm:ml-4 space-y-5">

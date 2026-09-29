@@ -780,7 +780,7 @@
                     </div>
                     <div class="bg-purple-900/60 border border-memorial-gold/40 px-4 py-2 rounded-xl text-center">
                         <span class="text-xs text-gray-300 block">Available Slots</span>
-                        <span id="bus-slots-count" class="text-2xl font-bold text-memorial-gold">70</span> <span class="text-xs text-gray-300">/ 70</span>
+                        <span id="bus-slots-count" class="text-2xl font-bold text-memorial-gold">51</span> <span class="text-xs text-gray-300">/ 51</span>
                     </div>
                 </div>
 
@@ -1049,7 +1049,7 @@ const FIREBASE_CONFIG = {
 };
 const CLOUD = Boolean(FIREBASE_CONFIG.apiKey && FIREBASE_CONFIG.projectId);
 
-const BUS_BASE_AVAILABLE = 70;   // total bus slots available (must match the "count <= 70" cap in firestore.rules)
+const BUS_BASE_AVAILABLE = 51;   // total bus slots available (must match the "count <= 51" cap in firestore.rules)
 const SHARED_PAGE_SIZE   = 12;   // shared photos shown before "Show more"
 const MAX_UPLOAD_FILES   = 5;    // photos per upload
 const MAX_ORIGINAL_MB    = 25;   // reject originals bigger than this before we even try to process them
@@ -2886,6 +2886,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         prepareLocalStore();
     }
     await loadPublic();
+
+    // Arriving from another page's "Admin" link (e.g. service-kenya.html's header
+    // uses index.html?admin=1) opens the Admin login straight away, rather than
+    // making the person click Admin again after they land here.
+    if (new URLSearchParams(location.search).get('admin') === '1') {
+        openAdminModal();
+        history.replaceState(null, '', location.pathname + location.hash);
+    }
 });
     </script>
 
