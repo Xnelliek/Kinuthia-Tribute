@@ -377,7 +377,7 @@
             <div class="hero-in flex flex-col sm:flex-row items-center justify-center gap-3 max-w-2xl mx-auto mb-8" style="animation-delay:.32s">
                 <a id="chip-us" href="service-us.html" class="w-full sm:w-auto flex items-center gap-2 bg-purple-900/40 border border-purple-800/60 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-gray-200 hover:border-memorial-gold/60 transition">
                     <span class="w-2 h-2 rounded-full bg-emerald-400 flex-shrink-0"></span>
-                    <span><span class="font-semibold text-white">Seattle, US Service</span> — Sept 23, 2026 <span class="text-emerald-400 font-semibold">(Upcoming)</span></span>
+                    <span><span class="font-semibold text-white">Seattle,US Service</span> — Sept 23, 2026 <span class="text-emerald-400 font-semibold">(Upcoming)</span></span>
                 </a>
                 <a id="chip-kenya" href="service-kenya.html" class="w-full sm:w-auto flex items-center gap-2 bg-purple-900/40 border border-memorial-gold/40 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-gray-200 hover:border-memorial-gold/60 transition">
                     <span class="w-2 h-2 rounded-full bg-memorial-gold flex-shrink-0 "></span>
@@ -620,7 +620,7 @@
                     <div class="relative pl-6 sm:pl-8">
                         <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-memorial-gold border-4 border-memorial-darkBg"></div>
                         <span class="text-xs font-semibold text-memorial-gold uppercase tracking-wider">December 2021</span>
-                        <h3 class="text-xl font-bold text-white font-serif mt-1">Relocation to the Seattle, US</h3>
+                        <h3 class="text-xl font-bold text-white font-serif mt-1">Relocation to the Seattle,US</h3>
                         <p class="text-gray-300 text-sm mt-1">Advanced his education, successfully graduating from Sumner College in 2025.</p>
                     </div>
 
@@ -634,7 +634,7 @@
                     <div class="relative pl-6 sm:pl-8">
                         <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-emerald-400 border-4 border-memorial-darkBg"></div>
                         <span class="text-xs font-semibold text-emerald-400 uppercase tracking-wider">September 23, 2026 · Upcoming</span>
-                        <h3 class="text-xl font-bold text-white font-serif mt-1"><a href="service-us.html" class="hover:text-memorial-gold underline decoration-dotted underline-offset-4">Seattle, US Memorial Service</a></h3>
+                        <h3 class="text-xl font-bold text-white font-serif mt-1"><a href="service-us.html" class="hover:text-memorial-gold underline decoration-dotted underline-offset-4">Seattle,US Memorial Service</a></h3>
                         <p class="text-gray-300 text-sm mt-1">Memorial service at Valor Memorial, Lakewood, WA, from 11:00 AM to 2:00 PM.</p>
                         <a href="service-us.html" class="inline-flex items-center gap-1.5 mt-2 text-xs font-semibold text-memorial-gold hover:text-yellow-400"><i class="fa-solid fa-file-lines"></i> View full program & directions →</a>
                     </div>
@@ -748,7 +748,7 @@
                     </div>
                     <div class="bg-purple-900/60 border border-memorial-gold/40 px-4 py-2 rounded-xl text-center">
                         <span class="text-xs text-gray-300 block">Available Slots</span>
-                        <span id="bus-slots-count" class="text-2xl font-bold text-memorial-gold">44</span> <span class="text-xs text-gray-300">/ 44</span>
+                        <span id="bus-slots-count" class="text-2xl font-bold text-memorial-gold">50</span> <span class="text-xs text-gray-300">/ 50</span>
                     </div>
                 </div>
 
@@ -806,13 +806,13 @@
                             <div>
                                 <strong class="block text-white">Virtual Livestream Link (Kenya Service)</strong>
                                 <a id="live-link" href="https://zoom.us/#" target="_blank" rel="noopener noreferrer" class="text-memorial-gold underline hover:text-yellow-400">Click here to join the live stream event →</a>
-                                <p class="text-[11px] text-gray-400 mt-1">For those unable to travel, including family and friends joining from the Seattle, US.</p>
+                                <p class="text-[11px] text-gray-400 mt-1">For those unable to travel, including family and friends joining from the Seattle,US.</p>
                             </div>
                         </div>
                         <div id="live-link-us-wrap" class="hidden flex items-start gap-3">
                             <i class="fa-solid fa-video text-memorial-gold mt-1"></i>
                             <div>
-                                <strong class="block text-white">Virtual Livestream Link (Seattle, US Service)</strong>
+                                <strong class="block text-white">Virtual Livestream Link (Seattle,US Service)</strong>
                                 <a id="live-link-us" href="#" target="_blank" rel="noopener noreferrer" class="text-memorial-gold underline hover:text-yellow-400">Click here to join the live stream event →</a>
                                 <p class="text-[11px] text-gray-400 mt-1">For those unable to travel to Lakewood, WA in person.</p>
                             </div>
@@ -908,15 +908,16 @@
 
             <div id="admin-dashboard-view" class="hidden space-y-6">
                 <div class="flex justify-between items-center border-b border-purple-900 pb-3">
-                    <h2 class="font-serif text-2xl font-bold text-memorial-gold">Admin Full Control Panel</h2>
+                    <h2 id="admin-dashboard-title" class="font-serif text-2xl font-bold text-memorial-gold">Admin Full Control Panel</h2>
                     <div class="flex gap-2">
                         <button onclick="loadAdmin()" class="px-3 py-1 bg-purple-800 text-white rounded text-xs"><i class="fa-solid fa-rotate mr-1"></i>Refresh</button>
                         <button onclick="logoutAdmin()" class="px-3 py-1 bg-red-900 text-white rounded text-xs">Logout</button>
                     </div>
                 </div>
                 <div id="admin-sync-status"></div>
+                <p id="admin-transport-banner" class="hidden text-xs text-amber-200 bg-amber-900/30 border border-amber-700/50 rounded-lg px-3 py-2"><i class="fa-solid fa-circle-info mr-1"></i> You are signed in as the Transport Manager. You can view bus slot registrations only — no other admin data or edit rights are available to this login.</p>
 
-                <div class="space-y-6">
+                <div id="admin-full-sections" class="space-y-6">
                     <div>
                         <h3 class="font-serif text-lg font-bold text-memorial-gold mb-2">Edit Service Programs & Family Update</h3>
                         <div id="admin-programs-editor" class="bg-purple-900/20 p-4 rounded-xl border border-purple-800 text-sm text-gray-300"></div>
@@ -952,23 +953,24 @@
                         <h3 class="font-serif text-lg font-bold text-memorial-gold mb-2">Manage Virtual Candles (Full Server Rights)</h3>
                         <div id="admin-candles-manager" class="bg-purple-900/20 p-4 rounded-xl border border-purple-800 text-sm text-gray-300 space-y-2"></div>
                     </div>
+                </div>
 
-                    <div>
-                        <h3 class="font-serif text-lg font-bold text-memorial-gold mb-2">Registered Bus Passengers & RSVPs (Confidential)</h3>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left text-xs text-gray-300 bg-purple-900/10 rounded-xl border border-purple-800">
-                                <thead class="bg-purple-900/50 text-memorial-gold uppercase">
-                                    <tr>
-                                        <th class="p-3">Name</th>
-                                        <th class="p-3">Phone</th>
-                                        <th class="p-3">Type</th>
-                                        <th class="p-3">Details</th>
-                                        <th class="p-3 text-center">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="admin-registrants-table"></tbody>
-                            </table>
-                        </div>
+                <div>
+                    <h3 id="admin-registrants-title" class="font-serif text-lg font-bold text-memorial-gold mb-2">Registered Bus Passengers & RSVPs (Confidential)</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs text-gray-300 bg-purple-900/10 rounded-xl border border-purple-800">
+                            <thead class="bg-purple-900/50 text-memorial-gold uppercase">
+                                <tr>
+                                    <th class="p-3 text-center">Seat #</th>
+                                    <th class="p-3">Name</th>
+                                    <th class="p-3">Phone</th>
+                                    <th class="p-3">Type</th>
+                                    <th class="p-3">Details</th>
+                                    <th class="p-3 text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-registrants-table"></tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -1049,7 +1051,7 @@ const PROGRAMS_DEFAULT = {
     us: {
         icon: 'fa-flag-usa',
         status: 'Upcoming',
-        title: 'Seattle, US Memorial Service',
+        title: 'Seattle,US Memorial Service',
         date: 'Wednesday, September 23, 2026',
         time: '11:00 AM – 2:00 PM',
         venue: 'Valor Memorial, 4606 108th St SW, Lakewood, WA 98499',
@@ -1140,6 +1142,7 @@ const PROGRAMS_DEFAULT = {
         ],
         speakers: [
             { role: "Mother's Tribute", name: 'Njeri Ndekei', desc: "A mother's reflection on raising a beloved son and carrying his legacy forward." },
+            { role: "Father's Tribute", name: 'Delivered on his behalf — representative to be confirmed', desc: "A father's reflection on his son, shared on his behalf." },
             { role: "Partner's Tribute", name: 'Mumbi Hinga', desc: 'Reflections on love, partnership, laughter, and cherished memories together.' },
             { role: 'Family Reflection', name: 'Aunts, Uncles & Cousins', desc: 'Shared family stories, milestones, and unforgettable moments together.' },
             { role: "Friends' Tribute", name: 'Representative to be confirmed', desc: 'Tributes on loyalty, camaraderie, and friendship that lasts a lifetime.' }
@@ -1213,6 +1216,13 @@ const localStore = {
     async update(col, id, patch) { const arr = this._read(col); const i = arr.findIndex(x => x.id === id); if (i > -1) { arr[i] = { ...arr[i], ...patch }; this._write(col, arr); } },
     async set(col, id, data) { this._write(col, [{ ...data, id }].concat(this._read(col).filter(x => x.id !== id))); },
     async remove(col, id) { this._write(col, this._read(col).filter(x => x.id !== id)); },
+    /* Used by the restricted Transport Manager login: only Bus Slot registrants,
+       oldest-first, so the caller can number them 1, 2, 3... by registration order. */
+    async listBusSlots() {
+        return this._read('registrants')
+            .filter(r => r.type === 'Bus Slot')
+            .sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
+    },
     /* Bus seats: kept as a single counter document so "remaining seats" is one
        cheap read instead of listing every registrant, and so reserving a seat
        and recording the registrant happen together. JS on a single tab is
@@ -1276,11 +1286,33 @@ async function makeCloudStore() {
         import(base + 'firebase-auth.js')
     ]);
     const fapp = appMod.initializeApp(FIREBASE_CONFIG);
-    const db = fs.getFirestore(fapp);
+    // Turn on Firestore's built-in persistent (IndexedDB) cache with multi-tab support.
+    // This is what actually helps "multiple people load it at the same time": repeat
+    // reads of data this browser has already seen (programs, tributes, candles, seats
+    // remaining) are served instantly from local cache instead of waiting on a network
+    // round trip every time, and it keeps working briefly on a flaky connection. Falls
+    // back to a plain (memory-only) Firestore instance if persistence can't be enabled
+    // (e.g. private browsing, or an older browser without IndexedDB).
+    let db;
+    try {
+        db = fs.initializeFirestore(fapp, {
+            localCache: fs.persistentLocalCache({ tabManager: fs.persistentMultipleTabManager() })
+        });
+    } catch (e) { console.warn('Firestore persistent cache unavailable, using memory cache:', e); db = fs.getFirestore(fapp); }
     const auth = au.getAuth(fapp);
     return {
         async list(col, { max = 500 } = {}) {
             const snap = await fs.getDocs(fs.query(fs.collection(db, col), fs.orderBy('createdAt', 'desc'), fs.limit(max)));
+            return snap.docs.map(d => ({ ...d.data(), id: d.id }));
+        },
+        /* Restricted Transport Manager read: the query itself is filtered to
+           type == 'Bus Slot', matching the Firestore security rule exactly, so the
+           rule can be verified for the whole query (not just document-by-document) —
+           this is what lets that login read bus slots without permission to read
+           RSVPs or anything else in the same collection. */
+        async listBusSlots() {
+            const snap = await fs.getDocs(fs.query(fs.collection(db, 'registrants'),
+                fs.where('type', '==', 'Bus Slot'), fs.orderBy('createdAt', 'asc')));
             return snap.docs.map(d => ({ ...d.data(), id: d.id }));
         },
         async get(col, id) { const s = await fs.getDoc(fs.doc(db, col, id)); return s.exists() ? { ...s.data(), id: s.id } : null; },
@@ -1332,12 +1364,20 @@ async function makeCloudStore() {
 
 let Store = localStore;
 
+// Emails allowed to sign in as the restricted Transport Manager role (view-only
+// access to Bus Slot registrants). This list is for the UI only — actual access
+// control is enforced by isTransportManager() in the Firestore security rules,
+// which must list the exact same email(s). Not secret: knowing the email doesn't
+// grant access without the matching password on that Firebase Auth account.
+const TRANSPORT_MANAGER_EMAILS = ['transport@kinuthiamemorial.org'];
+
 /* =====================================================================
    4. STATE + RENDERING
    ===================================================================== */
 const state = { tributes: [], pending: [], candles: [], photos: [], registrants: [], seatsUsed: 0 };
 let sharedShown = SHARED_PAGE_SIZE;
 let isAdmin = false;
+let isTransportManager = false;
 
 async function loadTributes() { state.tributes = await Store.list('tributes'); renderTributes(); renderAdminPublishedTributes(); }
 async function loadCandles() { state.candles = await Store.list('candles'); renderCandles(); renderAdminCandlesManager(); }
@@ -1361,6 +1401,21 @@ async function ensureBusSeatCounter() {
 }
 async function loadPending() { state.pending = await Store.list('pendingTributes'); renderPendingTributes(); }
 async function loadRegistrants() { state.registrants = await Store.list('registrants'); renderRegistrants(); }
+
+/* Restricted Transport Manager load: only Bus Slot registrants (no RSVPs, no
+   tributes/candles/photos/programs), plus the seats-remaining counter. */
+async function loadTransportManager() {
+    try {
+        state.registrants = await Store.listBusSlots();
+        renderRegistrants();
+        await loadSeats();
+        toast('Bus slot registrations loaded.', 'success', 4000);
+    } catch (e) {
+        console.error(e);
+        toast('Could not load bus slot registrations. Please try again.', 'error', 8000);
+    }
+    updateSyncBanner();
+}
 
 async function loadPublic() {
     const results = await Promise.allSettled([loadTributes(), loadCandles(), loadPhotos(), loadSeats(), loadSettings()]);
@@ -1741,7 +1796,9 @@ async function loginAdmin() {
         return;
     }
     if ((user === 'admin' && pass === 'kinuthia2026') || (user === 'manager' && pass === 'tribute2026')) {
-        setAdminView(true); loadAdmin();
+        setAdminView(true, 'admin'); loadAdmin();
+    } else if (user === 'transport' && pass === 'buses2026') {
+        setAdminView(true, 'transport'); loadTransportManager();
     } else { adminLoginError('Invalid admin credentials.'); }
 }
 async function resetAdminPassword() {
@@ -1897,14 +1954,23 @@ function renderSeats() { $('bus-slots-count').textContent = Math.max(0, BUS_BASE
 
 function renderRegistrants() {
     const t = $('admin-registrants-table');
-    if (!state.registrants.length) { t.innerHTML = '<tr><td colspan="5" class="p-3 text-gray-400 italic">No registrations yet.</td></tr>'; return; }
+    if (!state.registrants.length) { t.innerHTML = '<tr><td colspan="6" class="p-3 text-gray-400 italic">No registrations yet.</td></tr>'; return; }
+    // Bus Slot seat numbers always count from 1 in the order people actually
+    // registered (oldest first), regardless of which order the table itself is
+    // displayed in (the full admin table shows newest-first for quick review).
+    const busOldestFirst = state.registrants
+        .filter(r => r.type === 'Bus Slot')
+        .slice()
+        .sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
+    const seatNumberOf = new Map(busOldestFirst.map((r, i) => [r.id, i + 1]));
     t.innerHTML = state.registrants.map((r, i) => `
         <tr class="border-t border-purple-900/40">
+            <td class="p-3 text-center text-memorial-gold font-bold">${r.type === 'Bus Slot' ? (seatNumberOf.get(r.id) ?? '—') : '—'}</td>
             <td class="p-3">${esc(r.name)}</td>
             <td class="p-3">${esc(r.phone)}</td>
             <td class="p-3 text-memorial-gold font-bold">${esc(r.type)}</td>
             <td class="p-3">${esc(r.details)}</td>
-            <td class="p-3 text-center"><button onclick="removeRegistrant(${i})" class="px-2 py-0.5 bg-red-800 text-white rounded text-[10px]">Delete</button></td>
+            <td class="p-3 text-center">${isAdmin ? `<button onclick="removeRegistrant(${i})" class="px-2 py-0.5 bg-red-800 text-white rounded text-[10px]">Delete</button>` : ''}</td>
         </tr>`).join('');
 }
 
@@ -1922,7 +1988,7 @@ async function registerBus(e) {
         }, BUS_BASE_AVAILABLE);
         state.seatsUsed = BUS_BASE_AVAILABLE - result.remaining;
         renderSeats();
-        if (isAdmin) await loadRegistrants();
+        if (isAdmin) await loadRegistrants(); else if (isTransportManager) await loadTransportManager();
         toast(`Successfully registered for bus transport! Slots remaining: ${result.remaining}`, 'success', 7000);
         e.target.reset();
     } catch (err) {
@@ -2300,7 +2366,7 @@ function renderChips() {
         el.innerHTML = `<span class="w-2 h-2 rounded-full ${st.dot} flex-shrink-0"></span>
             <span><span class="font-semibold text-white">${label}</span> — ${shortDate} <span class="${st.text} font-semibold">(${esc(p.status)})</span></span>`;
     };
-    chip('us', 'Seattle, US Service');
+    chip('us', 'Seattle,US Service');
     chip('kenya', 'Lower Kabete, KE Funeral Service');
 }
 
@@ -2353,7 +2419,7 @@ function checkServiceAlerts() {
 
     if (!best) { el.classList.add('hidden'); syncHeaderOffsetForAlert(); return; }
 
-    const name = best.k === 'us' ? 'Seattle, US Memorial Service' : 'Lower Kabete, KE Funeral Service';
+    const name = best.k === 'us' ? 'Seattle,US Memorial Service' : 'Lower Kabete, KE Funeral Service';
     const pageLink = best.k === 'us' ? 'service-us.html' : 'service-kenya.html';
     const live = safeUrl(best.p.livestream);
     const sub = best.diff > 0
@@ -2530,7 +2596,7 @@ function programFormMarkup(k) {
         <input type="text" value="${esc(p[field])}" maxlength="${max}" placeholder="${esc(ph)}" oninput="progField('${k}','${field}',this.value)" class="${inputBase} w-full"></label>`;
     return `
     <details class="bg-purple-950 border border-purple-800 rounded-xl" ${k === 'kenya' ? 'open' : ''}>
-        <summary class="cursor-pointer select-none px-4 py-3 font-semibold text-white flex items-center gap-2"><i class="fa-solid ${PROGRAMS_DEFAULT[k].icon} text-memorial-gold"></i> ${k === 'us' ? 'Seattle, US Service' : 'Lower Kabete, KE Funeral Service'}</summary>
+        <summary class="cursor-pointer select-none px-4 py-3 font-semibold text-white flex items-center gap-2"><i class="fa-solid ${PROGRAMS_DEFAULT[k].icon} text-memorial-gold"></i> ${k === 'us' ? 'Seattle,US Service' : 'Lower Kabete, KE Funeral Service'}</summary>
         <div class="px-4 pb-4 space-y-3">
             <label class="block"><span class="block text-[11px] font-semibold text-memorial-gold mb-1">Status (shown as a badge)</span>
                 <select onchange="progField('${k}','status',this.value)" class="${inputBase} w-full">${STATUSES.map(s => `<option ${p.status === s ? 'selected' : ''}>${s}</option>`).join('')}</select></label>
@@ -2652,7 +2718,7 @@ async function saveProgramSettings() {
     });
     const payload = { us: pack('us'), kenya: pack('kenya'), candlelighting: packCl(), notice: { title: d.notice.title.trim(), body: d.notice.body.trim() }, updatedAt: Date.now() };
     for (const k of ['us', 'kenya']) {
-        const p = payload[k], name = k === 'us' ? 'Seattle, US' : 'Kenya';
+        const p = payload[k], name = k === 'us' ? 'Seattle,US' : 'Kenya';
         if (!p.date) { toast(`${name}: please enter a date.`, 'error'); return; }
         for (const f of ['mapUrl', 'livestream']) {
             if (p[f] && !/^https?:\/\/\S+$/i.test(p[f])) { toast(`${name}: the ${f === 'mapUrl' ? 'map' : 'livestream'} link must start with https://`, 'error', 7000); return; }
@@ -2689,14 +2755,29 @@ async function resetProgramSettings() {
 }
 
 /* ---------- Admin ---------- */
-function setAdminView(on) {
-    isAdmin = on;
+function setAdminView(on, role = 'admin') {
+    isAdmin = on && role === 'admin';
+    isTransportManager = on && role === 'transport';
     $('admin-login-view').classList.toggle('hidden', on);
     $('admin-dashboard-view').classList.toggle('hidden', !on);
+    // The Transport Manager role only ever sees the Bus Slots table — every other
+    // admin section (programs editor, tributes, photos, candles) stays hidden, and
+    // Firestore's own rules back this up so it isn't just a UI-level restriction.
+    const fullSections = $('admin-full-sections');
+    if (fullSections) fullSections.classList.toggle('hidden', isTransportManager);
+    const banner = $('admin-transport-banner');
+    if (banner) banner.classList.toggle('hidden', !isTransportManager);
+    const title = $('admin-dashboard-title');
+    if (title) title.textContent = isTransportManager ? 'Transport Manager — Bus Slots' : 'Admin Full Control Panel';
+    const regTitle = $('admin-registrants-title');
+    if (regTitle) regTitle.textContent = isTransportManager
+        ? 'Registered Bus Passengers (Bus Slots — View Only)'
+        : 'Registered Bus Passengers & RSVPs (Confidential)';
 }
 function openAdminModal() {
     $('admin-modal').classList.remove('hidden');
     if (isAdmin) loadAdmin();
+    else if (isTransportManager) loadTransportManager();
 }
 function closeAdminModal() { $('admin-modal').classList.add('hidden'); }
 
@@ -2754,8 +2835,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
             Store = await makeCloudStore();
             Store.auth.onChange(async user => {
-                setAdminView(!!user);
-                if (user) { await seedCloudIfNeeded(); await loadAdmin(); }
+                const email = (user && user.email || '').toLowerCase();
+                const isTransportLogin = !!user && TRANSPORT_MANAGER_EMAILS.map(e => e.toLowerCase()).includes(email);
+                setAdminView(!!user, isTransportLogin ? 'transport' : 'admin');
+                if (user && isTransportLogin) {
+                    await loadTransportManager();
+                } else if (user) {
+                    await seedCloudIfNeeded();
+                    await loadAdmin();
+                }
             });
         } catch (e) {
             console.error(e);

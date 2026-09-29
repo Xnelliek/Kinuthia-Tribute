@@ -51,6 +51,12 @@ add your website's domain.
 
 ## Firestore rules (paste into the Rules tab)
 
+> **Updated for the Transport Manager role.** There is now a second, restricted login that
+> can see the Bus Slots list only (no RSVPs, no tributes, photos, candles or programs, and no
+> edit/delete rights at all). If you already pasted an earlier version of these rules, replace
+> it entirely with the one below — nothing else changed except the new `isTransportManager()`
+> function and the `registrants` read rule.
+
 ```
 rules_version = '2';
 service cloud.firestore {
@@ -59,6 +65,14 @@ service cloud.firestore {
     function isAdmin() {
       return request.auth != null &&
              request.auth.token.email in ['nelvinekavaya@gmail.com', 'essiegons@gmail.com'];
+    }
+    // Restricted role: can ONLY read Bus Slot registrants. Put the transport manager's
+    // real login email here (create their Firebase Auth user the same way as an admin —
+    // see the "Adding the Transport Manager login" section below — just don't add their
+    // email to isAdmin() above, or they'd get full admin rights instead).
+    function isTransportManager() {
+      return request.auth != null &&
+             request.auth.token.email in ['transport@kinuthiamemorial.org'];
     }
     function shortText(v, max) { return v is string && v.size() > 0 && v.size() <= max; }
 
@@ -102,16 +116,24 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
-    // RSVPs and bus registrations contain phone numbers: anyone may submit, ONLY admins can read
+    // RSVPs and bus registrations contain phone numbers: anyone may submit.
+    // Full admins can read/update/delete everything. The Transport Manager can only
+    // READ documents where type == 'Bus Slot' — never RSVPs, and never update/delete.
+    // 'seatNumber' (the position assigned by the atomic bus-seat reservation) is allowed
+    // alongside the older 'seatId' field so both old and newly-created records validate.
     match /registrants/{id} {
-      allow create: if request.resource.data.keys().hasOnly(['name','phone','type','details','seatId','createdAt'])
+      allow create: if request.resource.data.keys().hasOnly(['name','phone','type','details','seatId','seatNumber','createdAt'])
                     && shortText(request.resource.data.name, 120)
                     && shortText(request.resource.data.phone, 40)
-                    && shortText(request.resource.data.details, 300);
-      allow read, update, delete: if isAdmin();
+                    && shortText(request.resource.data.details, 300)
+                    && request.resource.data.type in ['Bus Slot', 'RSVP'];
+      allow read: if isAdmin() || (isTransportManager() && resource.data.type == 'Bus Slot');
+      allow update, delete: if isAdmin();
     }
 
-    // Anonymous "seat taken" markers so everyone sees how many bus slots remain
+    // Legacy "seat taken" markers from the old counting method. The app no longer creates
+    // these (bus seats are now reserved via the meta/busSeatCounter transaction below), but
+    // the rule is kept so any old records can still be read/cleaned up by an admin.
     match /busSeats/{id} {
       allow read: if true;
       allow create: if request.resource.data.keys().hasOnly(['createdAt']);
@@ -124,13 +146,83 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
-    // Internal bookkeeping
+    // Bus seat counter: the ONE meta document the public may touch, and only to move it
+    // forward by exactly 1 at a time, up to the seat cap (44 = BUS_BASE_AVAILABLE in
+    // index.html — update the 44 below if you ever change that constant). The app reads and
+    // increments this document inside a single Firestore transaction when someone registers,
+    // so two people registering at the same instant can never be given the same seat, and the
+    // count can never run past capacity.
+    match /meta/busSeatCounter {
+      allow read: if true;
+      allow create: if isAdmin() ||
+                    (request.resource.data.keys().hasOnly(['count']) && request.resource.data.count == 1);
+      allow update: if isAdmin() ||
+                    (request.resource.data.keys().hasOnly(['count'])
+                     && request.resource.data.count == resource.data.count + 1
+                     && request.resource.data.count <= 44);
+    }
+
+    // Everything else under /meta (e.g. the "seed" marker) stays admin-only, as before.
     match /meta/{id} {
       allow read, write: if isAdmin();
     }
   }
 }
 ```
+
+## Adding the Transport Manager login (view-only Bus Slots access)
+
+This gives someone (e.g. the person coordinating buses in Kenya) a login that opens straight
+to the Bus Slots list — nothing else — and cannot edit or delete anything, only view.
+
+1. **Firebase → Authentication → Users → Add user.** Use a real email you control access to
+   handing out (e.g. `transport@kinuthiamemorial.org`) and set a password. This is exactly like
+   creating an admin login, just for a different email.
+2. In the Firestore rules above, put that same email inside `isTransportManager()` (replacing
+   the placeholder `transport@kinuthiamemorial.org`), then **Publish**.
+3. In `index.html`, find the line near the top of the `<script>` block that says:
+   ```js
+   const TRANSPORT_MANAGER_EMAILS = ['transport@kinuthiamemorial.org'];
+   ```
+   and put the same email there (must match the rules exactly, including capitalization —
+   Firebase lower-cases emails, so use lowercase in both places). Re-publish `index.html`.
+4. Give that email + password to the transport manager. They click **Admin** on the site and
+   log in with it like anyone else — the dashboard that opens shows only the Bus Slots table
+   (numbered 1, 2, 3... in the order people registered) with no edit or delete buttons, and a
+   banner confirming they're signed in as Transport Manager. They cannot see RSVPs, tributes,
+   photos, candles, or the programs editor, and Firestore itself blocks any attempt to read or
+   change that data even if someone tried from outside the website — it isn't just hidden in
+   the page.
+5. **Also works without Firebase**, for local testing: username `transport`, password
+   `buses2026` opens the same restricted view using the browser's local data (no shared
+   database).
+
+To remove this access later, delete that Firebase Auth user (or just remove their email from
+both `isTransportManager()` in the rules and `TRANSPORT_MANAGER_EMAILS` in `index.html`).
+
+### One-time Firestore index for the Transport Manager view
+
+The Transport Manager's Bus Slots list uses a query (bus slots only, oldest-first) that needs
+one composite index the first time it runs. Firestore will not silently fail — the browser
+console shows an error with a direct "Create it here" link the first time that query runs; click
+it, accept the defaults, and it's ready within a minute or two. You only need to do this once.
+If you'd rather create it ahead of time: **Firestore Database → Indexes → Composite → Add
+index** → collection `registrants` → fields `type` (Ascending) then `createdAt` (Ascending) →
+Query scope: Collection.
+
+### One manual step after you publish these rules (only matters if the site already has bus registrants)
+
+If people have **already** registered for bus seats before you deploy this update, the seat
+counter above doesn't exist yet, and the rules only let an **admin** create it with a starting
+number other than 1 (a public visitor is only ever allowed to create it at exactly `1`, i.e. as
+the very first-ever seat). So: **log in as admin once, right after publishing the new rules and
+the new `index.html`**, before telling anyone else the bus registration is open again. Logging
+in automatically counts the existing "Bus Slot" registrants and sets the counter correctly. If
+you skip this step, the counter will start from 0 on the first *public* booking instead of the
+real number already taken, which would let more seats be booked than you have.
+
+If the site has **no** bus registrants yet (a fresh launch), you don't need to do anything —
+the first public booking creates the counter correctly on its own.
 
 ## Putting a new index.html on the live site (avoid mixed-up pages)
 
@@ -170,6 +262,40 @@ The login box now tells you exactly what is wrong. The usual causes:
 
 To check that tributes are arriving: submit a test tribute on the site, then open Firebase →
 **Firestore Database → Data**. You should see a `pendingTributes` collection with your test entry.
+
+## Performance: faster loading with multiple people on the site at once
+
+The site now turns on Firestore's built-in **persistent local cache** (IndexedDB, with
+multi-tab support) in every visitor's browser. In practice this means:
+
+- Data this browser has already fetched (programs, tributes, candles, seats remaining) is
+  shown instantly from local cache on the next visit or page within the same browser, instead
+  of waiting on a fresh network round trip every time.
+- If two of the site's own pages are open in different tabs on the same device (e.g. the
+  homepage and a service page), they share one cache and one connection to Firestore instead
+  of doubling the reads.
+- On a slow or flaky connection, the page can still show the last-known data immediately while
+  it reconnects in the background, rather than showing a blank/loading state.
+- This is a per-browser cache — it does not reduce how fast *other* people's devices load, but
+  it does reduce how many separate requests hit Firestore overall, which is what actually slows
+  things down when many people arrive at once (e.g. everyone visiting right as a service starts).
+- No setup is required for this — it's already in the code and enables itself automatically. If
+  it can't enable (private browsing, very old browser), the site quietly falls back to normal
+  Firestore requests, so nothing breaks either way.
+
+If the site still feels slow at peak times after this, the next thing worth doing (not yet
+needed) would be raising the Firestore free-tier limits to a paid pay-as-you-go plan — the free
+tier's 50,000 reads/day is very unlikely to be the bottleneck for a memorial site, but it's the
+first thing to check in **Firebase Console → Usage** if slowness is reported again.
+
+## Kenya service programme PDF
+
+The "View Full Kenya Programme (PDF)" button on `service-kenya.html` links to
+`Kenya_Funeral_Programme.pdf`, which must be uploaded to the site **in the same folder** as
+`index.html` and `service-kenya.html` (same rule as the `Pictures` folder — see "Putting a new
+index.html on the live site" above). If you replace that PDF with a newer version later, keep
+the file name exactly `Kenya_Funeral_Programme.pdf` so the existing link keeps working, or update
+the two links inside `service-kenya.html` to match a new file name.
 
 ## Good to know
 

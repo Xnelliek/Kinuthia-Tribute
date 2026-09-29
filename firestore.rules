@@ -6,6 +6,14 @@ service cloud.firestore {
       return request.auth != null &&
              request.auth.token.email in ['nelvinekavaya@gmail.com', 'essiegons@gmail.com'];
     }
+    // Restricted role: can ONLY read Bus Slot registrants (not RSVPs, not tributes,
+    // photos, candles or programs). Add the transport manager's real login email(s)
+    // to this list (create the Firebase Auth user the same way as an admin — see
+    // FIREBASE-SETUP.md — just don't add their email to isAdmin() above).
+    function isTransportManager() {
+      return request.auth != null &&
+             request.auth.token.email in ['transport@kinuthiamemorial.org'];
+    }
     function shortText(v, max) { return v is string && v.size() > 0 && v.size() <= max; }
 
     // Published tributes: everyone reads, only admins write
@@ -48,16 +56,27 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
-    // RSVPs and bus registrations contain phone numbers: anyone may submit, ONLY admins can read
+    // RSVPs and bus registrations contain phone numbers: anyone may submit.
+    // Full admins can read/update/delete everything here. The transport manager can only
+    // READ documents where type == 'Bus Slot' — never RSVPs, and never update or delete
+    // anything. (The app's client-side query for this role filters on type == 'Bus Slot'
+    // too, which is what lets Firestore verify this rule for a list/query, not just a
+    // single-document get.)
+    // 'seatNumber' (the position assigned by the atomic bus-seat reservation) is allowed
+    // alongside the older 'seatId' field so both old and newly-created records validate.
     match /registrants/{id} {
-      allow create: if request.resource.data.keys().hasOnly(['name','phone','type','details','seatId','createdAt'])
+      allow create: if request.resource.data.keys().hasOnly(['name','phone','type','details','seatId','seatNumber','createdAt'])
                     && shortText(request.resource.data.name, 120)
                     && shortText(request.resource.data.phone, 40)
-                    && shortText(request.resource.data.details, 300);
-      allow read, update, delete: if isAdmin();
+                    && shortText(request.resource.data.details, 300)
+                    && request.resource.data.type in ['Bus Slot', 'RSVP'];
+      allow read: if isAdmin() || (isTransportManager() && resource.data.type == 'Bus Slot');
+      allow update, delete: if isAdmin();
     }
 
-    // Anonymous "seat taken" markers so everyone sees how many bus slots remain
+    // Legacy "seat taken" markers from the old counting method. The app no longer creates
+    // these (bus seats are now reserved via the meta/busSeatCounter transaction below), but
+    // the rule is kept so any old records can still be read/cleaned up by an admin.
     match /busSeats/{id} {
       allow read: if true;
       allow create: if request.resource.data.keys().hasOnly(['createdAt']);
@@ -70,7 +89,23 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
-    // Internal bookkeeping
+    // Bus seat counter: the ONE meta document the public may touch, and only to move it
+    // forward by exactly 1 at a time, up to the seat cap (44 = BUS_BASE_AVAILABLE in
+    // index.html — update the 44 below if you ever change that constant). This is what
+    // makes bus-seat reservation safe: the app reads and increments this document inside a
+    // single Firestore transaction, so two people registering at the same instant can never
+    // both be given the same seat number, and the count can never run past capacity.
+    match /meta/busSeatCounter {
+      allow read: if true;
+      allow create: if isAdmin() ||
+                    (request.resource.data.keys().hasOnly(['count']) && request.resource.data.count == 1);
+      allow update: if isAdmin() ||
+                    (request.resource.data.keys().hasOnly(['count'])
+                     && request.resource.data.count == resource.data.count + 1
+                     && request.resource.data.count <= 44);
+    }
+
+    // Everything else under /meta (e.g. the "seed" marker) stays admin-only, as before.
     match /meta/{id} {
       allow read, write: if isAdmin();
     }
