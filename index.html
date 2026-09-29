@@ -340,7 +340,7 @@
             <div class="min-w-0 flex-1">
                 <p class="text-white font-semibold text-sm sm:text-base">Live Broadcast — Kenya Burial Service</p>
                 <p id="livestream-alert-sub" class="text-gray-200 text-xs sm:text-sm mt-0.5"></p>
-                <a href="#livestream" onclick="dismissLivestreamAlert()" class="inline-block mt-2 text-xs sm:text-sm font-semibold text-memorial-gold underline hover:text-yellow-400">Watch it now →</a>
+                <a href="#livestream" onclick="dismissLivestreamAlert()" class="inline-block mt-2 text-xs sm:text-sm font-semibold text-memorial-gold underline hover:text-yellow-400">Watch it here on the site →</a>
             </div>
             <button type="button" onclick="dismissLivestreamAlert()" aria-label="Dismiss" class="flex-shrink-0 text-gray-300 hover:text-white text-lg leading-none px-1">&times;</button>
         </div>
@@ -350,7 +350,7 @@
     <div id="particles-container" class="absolute inset-0 overflow-hidden pointer-events-none"></div>
 
     <!-- HEADER NAV -->
-    <header class="sticky top-0 z-50 bg-[#1f1035]/95 backdrop-blur-md border-b border-purple-900/40 shadow-xl">
+    <header id="site-header" class="z-50 bg-[#1f1035]/95 backdrop-blur-md border-b border-purple-900/40 shadow-xl">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <a href="#home" class="flex items-center space-x-2 sm:space-x-3 cursor-pointer group min-w-0">
@@ -2515,18 +2515,20 @@ const SERVICE_ALERT_LEAD_MS = 10 * 60 * 1000;   // starts showing 10 minutes bef
 const SERVICE_ALERT_TAIL_MS = 60 * 60 * 1000;   // keeps showing until 60 minutes after start (then auto-hides)
 function serviceAlertKey(k, startAt) { return 'dismissed-alert-' + k + '-' + startAt; }
 
-/* Pushes the sticky header down by the combined height of whichever of the
-   top banners (service-starting-soon, livestream reminder) are currently
-   visible, and stacks them one under the other if more than one shows at
-   once (in normal use they hand off to each other instead — see
-   checkLivestreamAlert — but this keeps things tidy even if that ever
-   overlaps, e.g. a clock skew). */
+/* The header is a normal (non-sticky) element, so it scrolls away with the
+   page — only the reminder banners themselves stay fixed on screen. This
+   just makes sure the banner(s) don't visually cover the header while the
+   page is still scrolled to the top, by nudging the header (and everything
+   below it) down by the combined banner height, and stacks the banners one
+   under the other if more than one shows at once (in normal use they hand
+   off to each other instead — see checkLivestreamAlert — but this keeps
+   things tidy even if that ever overlaps, e.g. a clock skew). */
 function syncHeaderOffsetForAlert() {
-    const header = document.querySelector('header.sticky'); if (!header) return;
+    const header = $('site-header'); if (!header) return;
     const bars = ['service-alert', 'livestream-alert'].map(id => $(id)).filter(el => el && !el.classList.contains('hidden'));
     let offset = 0;
     bars.forEach(el => { el.style.transform = offset ? `translateY(${offset}px)` : ''; offset += el.offsetHeight; });
-    header.style.top = offset + 'px';
+    header.style.marginTop = offset ? offset + 'px' : '';
 }
 window.addEventListener('resize', syncHeaderOffsetForAlert);
 

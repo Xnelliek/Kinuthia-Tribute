@@ -34,8 +34,29 @@
 </head>
 <body class="bg-memorial-darkBg text-gray-100 font-sans antialiased min-h-screen">
 
+    <!-- LIVESTREAM REMINDER (hidden until the livestream is within its reminder window; stays fixed on screen while the header itself scrolls away with the page) -->
+    <div id="livestream-alert" class="hidden fixed top-0 inset-x-0 z-[70] px-3 pt-3 pointer-events-none no-print">
+        <div class="pointer-events-auto max-w-xl mx-auto bg-memorial-royal border border-memorial-gold rounded-2xl shadow-2xl px-4 py-3 sm:px-5 sm:py-4 flex items-start gap-3 service-alert-glow">
+            <i class="fa-solid fa-video text-memorial-gold text-xl mt-0.5 flex-shrink-0"></i>
+            <div class="min-w-0 flex-1">
+                <p class="text-white font-semibold text-sm sm:text-base">Live Broadcast — Kenya Burial Service</p>
+                <p id="livestream-alert-sub" class="text-gray-200 text-xs sm:text-sm mt-0.5"></p>
+                <a href="#livestream-embed" onclick="dismissLivestreamAlert()" class="inline-block mt-2 text-xs sm:text-sm font-semibold text-memorial-gold underline hover:text-yellow-400">Watch it here on the site →</a>
+            </div>
+            <button type="button" onclick="dismissLivestreamAlert()" aria-label="Dismiss" class="flex-shrink-0 text-gray-300 hover:text-white text-lg leading-none px-1">&times;</button>
+        </div>
+    </div>
+    <style>
+        @keyframes serviceAlertGlow {
+            0%, 100% { box-shadow: 0 0 8px 0 rgba(212, 175, 55, 0.35), 0 10px 30px -10px rgba(0,0,0,0.6); }
+            50% { box-shadow: 0 0 28px 6px rgba(212, 175, 55, 0.75), 0 10px 30px -10px rgba(0,0,0,0.6); }
+        }
+        .service-alert-glow { animation: serviceAlertGlow 2.6s ease-in-out infinite; }
+        @media (prefers-reduced-motion: reduce) { .service-alert-glow { animation: none !important; box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.6), 0 10px 30px -10px rgba(0,0,0,0.6) !important; } }
+    </style>
+
     <!-- SITE HEADER (same as the homepage, so this page never feels detached from the rest of the site) -->
-    <header class="sticky top-0 z-50 bg-[#1f1035]/95 backdrop-blur-md border-b border-purple-900/40 shadow-xl no-print">
+    <header id="site-header" class="z-50 bg-[#1f1035]/95 backdrop-blur-md border-b border-purple-900/40 shadow-xl no-print">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <a href="index.html#home" class="flex items-center space-x-2 sm:space-x-3 cursor-pointer group min-w-0">
@@ -353,9 +374,52 @@
             }
         }
 
+        /* ---------- Livestream reminder pop-up (a longer lead-time heads-up;
+           stays fixed on screen as you scroll, while the header itself
+           scrolls away with the page normally) ---------- */
+        const LIVESTREAM_ALERT_LEAD_MS = 24 * 60 * 60 * 1000; // starts showing up to 24 hours before
+        const SERVICE_ALERT_LEAD_MS = 10 * 60 * 1000; // hands off once inside the last 10 minutes
+        function livestreamAlertKey(startAt) { return 'dismissed-livestream-alert-' + startAt; }
+        function syncHeaderOffsetForAlert() {
+            const header = document.getElementById('site-header'); if (!header) return;
+            const el = document.getElementById('livestream-alert');
+            header.style.marginTop = (el && !el.classList.contains('hidden')) ? el.offsetHeight + 'px' : '';
+        }
+        window.addEventListener('resize', syncHeaderOffsetForAlert);
+        function dismissLivestreamAlert() {
+            const el = document.getElementById('livestream-alert'); if (!el) return;
+            if (el.dataset.key) { try { sessionStorage.setItem(el.dataset.key, '1'); } catch (e) { /* private browsing, ignore */ } }
+            el.classList.add('hidden');
+            syncHeaderOffsetForAlert();
+        }
+        function checkLivestreamAlert() {
+            const el = document.getElementById('livestream-alert'); if (!el) return;
+            const startAt = Date.parse(LIVESTREAM.startAt);
+            if (isNaN(startAt)) { el.classList.add('hidden'); syncHeaderOffsetForAlert(); return; }
+            const now = Date.now();
+            const diff = startAt - now;
+            if (diff > LIVESTREAM_ALERT_LEAD_MS || diff <= SERVICE_ALERT_LEAD_MS) { el.classList.add('hidden'); syncHeaderOffsetForAlert(); return; }
+            const key = livestreamAlertKey(String(startAt));
+            let dismissed = false;
+            try { dismissed = sessionStorage.getItem(key) === '1'; } catch (e) { /* ignore */ }
+            if (dismissed) { el.classList.add('hidden'); syncHeaderOffsetForAlert(); return; }
+
+            const hours = Math.floor(diff / 3600000);
+            const mins = Math.max(1, Math.round((diff % 3600000) / 60000));
+            const sub = hours >= 1
+                ? `Starts in about ${hours} hour${hours === 1 ? '' : 's'}${mins > 0 && mins < 60 ? ` ${mins} min` : ''} — ${DEFAULTS.date}.`
+                : `Starts in about ${mins} minute${mins === 1 ? '' : 's'}.`;
+            document.getElementById('livestream-alert-sub').textContent = sub;
+            el.dataset.key = key;
+            el.classList.remove('hidden');
+            syncHeaderOffsetForAlert();
+        }
+
         (async () => { renderProgram(await fetchProgram()); })();
         renderLivestreamStatus();
+        checkLivestreamAlert();
         setInterval(renderLivestreamStatus, 1000);
+        setInterval(checkLivestreamAlert, 20000);
     </script>
 </body>
 </html>
