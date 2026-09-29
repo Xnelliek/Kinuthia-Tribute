@@ -333,6 +333,19 @@
         </div>
     </div>
 
+    <!-- LIVESTREAM REMINDER (a longer-lead heads-up than the banner above — hands off to it as the start gets close) -->
+    <div id="livestream-alert" class="hidden fixed top-0 inset-x-0 z-[70] px-3 pt-3 pointer-events-none">
+        <div class="pointer-events-auto max-w-xl mx-auto bg-memorial-royal border border-memorial-gold rounded-2xl shadow-2xl px-4 py-3 sm:px-5 sm:py-4 flex items-start gap-3 service-alert-glow">
+            <i class="fa-solid fa-video text-memorial-gold text-xl mt-0.5 flex-shrink-0"></i>
+            <div class="min-w-0 flex-1">
+                <p class="text-white font-semibold text-sm sm:text-base">Live Broadcast — Kenya Burial Service</p>
+                <p id="livestream-alert-sub" class="text-gray-200 text-xs sm:text-sm mt-0.5"></p>
+                <a href="#livestream" onclick="dismissLivestreamAlert()" class="inline-block mt-2 text-xs sm:text-sm font-semibold text-memorial-gold underline hover:text-yellow-400">Watch it now →</a>
+            </div>
+            <button type="button" onclick="dismissLivestreamAlert()" aria-label="Dismiss" class="flex-shrink-0 text-gray-300 hover:text-white text-lg leading-none px-1">&times;</button>
+        </div>
+    </div>
+
     <!-- FLOATING BACKGROUND PARTICLES -->
     <div id="particles-container" class="absolute inset-0 overflow-hidden pointer-events-none"></div>
 
@@ -360,6 +373,7 @@
                     <a href="#memory" class="px-3 py-2 rounded-lg transition text-gray-300 hover:text-white hover:bg-purple-900/20">Memory Wall</a>
                     <a href="#candles" class="px-3 py-2 rounded-lg transition text-gray-300 hover:text-white hover:bg-purple-900/20">Virtual Candles</a>
                     <a href="#buses" class="px-3 py-2 rounded-lg transition text-gray-300 hover:text-white hover:bg-purple-900/20">Bus Transport</a>
+                    <a href="#livestream" class="px-3 py-2 rounded-lg transition text-gray-300 hover:text-white hover:bg-purple-900/20">Livestream</a>
                     <a href="#service" class="px-3 py-2 rounded-lg transition text-gray-300 hover:text-white hover:bg-purple-900/20">Service & RSVP</a>
                     <button onclick="openAdminModal()" class="px-3 py-2 rounded-lg bg-memorial-royal border border-memorial-gold/40 text-memorial-gold hover:bg-purple-800 transition text-xs font-semibold flex items-center gap-1.5"><i class="fa-solid fa-lock text-[10px]"></i> Admin</button>
                 </nav>
@@ -384,6 +398,7 @@
             <a href="#memory" onclick="toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded text-gray-300 hover:bg-purple-900/20">Memory Wall</a>
             <a href="#candles" onclick="toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded text-gray-300 hover:bg-purple-900/20">Virtual Candles</a>
             <a href="#buses" onclick="toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded text-gray-300 hover:bg-purple-900/20">Bus Transport</a>
+            <a href="#livestream" onclick="toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded text-gray-300 hover:bg-purple-900/20">Livestream</a>
             <a href="#service" onclick="toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded text-gray-300 hover:bg-purple-900/20">Service & RSVP</a>
         </div>
     </header>
@@ -806,6 +821,40 @@
             </div>
         </section>
 
+        <!-- LIVE BROADCAST SECTION -->
+        <section id="livestream" class="scroll-mt-28">
+            <div class="bg-purple-950/40 border border-purple-900/50 rounded-2xl p-6 sm:p-10 shadow-xl backdrop-blur-sm">
+                <div class="flex flex-wrap items-center justify-between gap-3 mb-6 border-b border-purple-900 pb-3">
+                    <h2 class="font-serif text-3xl font-bold text-memorial-gold">Live Broadcast</h2>
+                    <span id="livestream-badge" class="hidden text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border"></span>
+                </div>
+                <p class="text-gray-300 text-sm -mt-3 mb-6">Watch the Kenya burial service live, right here on this page — no need to leave the site.</p>
+
+                <div id="livestream-player-wrap" class="relative w-full rounded-xl overflow-hidden border border-purple-800/50 shadow-xl bg-black" style="aspect-ratio: 16 / 9;">
+                    <!-- Lightweight placeholder shown until it's time to embed (lazy-loaded) -->
+                    <button type="button" id="livestream-placeholder" onclick="loadLivestreamPlayer(true)"
+                        class="absolute inset-0 w-full h-full flex flex-col items-center justify-center text-center p-6 gap-3 bg-cover bg-center group"
+                        aria-label="Load the livestream player">
+                        <div class="absolute inset-0 bg-black/55 group-hover:bg-black/45 transition"></div>
+                        <div class="relative z-10 flex flex-col items-center gap-3">
+                            <div id="livestream-icon" class="w-16 h-16 rounded-full bg-memorial-gold/90 text-black flex items-center justify-center text-2xl shadow-xl group-hover:scale-105 transition">
+                                <i class="fa-solid fa-play"></i>
+                            </div>
+                            <p id="livestream-status-text" class="text-white font-serif text-lg sm:text-xl font-bold max-w-md">Loading livestream status…</p>
+                            <p id="livestream-countdown" class="hidden text-memorial-gold font-mono text-2xl sm:text-3xl font-bold tracking-wider"></p>
+                            <p id="livestream-sub-text" class="text-gray-200 text-xs sm:text-sm max-w-md"></p>
+                        </div>
+                    </button>
+                    <!-- The real YouTube iframe is only created by JS, on demand (see loadLivestreamPlayer) -->
+                    <div id="livestream-iframe-slot" class="absolute inset-0 hidden"></div>
+                </div>
+
+                <p class="text-xs text-gray-400 mt-3 text-center">
+                    Having trouble with the player? <a id="livestream-external-link" href="https://www.youtube.com/live/tOven2z6b-M" target="_blank" rel="noopener noreferrer" class="text-memorial-gold underline hover:text-yellow-400">Open the livestream on YouTube ↗</a>
+                </p>
+            </div>
+        </section>
+
         <!-- SERVICE & RSVP SECTION -->
         <section id="service" class="scroll-mt-28">
             <div class="bg-purple-950/40 border border-purple-900/50 rounded-2xl p-6 sm:p-10 shadow-xl backdrop-blur-sm">
@@ -1078,6 +1127,34 @@ const FEATURED_PHOTOS = [
         { url: "https://lh3.googleusercontent.com/pw/AP1GczOPT2ZAEEU-eELZOA9vdx3txzUCtIGwo7MrrziaAadcmyzm2lqdJ9G_1Bi8VHHKZy_neIViLQYkTBKjNgeBhY-TFgbn5Z_kSerx8ALA7chTBYJavqh5", caption: "" }
     ];
 
+/* =====================================================================
+   LIVESTREAM CONFIGURATION — the one place to update when the link changes
+   =====================================================================
+   To point the site at a different YouTube livestream, change ONLY the
+   videoId below (and youtubeUrl, so the "Watch on YouTube" fallback link
+   stays correct). Get the ID from the YouTube URL:
+     https://www.youtube.com/live/VIDEO_ID   → the part after /live/
+     https://www.youtube.com/watch?v=VIDEO_ID → the part after v=
+     https://youtu.be/VIDEO_ID               → the part after youtu.be/
+   Nothing else in the code needs to change — the player, the "starting
+   soon" countdown, and the reminder pop-up all read from this object. */
+const LIVESTREAM = {
+    videoId: 'tOven2z6b-M',
+    youtubeUrl: 'https://www.youtube.com/live/tOven2z6b-M',
+    title: 'Celebrating the Life & Burial Service of the Late John Kinuthia Ndekei',
+    /* Leave as null to reuse the Kenya service's own start time (below) for the
+       countdown/auto-embed timing. Set an ISO string with a UTC offset (like
+       PROGRAMS_DEFAULT.kenya.startAt) here only if the livestream starts at a
+       different moment than the Kenya service itself. */
+    startAt: null,
+    /* Purely cosmetic: how many hours after startAt the little status badge
+       switches from "Live Now" to "Recording" wording. The embedded video
+       itself doesn't change — YouTube automatically keeps playing the same
+       video as the recording once the broadcast ends — this just controls
+       our own wording alongside it. Adjust if the service runs long. */
+    assumedDurationHours: 7
+};
+
 /* Full-day programs. Each item is [time, description]. */
 const PROGRAMS_DEFAULT = {
     us: {
@@ -1101,7 +1178,6 @@ const PROGRAMS_DEFAULT = {
             ['02:00 PM', 'Memorial service concludes']
         ],
         notes: [
-            'Kinuthia will be transported back to Kenya on Thursday, September 24, 2026.',
             'Burial: Wednesday, September 30, 2026, at the family home in Lower Kabete, next to Mary Leakey Girls School.'
         ]
     },
@@ -1113,7 +1189,7 @@ const PROGRAMS_DEFAULT = {
         time: '11:00 AM',
         venue: "Ndekei family home, Lower Kabete, next to Mary Leakey Girls School, Nairobi, Kenya",
         mapUrl: "https://www.google.com/maps/dir//Ndekei's+Residence,+QP5G%2BGPW/@-1.2423454,36.7280684,15z/data=!4m8!4m7!1m0!1m5!1m1!1s0x182f190021a79151:0xb1dc495fc0eaa354!2m2!1d36.7268258!2d-1.2410638?entry=ttu&g_ep=EgoyMDI2MDkxNi4wIKXMDSoASAFQAw%3D%3D",
-        livestream: 'https://zoom.us/#',
+        livestream: LIVESTREAM.youtubeUrl,
         /* Exact real-world start instant (East Africa Time, UTC+3, no DST),
            used only to trigger the "starting soon" reminder correctly. */
         startAt: '2026-09-30T11:00:00+03:00',
@@ -1146,7 +1222,6 @@ const PROGRAMS_DEFAULT = {
             ['Step 19', 'Guests may leave at their own pleasure']
         ],
         notes: [
-            'Kinuthia will be transported back to Kenya on Thursday, September 24, 2026.',
             'Master of Ceremonies: Charles Gachara.',
             'Transport Manager: Ian Njau.'
         ],
@@ -1192,6 +1267,11 @@ const PROGRAMS_DEFAULT = {
 };
 /* What the site shows right now (built-in defaults, overridden by anything an admin saved). */
 let PROGRAMS = JSON.parse(JSON.stringify(PROGRAMS_DEFAULT));
+function livestreamStartAt() {
+    const iso = LIVESTREAM.startAt || (PROGRAMS.kenya && PROGRAMS.kenya.startAt) || null;
+    const t = iso ? Date.parse(iso) : NaN;
+    return isNaN(t) ? null : t;
+}
 
 /* =====================================================================
    2. SMALL HELPERS
@@ -2405,8 +2485,22 @@ function renderChips() {
 function renderLiveLink() {
     const a = $('live-link'); if (!a) return;
     const url = safeUrl(PROGRAMS.kenya.livestream);
-    if (url) { a.href = url; a.textContent = 'Click here to join the live stream event →'; a.classList.remove('pointer-events-none', 'opacity-70'); }
-    else { a.removeAttribute('href'); a.textContent = 'Livestream link will be shared soon'; a.classList.add('pointer-events-none', 'opacity-70'); }
+    // If the configured link is our own embedded broadcast, send people to the
+    // on-page player (#livestream) instead of out to YouTube — same stream,
+    // smoother experience. Anything else an admin might set (e.g. a Zoom
+    // link) still opens normally in a new tab.
+    const isOurEmbeddedStream = url && LIVESTREAM.videoId && url.indexOf(LIVESTREAM.videoId) !== -1;
+    if (isOurEmbeddedStream) {
+        a.href = '#livestream'; a.removeAttribute('target'); a.removeAttribute('rel');
+        a.textContent = 'Watch the live broadcast on this page →';
+        a.classList.remove('pointer-events-none', 'opacity-70');
+    } else if (url) {
+        a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+        a.textContent = 'Click here to join the live stream event →';
+        a.classList.remove('pointer-events-none', 'opacity-70');
+    } else {
+        a.removeAttribute('href'); a.textContent = 'Livestream link will be shared soon'; a.classList.add('pointer-events-none', 'opacity-70');
+    }
 
     const wrapUs = $('live-link-us-wrap'), aUs = $('live-link-us');
     if (wrapUs && aUs) {
@@ -2420,10 +2514,19 @@ function renderLiveLink() {
 const SERVICE_ALERT_LEAD_MS = 10 * 60 * 1000;   // starts showing 10 minutes before
 const SERVICE_ALERT_TAIL_MS = 60 * 60 * 1000;   // keeps showing until 60 minutes after start (then auto-hides)
 function serviceAlertKey(k, startAt) { return 'dismissed-alert-' + k + '-' + startAt; }
+
+/* Pushes the sticky header down by the combined height of whichever of the
+   top banners (service-starting-soon, livestream reminder) are currently
+   visible, and stacks them one under the other if more than one shows at
+   once (in normal use they hand off to each other instead — see
+   checkLivestreamAlert — but this keeps things tidy even if that ever
+   overlaps, e.g. a clock skew). */
 function syncHeaderOffsetForAlert() {
-    const banner = $('service-alert'); const header = document.querySelector('header.sticky');
-    if (!banner || !header) return;
-    header.style.top = banner.classList.contains('hidden') ? '0px' : banner.offsetHeight + 'px';
+    const header = document.querySelector('header.sticky'); if (!header) return;
+    const bars = ['service-alert', 'livestream-alert'].map(id => $(id)).filter(el => el && !el.classList.contains('hidden'));
+    let offset = 0;
+    bars.forEach(el => { el.style.transform = offset ? `translateY(${offset}px)` : ''; offset += el.offsetHeight; });
+    header.style.top = offset + 'px';
 }
 window.addEventListener('resize', syncHeaderOffsetForAlert);
 
@@ -2461,11 +2564,133 @@ function checkServiceAlerts() {
     $('service-alert-title').textContent = name;
     $('service-alert-sub').textContent = sub;
     const linkEl = $('service-alert-link');
-    if (live) { linkEl.href = live; linkEl.target = '_blank'; linkEl.rel = 'noopener noreferrer'; linkEl.textContent = 'Join the livestream →'; }
+    if (best.k === 'kenya') { linkEl.href = '#livestream'; linkEl.removeAttribute('target'); linkEl.removeAttribute('rel'); linkEl.textContent = 'Watch the live broadcast →'; }
+    else if (live) { linkEl.href = live; linkEl.target = '_blank'; linkEl.rel = 'noopener noreferrer'; linkEl.textContent = 'Join the livestream →'; }
     else { linkEl.href = pageLink; linkEl.removeAttribute('target'); linkEl.textContent = 'View the full programme →'; }
     el.dataset.key = best.key;
     el.classList.remove('hidden');
     syncHeaderOffsetForAlert();
+}
+
+/* ---------- Livestream reminder pop-up (a longer lead-time heads-up than the
+   banner above; hands off to it as the start gets close so only one banner
+   is ever showing) ---------- */
+const LIVESTREAM_ALERT_LEAD_MS = 24 * 60 * 60 * 1000; // starts showing up to 24 hours before
+function livestreamAlertKey(startAt) { return 'dismissed-livestream-alert-' + startAt; }
+function dismissLivestreamAlert() {
+    const el = $('livestream-alert'); if (!el) return;
+    if (el.dataset.key) { try { sessionStorage.setItem(el.dataset.key, '1'); } catch (e) { /* private browsing, ignore */ } }
+    el.classList.add('hidden');
+    syncHeaderOffsetForAlert();
+}
+function checkLivestreamAlert() {
+    const el = $('livestream-alert'); if (!el) return;
+    const startAt = livestreamStartAt();
+    if (!startAt) { el.classList.add('hidden'); syncHeaderOffsetForAlert(); return; }
+    const now = Date.now();
+    const diff = startAt - now; // positive = starts in the future
+    // Only show in the window between 24h-before and the point where the
+    // service-starting-soon banner (10 min lead) takes over.
+    if (diff > LIVESTREAM_ALERT_LEAD_MS || diff <= SERVICE_ALERT_LEAD_MS) { el.classList.add('hidden'); syncHeaderOffsetForAlert(); return; }
+    const key = livestreamAlertKey(String(startAt));
+    let dismissed = false;
+    try { dismissed = sessionStorage.getItem(key) === '1'; } catch (e) { /* ignore */ }
+    if (dismissed) { el.classList.add('hidden'); syncHeaderOffsetForAlert(); return; }
+
+    const hours = Math.floor(diff / 3600000);
+    const mins = Math.max(1, Math.round((diff % 3600000) / 60000));
+    const when = PROGRAMS.kenya ? PROGRAMS.kenya.date : '';
+    const sub = hours >= 1
+        ? `Starts in about ${hours} hour${hours === 1 ? '' : 's'}${mins > 0 && mins < 60 ? ` ${mins} min` : ''}${when ? ' — ' + when : ''}.`
+        : `Starts in about ${mins} minute${mins === 1 ? '' : 's'}.`;
+    $('livestream-alert-sub').textContent = sub;
+    el.dataset.key = key;
+    el.classList.remove('hidden');
+    syncHeaderOffsetForAlert();
+}
+
+/* ---------- Live broadcast embed ----------
+   The YouTube iframe itself is only created when it's actually needed (lazy),
+   either because the auto-embed window has opened or because a visitor
+   clicked to preview early. Nothing is downloaded, proxied, or re-streamed
+   through our own server — YouTube serves the video directly to the
+   visitor's browser, so our server load doesn't change no matter how many
+   people are watching. */
+const LIVESTREAM_EMBED_LEAD_MS = 15 * 60 * 1000; // auto-embed starting 15 minutes before start
+let livestreamLoaded = false;
+function loadLivestreamPlayer(userInitiated) {
+    if (livestreamLoaded) return;
+    const slot = $('livestream-iframe-slot'), placeholder = $('livestream-placeholder');
+    if (!slot) return; // this page has no livestream section
+    livestreamLoaded = true;
+    const params = new URLSearchParams({
+        autoplay: userInitiated ? '1' : '0',
+        rel: '0', modestbranding: '1', playsinline: '1'
+    });
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(LIVESTREAM.videoId)}?${params.toString()}`;
+    iframe.title = LIVESTREAM.title;
+    iframe.className = 'absolute inset-0 w-full h-full';
+    iframe.style.border = '0';
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+    iframe.allowFullscreen = true;
+    iframe.setAttribute('allowfullscreen', 'true');
+    iframe.loading = 'lazy';
+    iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+    slot.appendChild(iframe);
+    slot.classList.remove('hidden');
+    if (placeholder) placeholder.classList.add('hidden');
+}
+
+function renderLivestreamStatus() {
+    const statusText = $('livestream-status-text'); if (!statusText) return; // not on this page
+    const badge = $('livestream-badge'), subText = $('livestream-sub-text'),
+          countdownEl = $('livestream-countdown'), icon = $('livestream-icon');
+    const extLink = $('livestream-external-link');
+    if (extLink) extLink.href = LIVESTREAM.youtubeUrl;
+
+    const startAt = livestreamStartAt();
+    const now = Date.now();
+
+    if (!startAt) {
+        statusText.textContent = 'Livestream details will be shared here closer to the service.';
+        subText.textContent = '';
+        countdownEl.classList.add('hidden');
+        badge.classList.add('hidden');
+        return;
+    }
+
+    const diff = startAt - now; // positive = starts in the future
+
+    if (diff > LIVESTREAM_EMBED_LEAD_MS) {
+        // STARTING SOON — lightweight placeholder only, nothing loaded yet
+        // unless the visitor taps it to preview early.
+        badge.textContent = 'Starting Soon';
+        badge.className = 'text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border bg-amber-900/40 border-amber-500 text-amber-300';
+        badge.classList.remove('hidden');
+        statusText.textContent = `Live Broadcast — ${PROGRAMS.kenya ? PROGRAMS.kenya.date : ''}`;
+        icon.innerHTML = '<i class="fa-solid fa-play"></i>';
+        subText.textContent = `Streaming from ${PROGRAMS.kenya ? PROGRAMS.kenya.venue : 'the service'}. Tap to preview early, or come back closer to the time.`;
+        const d = Math.floor(diff / 86400000), h = Math.floor((diff % 86400000) / 3600000),
+              m = Math.floor((diff % 3600000) / 60000), s = Math.floor((diff % 60000) / 1000);
+        const parts = [];
+        if (d > 0) parts.push(`${d}d`);
+        parts.push(String(h).padStart(2, '0') + 'h', String(m).padStart(2, '0') + 'm', String(s).padStart(2, '0') + 's');
+        countdownEl.textContent = parts.join(' ');
+        countdownEl.classList.remove('hidden');
+    } else {
+        // Time to show the real player — covers "about to start", "live now",
+        // and (once the broadcast is over) the recording automatically, since
+        // YouTube keeps playing the same video as the archived recording at
+        // this same embed URL without any extra step from us.
+        if (!livestreamLoaded) loadLivestreamPlayer(false);
+        countdownEl.classList.add('hidden');
+        const isProbablyLive = diff > -(LIVESTREAM.assumedDurationHours * 3600000);
+        badge.textContent = isProbablyLive ? 'Live Now' : 'Recording';
+        badge.className = 'text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border ' +
+            (isProbablyLive ? 'bg-red-900/40 border-red-500 text-red-300 animate-pulse' : 'bg-gray-800 border-gray-600 text-gray-300');
+        badge.classList.remove('hidden');
+    }
 }
 
 function renderCandleLightingInfo() {
@@ -2475,6 +2700,7 @@ function renderCandleLightingInfo() {
 }
 function renderProgramsEverywhere() {
     renderProgramGrid(); renderServiceCards(); renderChips(); renderNotice(); renderLiveLink(); renderCandleLightingInfo(); checkServiceAlerts();
+    renderLivestreamStatus(); checkLivestreamAlert();
 }
 
 /* Merge what an admin saved over the built-in defaults */
@@ -2861,6 +3087,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     updateSyncBanner();
     route(); // re-run once PROGRAMS/gallery are populated, in case the page loaded on a service/subpage link
     setInterval(checkServiceAlerts, 20000); // keep checking as time passes, not just when data reloads
+    setInterval(renderLivestreamStatus, 1000); // live-ticking countdown + auto-embed transition
+    setInterval(checkLivestreamAlert, 20000); // keep the reminder pop-up's countdown/visibility current
 
     if (CLOUD) {
         $('admin-user').type = 'email'; $('admin-user').placeholder = 'Admin email'; $('admin-user').setAttribute('inputmode', 'email'); $('admin-forgot').classList.remove('hidden');

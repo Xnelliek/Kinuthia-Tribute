@@ -105,6 +105,35 @@
         <div id="program-body" class="print-area bg-purple-950/40 border border-purple-900/50 rounded-2xl p-6 sm:p-10 shadow-xl">
             <p class="text-center text-gray-400 text-sm py-10">Loading program…</p>
         </div>
+
+        <!-- LIVE BROADCAST (mirrors the embed on the homepage; see LIVESTREAM config in the script below) -->
+        <section id="livestream-embed" class="no-print mt-8 bg-purple-950/40 border border-purple-900/50 rounded-2xl p-6 sm:p-10 shadow-xl backdrop-blur-sm">
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-6 border-b border-purple-900 pb-3">
+                <h2 class="font-serif text-2xl sm:text-3xl font-bold text-memorial-gold">Live Broadcast</h2>
+                <span id="livestream-badge" class="hidden text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border"></span>
+            </div>
+            <p class="text-gray-300 text-sm -mt-3 mb-6">Watch the burial service live, right here on this page — no need to leave the site.</p>
+            <div id="livestream-player-wrap" class="relative w-full rounded-xl overflow-hidden border border-purple-800/50 shadow-xl bg-black" style="aspect-ratio: 16 / 9;">
+                <button type="button" id="livestream-placeholder" onclick="loadLivestreamPlayer(true)"
+                    class="absolute inset-0 w-full h-full flex flex-col items-center justify-center text-center p-6 gap-3 bg-cover bg-center group"
+                    aria-label="Load the livestream player">
+                    <div class="absolute inset-0 bg-black/55 group-hover:bg-black/45 transition"></div>
+                    <div class="relative z-10 flex flex-col items-center gap-3">
+                        <div id="livestream-icon" class="w-16 h-16 rounded-full bg-memorial-gold/90 text-black flex items-center justify-center text-2xl shadow-xl group-hover:scale-105 transition">
+                            <i class="fa-solid fa-play"></i>
+                        </div>
+                        <p id="livestream-status-text" class="text-white font-serif text-lg sm:text-xl font-bold max-w-md">Loading livestream status…</p>
+                        <p id="livestream-countdown" class="hidden text-memorial-gold font-mono text-2xl sm:text-3xl font-bold tracking-wider"></p>
+                        <p id="livestream-sub-text" class="text-gray-200 text-xs sm:text-sm max-w-md"></p>
+                    </div>
+                </button>
+                <div id="livestream-iframe-slot" class="absolute inset-0 hidden"></div>
+            </div>
+            <p class="text-xs text-gray-400 mt-3 text-center">
+                Having trouble with the player? <a id="livestream-external-link" href="https://www.youtube.com/live/tOven2z6b-M" target="_blank" rel="noopener noreferrer" class="text-memorial-gold underline hover:text-yellow-400">Open the livestream on YouTube ↗</a>
+            </p>
+        </section>
+
         <div class="no-print text-center mt-8">
             <a href="service-us.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-memorial-royal border border-memorial-gold/40 text-memorial-gold text-sm font-semibold hover:bg-purple-800 transition">
                 <i class="fa-solid fa-flag-usa"></i> View the Seattle,US Memorial Service program →
@@ -113,13 +142,24 @@
     </main>
 
     <script>
+        /* ---- Livestream configuration (single source of truth) ----
+           Change the video ID/URL here if the livestream link ever changes. */
+        const LIVESTREAM = {
+            videoId: 'tOven2z6b-M',
+            youtubeUrl: 'https://www.youtube.com/live/tOven2z6b-M',
+            title: 'Celebrating the Life & Burial Service of the Late John Kinuthia Ndekei',
+            startAt: '2026-09-30T11:00:00+03:00', // East Africa Time (UTC+3, no DST)
+            assumedDurationHours: 7
+        };
+        const LIVESTREAM_EMBED_LEAD_MS = 15 * 60 * 1000; // auto-embed starting 15 minutes before start
+
         const KEY = 'kenya';
         const DEFAULTS = {
             icon: 'fa-cross', status: 'Upcoming', title: 'Lower Kabete, KE service',
             date: 'Wednesday, September 30, 2026', time: '11:00 AM',
             venue: "Ndekei family home, Lower Kabete, next to Mary Leakey Girls School, Nairobi, Kenya",
             mapUrl: "https://www.google.com/maps/dir//Ndekei's+Residence,+QP5G%2BGPW/@-1.2423454,36.7280684,15z/data=!4m8!4m7!1m0!1m5!1m1!1s0x182f190021a79151:0xb1dc495fc0eaa354!2m2!1d36.7268258!2d-1.2410638?entry=ttu&g_ep=EgoyMDI2MDkxNi4wIKXMDSoASAFQAw%3D%3D",
-            livestream: 'https://zoom.us/#',
+            livestream: LIVESTREAM.youtubeUrl,
             items: [
                 ['7:00 AM', 'Assembly at Lower Kabete'],
                 ['7:30 AM', 'Departure from Lower Kabete'],
@@ -149,7 +189,6 @@
                 ['Step 19', 'Guests may leave at their own pleasure']
             ],
             notes: [
-                'Kinuthia will be transported back to Kenya on Thursday, September 24, 2026.',
                 'Master of Ceremonies: Charles Gachara.',
                 'Transport Manager: Ian Njau.'
             ],
@@ -210,7 +249,14 @@
                 row('fa-calendar-check', `${esc(p.date)}${p.time ? ' at ' + esc(p.time) : ''}`),
                 row('fa-location-dot', esc(p.venue)),
                 safeUrl(p.mapUrl) ? row('fa-map-location-dot', `<a href="${esc(safeUrl(p.mapUrl))}" target="_blank" rel="noopener noreferrer" class="text-memorial-gold underline hover:text-yellow-400">Google Map directions →</a>`) : '',
-                safeUrl(p.livestream) ? row('fa-video', `<a href="${esc(safeUrl(p.livestream))}" target="_blank" rel="noopener noreferrer" class="text-memorial-gold underline hover:text-yellow-400">Join the virtual livestream →</a>`) : '',
+                (() => {
+                    const live = safeUrl(p.livestream);
+                    if (!live) return '';
+                    const isOurEmbed = live.indexOf(LIVESTREAM.videoId) !== -1;
+                    return isOurEmbed
+                        ? row('fa-video', `<a href="#livestream-embed" class="text-memorial-gold underline hover:text-yellow-400">Watch the live broadcast on this page ↓</a>`)
+                        : row('fa-video', `<a href="${esc(live)}" target="_blank" rel="noopener noreferrer" class="text-memorial-gold underline hover:text-yellow-400">Join the virtual livestream →</a>`);
+                })(),
                 p.busLink ? row('fa-bus', `<a href="index.html#buses" class="text-memorial-gold underline hover:text-yellow-400">Reserve a seat on the transport bus →</a>`) : '',
                 row('fa-file-pdf', `<a href="Kenya_Funeral_Programme.pdf" target="_blank" rel="noopener noreferrer" class="text-memorial-gold underline hover:text-yellow-400">View the full Kenya funeral programme (PDF) →</a>`)
             ].join('');
@@ -243,7 +289,73 @@
             document.title = `${p.title} — In Loving Memory of Kinuthia Ndekei`;
         }
 
+        /* ---------- Live broadcast embed (mirrors the homepage's implementation) ----------
+           The YouTube iframe is only created when needed (lazy), either because the
+           auto-embed window has opened or a visitor clicked to preview early. Nothing is
+           downloaded, proxied, or re-streamed through our own server — YouTube serves the
+           video directly to the visitor's browser. */
+        let livestreamLoaded = false;
+        function loadLivestreamPlayer(userInitiated) {
+            if (livestreamLoaded) return;
+            const slot = document.getElementById('livestream-iframe-slot'), placeholder = document.getElementById('livestream-placeholder');
+            if (!slot) return;
+            livestreamLoaded = true;
+            const params = new URLSearchParams({ autoplay: userInitiated ? '1' : '0', rel: '0', modestbranding: '1', playsinline: '1' });
+            const iframe = document.createElement('iframe');
+            iframe.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(LIVESTREAM.videoId)}?${params.toString()}`;
+            iframe.title = LIVESTREAM.title;
+            iframe.className = 'absolute inset-0 w-full h-full';
+            iframe.style.border = '0';
+            iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+            iframe.allowFullscreen = true;
+            iframe.setAttribute('allowfullscreen', 'true');
+            iframe.loading = 'lazy';
+            iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+            slot.appendChild(iframe);
+            slot.classList.remove('hidden');
+            if (placeholder) placeholder.classList.add('hidden');
+        }
+
+        function renderLivestreamStatus() {
+            const statusText = document.getElementById('livestream-status-text'); if (!statusText) return;
+            const badge = document.getElementById('livestream-badge'), subText = document.getElementById('livestream-sub-text'),
+                  countdownEl = document.getElementById('livestream-countdown'), icon = document.getElementById('livestream-icon');
+            const extLink = document.getElementById('livestream-external-link');
+            if (extLink) extLink.href = LIVESTREAM.youtubeUrl;
+
+            const startAt = Date.parse(LIVESTREAM.startAt);
+            const now = Date.now();
+            if (isNaN(startAt)) { statusText.textContent = 'Livestream details will be shared here closer to the service.'; return; }
+            const diff = startAt - now;
+
+            if (diff > LIVESTREAM_EMBED_LEAD_MS) {
+                badge.textContent = 'Starting Soon';
+                badge.className = 'text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border bg-amber-900/40 border-amber-500 text-amber-300';
+                badge.classList.remove('hidden');
+                statusText.textContent = `Live Broadcast — ${DEFAULTS.date}`;
+                icon.innerHTML = '<i class="fa-solid fa-play"></i>';
+                subText.textContent = `Streaming from ${DEFAULTS.venue}. Tap to preview early, or come back closer to the time.`;
+                const d = Math.floor(diff / 86400000), h = Math.floor((diff % 86400000) / 3600000),
+                      m = Math.floor((diff % 3600000) / 60000), s = Math.floor((diff % 60000) / 1000);
+                const parts = [];
+                if (d > 0) parts.push(`${d}d`);
+                parts.push(String(h).padStart(2, '0') + 'h', String(m).padStart(2, '0') + 'm', String(s).padStart(2, '0') + 's');
+                countdownEl.textContent = parts.join(' ');
+                countdownEl.classList.remove('hidden');
+            } else {
+                if (!livestreamLoaded) loadLivestreamPlayer(false);
+                countdownEl.classList.add('hidden');
+                const isProbablyLive = diff > -(LIVESTREAM.assumedDurationHours * 3600000);
+                badge.textContent = isProbablyLive ? 'Live Now' : 'Recording';
+                badge.className = 'text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border ' +
+                    (isProbablyLive ? 'bg-red-900/40 border-red-500 text-red-300 animate-pulse' : 'bg-gray-800 border-gray-600 text-gray-300');
+                badge.classList.remove('hidden');
+            }
+        }
+
         (async () => { renderProgram(await fetchProgram()); })();
+        renderLivestreamStatus();
+        setInterval(renderLivestreamStatus, 1000);
     </script>
 </body>
 </html>
